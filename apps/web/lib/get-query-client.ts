@@ -1,10 +1,5 @@
 import { QueryClient, QueryCache, MutationCache } from "@tanstack/react-query"
-import {
-    ApiError,
-    isDowngradeRequiredError,
-    queryKeys,
-} from "@infrss/shared"
-import { useUpgradeDialog } from "@/stores/upgrade-dialog"
+import { isDowngradeRequiredError, queryKeys } from "@infrss/shared"
 
 function makeQueryClient() {
     const handleGlobalError = (error: unknown) => {
@@ -14,14 +9,6 @@ function makeQueryClient() {
             // `client` is declared below; this only runs after it's constructed.
             client.invalidateQueries({ queryKey: queryKeys.userLimits() })
             return
-        }
-        if (error instanceof ApiError && error.status === 429) {
-            useUpgradeDialog.getState().open({
-                title: "Upgrade to Infrss Pro",
-                description:
-                    error.message ||
-                    "You have reached a limit on your current plan.",
-            })
         }
     }
 

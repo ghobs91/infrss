@@ -370,11 +370,7 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
     try {
       const uiInstance = getRevenueCatUI();
       if (!uiInstance) {
-        console.log(
-          '[RevenueCat] Paywall UI not available in this environment. Showing custom bottom sheet...'
-        );
-        const { useUpgradeDialog } = require('@stores/upgrade-dialog');
-        useUpgradeDialog.getState().open();
+        console.log('[RevenueCat] Paywall UI not available in this environment.');
         return false;
       }
       console.log('[RevenueCat] 📺 Presenting paywall...');
@@ -397,11 +393,7 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
     try {
       const uiInstance = getRevenueCatUI();
       if (!uiInstance) {
-        console.log(
-          '[RevenueCat] Paywall UI not available in this environment. Showing custom bottom sheet...'
-        );
-        const { useUpgradeDialog } = require('@stores/upgrade-dialog');
-        useUpgradeDialog.getState().open();
+        console.log('[RevenueCat] Paywall UI not available in this environment.');
         return false;
       }
       console.log('[RevenueCat] Checking if paywall needed...');

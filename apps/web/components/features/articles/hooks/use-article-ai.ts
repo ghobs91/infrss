@@ -140,7 +140,7 @@ export function useArticleAI({
                 })
             } catch (error) {
                 setContentView(ContentView.Original)
-                // Plan limits open the upgrade dialog globally — don't stack an error toast on it
+                // The paywall is removed; skip a limit toast if one ever comes back.
                 if (isPaywallError(error)) return
                 toast.error("Failed to extract article content", {
                     id: "extract-error",
@@ -210,7 +210,7 @@ export function useArticleAI({
                 })
                 setHighlightsEnabled(true)
             } catch (error) {
-                // Plan limits open the upgrade dialog globally — drop the spinner, no error toast
+                // The paywall is removed; drop the spinner without an error toast.
                 if (isPaywallError(error)) {
                     toast.dismiss(toastId)
                 } else {

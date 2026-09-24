@@ -101,8 +101,8 @@ async def extract_full_text(
     auto: bool = Query(
         False,
         description=(
-            "Background extraction started by the reader (not the user). Once the daily scrape quota "
-            "is used up it returns no content instead of a 429, so the reader stays on the RSS content."
+            "Background extraction started by the reader (not the user). Returns no content "
+            "rather than a 429, so the reader stays on the RSS content."
         ),
     ),
 ) -> ExtractionResponse:
@@ -123,9 +123,9 @@ async def extract_full_text(
         logger.info("Serving stored extraction", article_id=str(article_id))
         return ExtractionResponse(content=article.extracted_content)
 
-    # 3. Daily scrape quota (free tier: 5/day, pro/admin: unlimited). A user-initiated
-    #    extraction gets the 429 that opens the paywall; background extraction falls back
-    #    silently so the reader simply stays on the feed's own content.
+    # 3. Scrape allowance. The paywall has been removed, so this is unlimited for every user;
+    #    the check is kept as a defensive guard. A user-initiated extraction would get the 429;
+    #    background extraction falls back silently so the reader stays on the feed's own content.
     async with db_factory() as db:
         if auto:
             allowed = await check_daily_scrape_limit(db, UUID(user.sub))

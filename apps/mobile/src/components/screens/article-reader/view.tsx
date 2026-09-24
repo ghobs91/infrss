@@ -121,7 +121,7 @@ export function ArticleScreen({
     }
   );
 
-  const { checkAndTriggerUpgrade } = useLimitChecker();
+  const { checkAccess } = useLimitChecker();
 
   // Bottom sheet refs
   const summaryBottomSheetRef = useRef<SheetRef>(null);
@@ -323,7 +323,7 @@ export function ArticleScreen({
           }
         },
         onError: (error) => {
-          // Plan limits (e.g. the free saved-articles cap) open the upgrade dialog globally
+          // The paywall is removed, so saves are never limit-blocked; skip any limit toast.
           if (isPaywallError(error)) return;
           toast.error(
             newValue ? 'Failed to save article' : 'Failed to remove article from read later'
@@ -439,8 +439,8 @@ export function ArticleScreen({
   const handleGenerateSummary = useCallback(() => {
     if (!article) return;
 
-    // Over the AI quota: the upgrade dialog is the only feedback — no sheet, no error toast
-    if (!checkAndTriggerUpgrade('ai')) return;
+    // The paywall is removed, so this always allows the request.
+    if (!checkAccess('ai')) return;
 
     // Open bottom sheet immediately
     summaryBottomSheetRef.current?.present();
@@ -453,16 +453,16 @@ export function ArticleScreen({
       .catch((error) => {
         console.error('Failed to generate summary:', error);
         summaryBottomSheetRef.current?.dismiss();
-        // Plan limits open the upgrade dialog globally — don't stack an error toast on it
+        // The paywall is removed; skip any limit toast if one ever comes back.
         if (isPaywallError(error)) return;
         toast.error('Failed to generate summary');
       });
-  }, [article, generateSummary, checkAndTriggerUpgrade]);
+  }, [article, generateSummary, checkAccess]);
 
   const handleRegenerateSummary = useCallback(() => {
     if (!article) return;
 
-    if (!checkAndTriggerUpgrade('ai')) return;
+    if (!checkAccess('ai')) return;
 
     generateSummary()
       .then(() => {
@@ -473,7 +473,7 @@ export function ArticleScreen({
         if (isPaywallError(error)) return;
         toast.error('Failed to regenerate summary');
       });
-  }, [article, generateSummary, checkAndTriggerUpgrade]);
+  }, [article, generateSummary, checkAccess]);
 
   const handleTranslateSelect = useCallback(
     (language: string) => {
@@ -520,7 +520,7 @@ export function ArticleScreen({
       return;
     }
 
-    if (!checkAndTriggerUpgrade('ai')) return;
+    if (!checkAccess('ai')) return;
 
     toast.info('Generating highlights...');
 
@@ -548,7 +548,7 @@ export function ArticleScreen({
     currentContent,
     hasHighlightsForView,
     highlightMutation,
-    checkAndTriggerUpgrade,
+    checkAccess,
   ]);
 
   const handleSelectView = useCallback(

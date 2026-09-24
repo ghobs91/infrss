@@ -104,7 +104,7 @@ export function FollowButton({
   const createFeed = useCreateFeed();
   const deleteFeed = useDeleteFeed();
   const { data: userFeeds } = useFeeds();
-  const { checkAndTriggerUpgrade } = useLimitChecker();
+  const { checkAccess } = useLimitChecker();
 
   // Track optimistic state
   const [optimisticFollowing, setOptimisticFollowing] = useState<boolean | null>(null);
@@ -129,7 +129,7 @@ export function FollowButton({
       toast.error('Cannot subscribe: Missing Feed URL');
       return;
     }
-    if (!checkAndTriggerUpgrade('feed')) {
+    if (!checkAccess('feed')) {
       return;
     }
     setOptimisticFollowing(true);
@@ -179,7 +179,7 @@ export function FollowButton({
       }
     } else {
       // Follow
-      if (!checkAndTriggerUpgrade('feed')) {
+      if (!checkAccess('feed')) {
         return;
       }
       if (!showFolderPicker && onFollowRequest && feedUrl) {

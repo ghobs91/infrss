@@ -19,7 +19,6 @@ import { BackHandler, View } from 'react-native';
 import { ChangeList } from './change-list';
 import { ExportCard } from './export-card';
 import { KeepFeedsList } from './keep-feeds-list';
-import { ResubscribeButton } from './resubscribe-button';
 import { ReviewSummary } from './review-summary';
 import { StepDashes } from './step-dashes';
 import { StepShell } from './step-shell';
@@ -138,12 +137,9 @@ export function PlanChangeScreen({ overLimit }: PlanChangeScreenProps) {
         title="Your Pro plan has ended"
         subtitle="Here's what the Free plan keeps, and what it asks you to let go of. It takes about a minute."
         footer={
-          <>
-            <Button variant="primary" size="large" onPress={next}>
-              Continue on Free
-            </Button>
-            <ResubscribeButton />
-          </>
+          <Button variant="primary" size="large" onPress={next}>
+            Continue on Free
+          </Button>
         }>
         <ChangeList
           feedCount={regularFeeds.length}

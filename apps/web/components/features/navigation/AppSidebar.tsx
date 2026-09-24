@@ -20,7 +20,6 @@ import { SidebarSecondary } from "./SidebarSecondary"
 import { Logo } from "@/components/ui/logo"
 import { SidebarUser } from "./SidebarUser"
 import { useUserLimits, UserRole } from "@infrss/shared"
-import { useUpgradeDialog } from "@/stores/upgrade-dialog"
 import { Sparkles } from "lucide-react"
 
 const data = {
@@ -75,7 +74,6 @@ export function AppSidebar({
     const { user, isLoading: isLoadingUser } = useCurrentUser()
     const supabase = createClient()
     const { data: limitData } = useUserLimits()
-    const { open: openUpgrade } = useUpgradeDialog()
 
     const handleSignOut = async () => {
         await supabase.auth.signOut({ scope: "local" })
@@ -88,8 +86,6 @@ export function AppSidebar({
         user?.user_metadata?.display_name ||
         null
     const email = user?.email || null
-
-    const isBasicUser = limitData?.role === UserRole.BASIC
 
     return (
         <>
@@ -138,32 +134,9 @@ export function AppSidebar({
                 <SidebarContent>
                     <SidebarMain />
 
-                    {isBasicUser && (
-                        <div className="mx-3 mt-auto mb-2 p-3 rounded-lg border border-border/80 dark:border-zinc-800 bg-background transition-all duration-200">
-                            <h4 className="text-[12px] font-semibold text-foreground tracking-tight">
-                                Upgrade to Pro
-                            </h4>
-                            <p className="text-[10.5px] text-muted-foreground mt-0.5 mb-2.5">
-                                Get unlimited feeds and unlock all features.
-                            </p>
-                            <button
-                                onClick={() =>
-                                    openUpgrade({
-                                        title: "Upgrade to Infrss Pro",
-                                        description:
-                                            "Unlock unlimited feeds, advanced AI features, and seamless syncing.",
-                                    })
-                                }
-                                className="text-[11px] font-semibold text-primary hover:text-primary/85 transition-colors cursor-pointer select-none text-left w-fit block p-0"
-                            >
-                                Upgrade &rarr;
-                            </button>
-                        </div>
-                    )}
-
                     <SidebarSecondary
                         items={data.navSecondary}
-                        className={isBasicUser ? "mt-0" : "mt-auto"}
+                        className="mt-auto"
                     />
                 </SidebarContent>
                 <SidebarFooter>

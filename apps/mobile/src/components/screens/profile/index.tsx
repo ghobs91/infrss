@@ -44,7 +44,6 @@ import { LikeIcon } from '@solar-icons/react-native/outline/like';
 import { Plane3Icon } from '@solar-icons/react-native/outline/plane-3';
 import { useSettingsStore } from '@stores/settings';
 import { type Theme, useThemeStore } from '@stores/theme';
-import { useUpgradeDialog } from '@stores/upgrade-dialog';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useRouter } from 'expo-router';
@@ -63,7 +62,6 @@ export function ProfileScreen() {
   const { signOut, user } = useSession();
   const { isPro, isRcPro, presentCustomerCenter } = useRevenueCat();
   const { confirm, dialog: confirmDialog } = useNativeConfirm();
-  const { open: openUpgrade } = useUpgradeDialog();
   const isDark = useIsDarkMode();
   const colors = COLORS[isDark ? 'dark' : 'light'];
   const iconColor = useIconColor();
@@ -169,31 +167,27 @@ export function ProfileScreen() {
   const githubColor = isDark ? '#ffffff' : '#161614';
   const discordColor = '#5865F2';
 
+  // Only subscribers have a subscription to manage; there is no upgrade row now that the
+  // paywall has been removed.
+  const subscriptionSection: SettingsSection | null = isPro
+    ? {
+        key: 'subscription',
+        rows: [
+          {
+            type: 'action',
+            kind: 'button',
+            key: 'manage-subscription',
+            label: 'Manage Subscription',
+            icon: <ShieldCheckIcon size={22} color={colors.secondary} />,
+            systemImage: 'checkmark.shield',
+            onPress: handleManageSubscription,
+          },
+        ],
+      }
+    : null;
+
   const sections: SettingsSection[] = [
-    {
-      key: 'subscription',
-      rows: [
-        isPro
-          ? {
-              type: 'action',
-              kind: 'button',
-              key: 'manage-subscription',
-              label: 'Manage Subscription',
-              icon: <ShieldCheckIcon size={22} color={colors.secondary} />,
-              systemImage: 'checkmark.shield',
-              onPress: handleManageSubscription,
-            }
-          : {
-              type: 'action',
-              kind: 'button',
-              key: 'upgrade',
-              label: 'Upgrade to Pro',
-              icon: <CrownIcon size={22} color="#D4AF37" />,
-              systemImage: 'crown',
-              onPress: () => openUpgrade(),
-            },
-      ],
-    },
+    ...(subscriptionSection ? [subscriptionSection] : []),
     {
       key: 'preferences',
       title: 'Preferences',

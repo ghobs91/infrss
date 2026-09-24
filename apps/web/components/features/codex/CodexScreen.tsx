@@ -34,7 +34,7 @@ export function CodexScreen() {
     const { data: digest, isLoading, error } = useCodexToday()
     const generate = useGenerateCodexDigest()
     /** A not-entitled 202 isn't an error and isn't a digest — hold it so we can render the
-     *  full state (reset date, upgrade path) rather than a toast that leaves a dead end. */
+     *  full state (reset date, reason) rather than a toast that leaves a dead end. */
     const [notEntitled, setNotEntitled] = useState<{
         reason: string
         errorCode: string

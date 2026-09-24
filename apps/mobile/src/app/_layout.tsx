@@ -36,7 +36,7 @@ import {
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
 import { NAVIGATION_THEME } from '@lib/constants/navigation-theme';
-import { ApiError, isDowngradeRequiredError, queryKeys } from '@infrss/shared';
+import { isDowngradeRequiredError, queryKeys } from '@infrss/shared';
 import * as Sentry from '@sentry/react-native';
 import { useHasSettingsHydrated, useSettingsStore } from '@stores/settings';
 import { useThemeStore } from '@stores/theme';
@@ -56,9 +56,7 @@ import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import '@lib/api-client';
-import { UpgradePaywallModal } from '@components/bottom-sheets/upgrade';
 import { configureApiClient } from '@lib/api-client';
-import { useUpgradeDialog } from '@stores/upgrade-dialog';
 import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context';
 
 const SENTRY_DSN =
@@ -93,12 +91,6 @@ const handleGlobalError = (error: unknown) => {
   if (isDowngradeRequiredError(error)) {
     queryClient.invalidateQueries({ queryKey: queryKeys.userLimits() });
     return;
-  }
-  if (error instanceof ApiError && error.status === 429) {
-    useUpgradeDialog.getState().open({
-      title: 'Upgrade to Infrss Pro',
-      description: error.message || 'You have reached a limit on your current plan.',
-    });
   }
 };
 
@@ -308,7 +300,6 @@ function RootNavigator() {
               <Stack.Screen name="(auth)" />
             </Stack>
           </NavigationThemeProvider>
-          <UpgradePaywallModal />
         </ToastProvider>
       </KeyboardProvider>
     </GestureHandlerRootView>

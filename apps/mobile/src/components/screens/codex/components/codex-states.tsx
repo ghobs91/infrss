@@ -9,7 +9,6 @@ import {
   MoonSleepIcon,
   StarsIcon,
 } from '@solar-icons/react-native/bold';
-import { useUpgradeDialog } from '@stores/upgrade-dialog';
 import type React from 'react';
 import { View } from 'react-native';
 
@@ -129,10 +128,9 @@ export function CodexFailedState({ onGenerate, isGenerating }: ActionProps) {
 }
 
 /**
- * Not-entitled 202 — branches on `errorCode`: an exhausted allowance names the tier and opens
- * the upgrade dialog; `CODEX_PRO_RATE_LIMITED` (Pro past its window pace, nothing to upgrade
- * to) and `AI_DISABLED` (a self-hosted instance with no model provider) are plain informational
- * stops with no action.
+ * Not-entitled 202 — branches on `errorCode`: `CODEX_PRO_RATE_LIMITED` (past the digest pace)
+ * and `AI_DISABLED` (a self-hosted instance with no model provider) are plain informational
+ * stops. The paywall has been removed, so none of these offer an upgrade.
  */
 export function CodexNotEntitledState({
   reason,
@@ -141,8 +139,6 @@ export function CodexNotEntitledState({
   reason: string;
   errorCode?: string;
 }) {
-  const { open: openUpgrade } = useUpgradeDialog();
-
   if (errorCode === 'AI_DISABLED') {
     return (
       <Shell
@@ -170,18 +166,7 @@ export function CodexNotEntitledState({
       tone="neutral"
       icon={LockKeyholeIcon}
       title="You're out of Daily Digests"
-      body={reason || 'Your monthly allowance is used up. It resets at the start of next month.'}>
-      <Button
-        variant="primary"
-        size="medium"
-        onPress={() =>
-          openUpgrade({
-            title: 'Upgrade to Infrss Pro',
-            description: 'Pro gives you a Daily Digest every day, plus unlimited AI.',
-          })
-        }>
-        Upgrade to Pro
-      </Button>
-    </Shell>
+      body={reason || 'Your monthly allowance is used up. It resets at the start of next month.'}
+    />
   );
 }

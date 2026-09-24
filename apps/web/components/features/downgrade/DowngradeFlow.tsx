@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button"
 import { Loader } from "@/components/ui/loader"
 import { downloadOPML, generateOPMLContent } from "@/lib/opml-export"
-import { useUpgradeDialog } from "@/stores/upgrade-dialog"
 import {
     isNewsletterFeedUrl,
     useFeeds,
@@ -40,7 +39,6 @@ interface DowngradeFlowProps {
 export function DowngradeFlow({ overLimit }: DowngradeFlowProps) {
     const { data, isLoading, isSuccess, isFetching, refetch } = useFeeds()
     const resolveDowngrade = useResolveDowngrade()
-    const openUpgradeDialog = useUpgradeDialog((state) => state.open)
 
     const [stepIndex, setStepIndex] = useState(0)
     const [hasExported, setHasExported] = useState(false)
@@ -167,24 +165,7 @@ export function DowngradeFlow({ overLimit }: DowngradeFlowProps) {
                     {...layoutProps}
                     title="Your Pro plan has ended"
                     subtitle="Thanks for reading with Pro. Here is what the Free plan keeps, and what it asks you to let go of. It takes about a minute."
-                    footer={
-                        <>
-                            <Button
-                                variant="link"
-                                className="h-auto self-center px-0 text-muted-foreground underline-offset-4 hover:text-foreground sm:self-auto"
-                                onClick={() =>
-                                    openUpgradeDialog({
-                                        title: "Welcome back to Pro",
-                                        description:
-                                            "Pick up right where you left off, with every feed and newsletter intact.",
-                                    })
-                                }
-                            >
-                                Resubscribe instead
-                            </Button>
-                            <Button onClick={next}>Continue on Free</Button>
-                        </>
-                    }
+                    footer={<Button onClick={next}>Continue on Free</Button>}
                 >
                     <WelcomeStep
                         feedCount={regularFeeds.length}

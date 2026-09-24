@@ -10,7 +10,6 @@ import {
     ClockCircleIcon,
 } from "@solar-icons/react/bold"
 import { Button } from "@/components/ui/button"
-import { useUpgradeDialog } from "@/stores/upgrade-dialog"
 
 interface ActionProps {
     onGenerate?: () => void
@@ -139,10 +138,8 @@ export function CodexFailedState({
 }
 
 /**
- * Not-entitled 202 — the reason branches on `errorCode`: an exhausted monthly allowance
- * (a normal Basic occurrence — name the tier and point at Pro) vs. a Pro pacing limit (Pro has
- * no higher tier to sell, so no upgrade CTA) vs. AI turned off on a self-hosted instance (tell
- * them it's a server-config switch).
+ * Not-entitled 202 — branches on `errorCode`: AI turned off on a self-hosted instance, or a
+ * defensive metered fallback. The paywall has been removed, so none of these offer an upgrade.
  */
 export function CodexNotEntitledState({
     reason,
@@ -176,7 +173,8 @@ export function CodexNotEntitledState({
         )
     }
 
-    // CODEX_LIMIT_EXCEEDED / SUBSCRIPTION_LIMIT_EXCEEDED / anything else metered.
+    // CODEX_LIMIT_EXCEEDED / anything else metered. No longer expected now that the paywall is
+    // removed, but kept as a plain informational stop with no upsell.
     return (
         <Shell
             tone="neutral"
@@ -186,25 +184,6 @@ export function CodexNotEntitledState({
                 reason ||
                 "Your monthly Daily Digest allowance is used up. It resets at the start of next month."
             }
-        >
-            <UpgradeButton />
-        </Shell>
-    )
-}
-
-function UpgradeButton() {
-    const { open: openUpgrade } = useUpgradeDialog()
-    return (
-        <Button
-            onClick={() =>
-                openUpgrade({
-                    title: "Upgrade to Infrss Pro",
-                    description:
-                        "Pro gives you a Daily Digest every day, plus unlimited AI interactions",
-                })
-            }
-        >
-            See Pro
-        </Button>
+        />
     )
 }

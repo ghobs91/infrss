@@ -34,12 +34,8 @@ export function SourceModeToggle({ mode, onModeChange }: SourceModeToggleProps) 
             <Label
               key={value}
               title={ADD_FEED_MODE_LABELS[value]}
-              systemImage="crown.fill"
-              modifiers={[
-                tag(value),
-                labelStyle('titleAndIcon'),
-                accessibilityLabel('Newsletter, Pro feature'),
-              ]}
+              systemImage="envelope.open"
+              modifiers={[tag(value), labelStyle('titleAndIcon'), accessibilityLabel('Newsletter')]}
             />
           ) : (
             <Text key={value} modifiers={[tag(value)]}>

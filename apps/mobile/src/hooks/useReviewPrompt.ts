@@ -1,5 +1,4 @@
 import { recordReviewActivity, requestReviewAfterReading } from '@lib/review';
-import { useUpgradeDialog } from '@stores/upgrade-dialog';
 import { usePathname } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
@@ -25,10 +24,7 @@ export function useReviewPrompt() {
       pathname === '/'
         ? setTimeout(() => {
             void requestReviewAfterReading(
-              () =>
-                cancelled.current === opportunity &&
-                AppState.currentState === 'active' &&
-                !useUpgradeDialog.getState().isOpen
+              () => cancelled.current === opportunity && AppState.currentState === 'active'
             );
           }, 1500)
         : undefined;

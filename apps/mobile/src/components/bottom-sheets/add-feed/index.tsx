@@ -6,7 +6,6 @@ import { BottomSheetInput } from '@components/ui/input';
 import { Skeleton } from '@components/ui/skeleton';
 import { Text } from '@components/ui/text';
 import { toast } from '@components/ui/toast';
-import { useRevenueCat } from '@contexts/revenuecat-context';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { BUTTON_BORDER_RADIUS } from '@lib/constants/app';
 import { COLORS } from '@lib/constants/colors';
@@ -20,7 +19,6 @@ import {
   UserCircleIcon,
 } from '@solar-icons/react-native/linear';
 import { useSettingsStore } from '@stores/settings';
-import { useUpgradeDialog } from '@stores/upgrade-dialog';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import {
@@ -61,17 +59,15 @@ export const AddFeedBottomSheet = forwardRef<AddFeedBottomSheetRef, AddFeedBotto
     const [copied, setCopied] = useState(false);
     const isDark = useIsDarkMode();
     const colors = COLORS[isDark ? 'dark' : 'light'];
-    const { isPro } = useRevenueCat();
-    const { open: openUpgrade } = useUpgradeDialog();
     const isSelfHosted = useSettingsStore(
       (state) => state.settings.instance_type === 'self-hosted'
     );
 
-    // Fetch newsletter token — only when on newsletter tab and user is pro
+    // Fetch newsletter token — only when on the newsletter tab
     const { data: tokenData, isLoading: isTokenLoading } = useQuery({
       queryKey: ['newsletterToken'],
       queryFn: () => ApiClient.getNewsletterToken(),
-      enabled: mode === 'newsletter' && isPro && !isSelfHosted,
+      enabled: mode === 'newsletter' && !isSelfHosted,
       staleTime: Infinity, // Token doesn't change between sessions
     });
 
@@ -129,27 +125,14 @@ export const AddFeedBottomSheet = forwardRef<AddFeedBottomSheetRef, AddFeedBotto
       }
     }, [tokenData?.email]);
 
-    const handleModeSwitch = useCallback(
-      (next: AddFeedMode) => {
-        if (next === 'newsletter' && !isPro) {
-          // Free tier: close this sheet and go straight to the paywall
-          bottomSheetRef.current?.dismiss();
-          openUpgrade({
-            title: 'Upgrade to Infrss Pro',
-            description:
-              'Unlock newsletter ingestion and subscribe to Substack, Mailchimp, or any mailing list directly in your feed.',
-          });
-          return;
-        }
-        setMode(next);
-        if (next === 'newsletter') {
-          setUrl('');
-          setFeedPreview(null);
-        }
-        bottomSheetRef.current?.snapToIndex(0);
-      },
-      [isPro, openUpgrade]
-    );
+    const handleModeSwitch = useCallback((next: AddFeedMode) => {
+      setMode(next);
+      if (next === 'newsletter') {
+        setUrl('');
+        setFeedPreview(null);
+      }
+      bottomSheetRef.current?.snapToIndex(0);
+    }, []);
 
     useImperativeHandle(ref, () => ({
       present: () => {

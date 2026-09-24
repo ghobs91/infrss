@@ -40,7 +40,9 @@ export function isDowngradeRequiredError(error: unknown): boolean {
 
 /**
  * True when the API refused a request because of a plan limit (HTTP 429).
- * Clients open the upgrade dialog for these globally, so callers should skip their own error toast.
+ *
+ * The paywall has been removed, so the server no longer meters features; this is kept for
+ * callers that still want to special-case a limit response.
  */
 export function isPaywallError(error: unknown): boolean {
   return error instanceof ApiError && error.status === 429;

@@ -6,7 +6,6 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import get_settings
-from app.core.constants import NEWSLETTER_PLAN_REQUIRED_ERROR_CODE
 from app.models.article import ArticleContent, FeedArticle
 from app.models.feed import Feed, FeedSubscription
 from app.models.user import Profile
@@ -214,10 +213,10 @@ class TestNewsletterFeature:
         assert "sender email" in response.json()["detail"].lower()
 
     @pytest.mark.asyncio
-    async def test_premium_endpoints_forbidden_for_basic_user(
+    async def test_premium_endpoints_allowed_for_basic_user(
         self, async_client: AsyncClient, db_session: AsyncSession, test_user: Profile
     ):
-        """Test that BASIC users are blocked from generating tokens or manually subscribing."""
+        """Test that BASIC users can generate tokens and manually subscribe now that the paywall is gone."""
         # Ensure user is BASIC
         from app.models.enums import UserRole
 
@@ -225,22 +224,20 @@ class TestNewsletterFeature:
         db_session.add(test_user)
         await db_session.commit()
 
-        # 1. Test get token is forbidden
+        # 1. Token generation is allowed
         response = await async_client.get("/api/intake/token")
-        assert response.status_code == 403
-        assert "premium subscription required" in response.json()["detail"].lower()
+        assert response.status_code == 200
 
-        # 2. Test manual subscribe is forbidden
+        # 2. Manual subscribe is allowed
         payload = {"name": "Python Weekly", "sender_email": "newsletter@pythonweekly.com"}
         response = await async_client.post("/api/intake/subscribe", json=payload)
-        assert response.status_code == 403
-        assert "premium subscription required" in response.json()["detail"].lower()
+        assert response.status_code == 201
 
     @pytest.mark.asyncio
-    async def test_webhook_intake_forbidden_for_basic_user(
+    async def test_webhook_intake_allowed_for_basic_user(
         self, async_client: AsyncClient, db_session: AsyncSession, test_user: Profile
     ):
-        """Test that webhook fails with 403 if the matching profile is a BASIC user."""
+        """Test that the webhook ingests for a BASIC user now that the paywall is gone."""
         token = "basic_user_token"  # noqa: S105 - synthetic fixture value
         test_user.newsletter_token = token
         # Ensure user is BASIC
@@ -263,10 +260,8 @@ class TestNewsletterFeature:
             json=payload,
             headers={"X-Infrss-Secret": settings.INBOUND_WEBHOOK_SECRET.get_secret_value()},
         )
-        assert response.status_code == 403
-        detail = response.json()["detail"]
-        assert detail["error_code"] == NEWSLETTER_PLAN_REQUIRED_ERROR_CODE
-        assert "premium subscription required" in detail["message"].lower()
+        assert response.status_code == 201
+        assert response.json() == {"status": "success"}
 
 
 TEST_NEWSLETTER_TOKEN = "limittoken123"  # noqa: S105 - synthetic fixture value

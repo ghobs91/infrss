@@ -205,7 +205,7 @@ export function FollowingScreen({
         },
         {
           onError: (error) => {
-            // Plan limits (e.g. the free saved-articles cap) open the upgrade dialog globally
+            // The paywall is removed; skip any limit toast if one ever comes back.
             if (isPaywallError(error)) return;
             toast.error('Failed to update bookmark');
           },

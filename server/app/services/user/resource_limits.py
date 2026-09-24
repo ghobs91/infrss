@@ -2,7 +2,7 @@
 Resource limit enforcement logic.
 """
 
-from datetime import date, datetime, timedelta, timezone
+from datetime import date
 from typing import Any
 from uuid import UUID
 
@@ -11,11 +11,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core import redis_cache
 from app.core.constants import NEWSLETTER_LIMIT_ERROR_CODE, SCRAPE_USAGE_KEY_PREFIX, USAGE_COUNTER_TTL_SECONDS
 from app.core.custom_exceptions import NotFoundError, ResourceLimitError
-from app.core.resource_limits import CODEX_LIMITS, CODEX_QUOTA_WINDOW_HOURS, RESOURCE_LIMITS
+from app.core.resource_limits import RESOURCE_LIMITS
 from app.crud import codex as crud_codex
 from app.crud.profile import get_current_usage, get_profile_by_id
 from app.models.codex import CodexDigest
-from app.models.enums import UserRole
 from app.typing.user import OverLimitResource, OverLimitState
 
 
@@ -37,9 +36,9 @@ def compute_over_limit_state(role: str, subscriptions: int, newsletters: int, sa
     """
     Compare what a user currently holds against their role's limits.
 
-    Basic users with excess subscriptions or newsletters must resolve their downgrade.
-    Existing paid holdings can exceed newly introduced caps: keep reading and management
-    available, while the add paths enforce those caps. Excess saved articles are kept as-is.
+    The paywall has been removed, so every role's limits are unlimited and this always reports
+    no overage. Kept so the ``/users/limits`` response shape and the (dormant) downgrade flow
+    still work.
     """
     subs = _over_limit_resource(subscriptions, _get_limit_for_role(role, "max_subscriptions"))
     news = _over_limit_resource(newsletters, _get_limit_for_role(role, "max_newsletters"))
@@ -169,7 +168,7 @@ async def enforce_daily_ai_limit(db: AsyncSession, user_id: UUID) -> None:
     limit = _get_limit_for_role(user_role, "max_daily_ai_calls")
 
     if limit == -1:
-        # Unlimited for Admin / Pro
+        # Unlimited for every role now that the paywall is removed
         return
 
     today_str = date.today().isoformat()
@@ -214,7 +213,7 @@ async def check_daily_scrape_limit(db: AsyncSession, user_id: UUID) -> bool:
     limit = _get_limit_for_role(str(profile.role), "max_daily_scrapes")
 
     if limit == -1:
-        # Unlimited for Admin / Pro
+        # Unlimited for every role now that the paywall is removed
         return True
 
     redis_key = _scrape_usage_key(user_id)
@@ -245,95 +244,39 @@ async def enforce_daily_scrape_limit(db: AsyncSession, user_id: UUID) -> None:
     )
 
 
-def _codex_quota_window() -> timedelta:
-    return timedelta(hours=CODEX_QUOTA_WINDOW_HOURS)
-
-
 async def enforce_codex_quota(db: AsyncSession, user_id: UUID, local_date: date | None = None) -> CodexDigest | None:
     """Decide whether the user may start a new Codex digest generation right now.
 
-    Returns:
-      - an existing CodexDigest row  -> serve it back, don't spend a slot (an in-flight
-        generation is still running, or the cap is hit and this is the row to keep polling);
-      - None                          -> the caller should create the next PENDING digest.
-    Raises ResourceLimitError when the allowance is spent and there's no row to fall back to.
+    The paywall has been removed, so there is no per-role generation cap - every user is
+    unlimited. Returns:
+      - an existing CodexDigest row -> serve it back so the client keeps polling an in-flight
+        generation instead of starting a duplicate;
+      - None                       -> the caller should create the next PENDING digest.
 
-    Allowance (all server-clock, ``local_date`` plays no part):
-      - Admin: unlimited.
-      - Pro:   at most CODEX_LIMITS["pro"]["per_window"] generations whose ``requested_at`` is
-               within the trailing CODEX_QUOTA_WINDOW_HOURS.
-      - Basic: at most CODEX_LIMITS["basic"]["per_window"] in that same window, AND
-               <= CODEX_LIMITS["basic"]["per_month"] COMPLETED digests this calendar month.
-    A SKIPPED / FAILED latest generation is always retryable in place and counts against
-    nothing.
+    A SKIPPED / FAILED latest generation is always retryable in place. ``local_date`` is
+    accepted for backwards compatibility and plays no part.
     """
     profile = await get_profile_by_id(db, user_id=user_id)
     if not profile:
         raise NotFoundError(message="User profile not found", error_code="USER_PROFILE_NOT_FOUND")
 
-    role = str(profile.role).upper().split(".")[-1]
-    now = datetime.now(timezone.utc)
-    window = _codex_quota_window()
-    window_h = CODEX_QUOTA_WINDOW_HOURS
-
-    # (1) A retryable (SKIPPED/FAILED) most-recent generation is re-run in place - no slot
-    #     spent, no cap consulted. Checked first for every role, before the in-flight check
-    #     (a retryable row is never in-flight).
+    # A retryable (SKIPPED/FAILED) most-recent generation is re-run in place.
     if await crud_codex.get_latest_retryable(db, user_id) is not None:
         return None
 
-    if role == UserRole.ADMIN.value:
-        return None
-
-    tier = "pro" if role == UserRole.PRO.value else "basic"
-    per_window = CODEX_LIMITS[tier]["per_window"]
-    recent = await crud_codex.count_recent_generations(db, user_id, window=window, now=now)
-
-    # (2) Still under the per-window cap: for BASIC also check the monthly COMPLETED cap, then
-    #     allow a fresh generation. PRO has no monthly cap.
-    if recent < per_window:
-        if tier == "pro":
-            return None
-        per_month = CODEX_LIMITS["basic"]["per_month"]
-        month_start = datetime(now.year, now.month, 1, tzinfo=timezone.utc)
-        used_month = await crud_codex.count_completed_since(db, user_id, since=month_start)
-        if used_month >= per_month:
-            raise ResourceLimitError(
-                message=f"You've used all {per_month} Daily Digests for this month. Upgrade to Pro for more.",
-                error_code="CODEX_LIMIT_EXCEEDED",
-                details={"current_usage": used_month, "limit": per_month, "period": "month"},
-            )
-        return None
-
-    # (3) At/over the per-window cap. If one of those generations is still running, hand it
-    #     back so the client keeps polling it (no duplicate, no extra slot). Otherwise refuse.
+    # Hand an in-flight generation back so the client keeps polling it (no duplicate).
     in_flight = await crud_codex.get_latest_in_flight(db, user_id)
     if in_flight is not None:
         return in_flight
 
-    hours_msg = f"{window_h} hours"
-    if per_window == 1:
-        message = f"You've already built a Daily Digest in the last {hours_msg}. Come back later."
-    else:
-        message = f"You've built {per_window} Daily Digests in the last {hours_msg}. Try again later."
-    # Pro has no monthly cap and nothing above it to sell - a window-cap refusal here is a
-    # pacing limit, not an entitlement gap, so it gets its own code. The client renders a plain
-    # "come back later" explainer for it instead of the Basic upgrade-to-Pro paywall.
-    error_code = "CODEX_PRO_RATE_LIMITED" if tier == "pro" else "CODEX_LIMIT_EXCEEDED"
-    raise ResourceLimitError(
-        message=message,
-        error_code=error_code,
-        details={"current_usage": recent, "limit": per_window, "period": "window", "window_hours": window_h},
-    )
+    return None
 
 
 async def get_user_limits_and_usage(db: AsyncSession, user_id: UUID, local_date: date | None = None) -> dict[str, Any]:
     """
     Get user limits configuration and current usage stats.
 
-    ``local_date`` is accepted for backwards compatibility but no longer affects the Codex
-    usage figures - the generation cap is a server-clock rolling window (see
-    ``CODEX_QUOTA_WINDOW_HOURS``).
+    ``local_date`` is accepted for backwards compatibility but plays no part.
     """
     profile = await get_profile_by_id(db, user_id=user_id)
     if not profile:
@@ -361,7 +304,7 @@ async def get_user_limits_and_usage(db: AsyncSession, user_id: UUID, local_date:
 
     return {
         "role": profile.role,
-        "limits": {**limits, "codex": CODEX_LIMITS.get(role_lower, {})},
+        "limits": {**limits, "codex": {}},
         "usage": {
             "subscriptions": sub_usage,
             "saved_articles": saved_usage,
@@ -379,33 +322,7 @@ async def _get_codex_usage(
 ) -> dict[str, Any]:
     """Build the Codex usage summary shown in /users/limits.
 
-    The generation cap is a rolling window (see ``CODEX_QUOTA_WINDOW_HOURS``):
-      Pro   -> {period: "window", window_hours, limit, used}
-      Basic -> {period: "month", limit, used, used_in_window, window_hours} - the monthly
-               COMPLETED count plus whether this window's generation is already spent.
-    ``local_date`` is ignored (kept in the signature for callers that still pass it).
+    The paywall has been removed, so every role is unlimited. The arguments are kept for
+    backwards compatibility and play no part.
     """
-    if role_lower == "admin":
-        return {"unlimited": True}
-
-    now = datetime.now(timezone.utc)
-    window = timedelta(hours=CODEX_QUOTA_WINDOW_HOURS)
-    used_in_window = await crud_codex.count_recent_generations(db, user_id, window=window, now=now)
-
-    if role_lower == "pro":
-        return {
-            "period": "window",
-            "window_hours": CODEX_QUOTA_WINDOW_HOURS,
-            "limit": CODEX_LIMITS["pro"]["per_window"],
-            "used": used_in_window,
-        }
-
-    month_start = datetime(now.year, now.month, 1, tzinfo=timezone.utc)
-    used_this_month = await crud_codex.count_completed_since(db, user_id, since=month_start)
-    return {
-        "period": "month",
-        "limit": CODEX_LIMITS["basic"]["per_month"],
-        "used": used_this_month,
-        "used_in_window": min(used_in_window, CODEX_LIMITS["basic"]["per_window"]),
-        "window_hours": CODEX_QUOTA_WINDOW_HOURS,
-    }
+    return {"unlimited": True}

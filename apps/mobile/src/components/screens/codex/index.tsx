@@ -26,9 +26,8 @@ import { CodexView } from './components/codex-view';
 
 /**
  * Live Daily Digest screen. Fetches the latest digest, polls while it generates (the shared hook
- * stops on a terminal status), and renders per state. Basic users hitting their monthly
- * allowance get the upgrade dialog before a request is even sent; a not-entitled 202 from the
- * server is held and rendered as its own full state.
+ * stops on a terminal status), and renders per state. A not-entitled 202 from the server is held
+ * and rendered as its own full state.
  */
 export function CodexScreen() {
   const isDark = useIsDarkMode();
@@ -36,7 +35,7 @@ export function CodexScreen() {
   const { data: digest, isLoading, error } = useCodexToday();
   const isFocused = useIsFocused();
   const generate = useGenerateCodexDigest();
-  const { checkAndTriggerUpgrade } = useLimitChecker();
+  const { checkAccess } = useLimitChecker();
   const [notEntitled, setNotEntitled] = useState<{ reason: string; errorCode: string } | null>(
     null
   );
@@ -66,7 +65,7 @@ export function CodexScreen() {
 
   const handleGenerate = useCallback(() => {
     // Local gate — shows the Pro upsell instead of a wasted request for out-of-quota Basic.
-    if (!checkAndTriggerUpgrade('codex')) return;
+    if (!checkAccess('codex')) return;
 
     generate.mutate(undefined, {
       onSuccess: (result) => {
@@ -78,7 +77,7 @@ export function CodexScreen() {
         toast.error("Couldn't start your Daily Digest. Please try again.");
       },
     });
-  }, [checkAndTriggerUpgrade, generate]);
+  }, [checkAccess, generate]);
 
   // Once the digest is done, CodexView carries its own "Daily Digest · date" masthead
   // (mirroring the web layout) — the generic top header would just repeat that name. The

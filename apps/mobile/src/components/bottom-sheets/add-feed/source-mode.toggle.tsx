@@ -2,7 +2,6 @@ import { Text } from '@components/ui/text';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
 import { FeedIcon, LetterOpenedIcon } from '@solar-icons/react-native/linear';
-import { CrownIcon } from '@solar-icons/react-native/bold';
 import { MotiView } from 'moti';
 import { useCallback, useState } from 'react';
 import { type LayoutChangeEvent, Pressable, StyleSheet, View } from 'react-native';
@@ -67,7 +66,7 @@ export function SourceModeToggle({ mode, onModeChange }: SourceModeToggleProps) 
           <Pressable
             key={value}
             accessibilityRole="radio"
-            accessibilityLabel={value === 'newsletter' ? 'Newsletter, Pro feature' : 'RSS feed'}
+            accessibilityLabel={value === 'newsletter' ? 'Newsletter' : 'RSS feed'}
             accessibilityState={{ selected: isActive }}
             onPress={() => onModeChange(value)}
             style={styles.segment}>
@@ -78,7 +77,6 @@ export function SourceModeToggle({ mode, onModeChange }: SourceModeToggleProps) 
               style={{ color }}>
               {ADD_FEED_MODE_LABELS[value]}
             </Text>
-            {value === 'newsletter' && <CrownIcon size={13} color={color} />}
           </Pressable>
         );
       })}

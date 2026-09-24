@@ -14,7 +14,6 @@ from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import get_settings
-from app.core.constants import NEWSLETTER_PLAN_REQUIRED_ERROR_CODE
 from app.core.custom_exceptions import FeedSubscriptionError, NotFoundError
 from app.crud import profile as crud_profile
 from app.crud.article.ingester import create_articles_batch
@@ -25,7 +24,7 @@ from app.crud.feed.subscription import (
 )
 from app.crud.folder import upsert_batch
 from app.db.session import get_db
-from app.models.enums import ContentType, UserRole
+from app.models.enums import ContentType
 from app.models.feed import Feed
 from app.routers.feeds.feeds_subscription import resolve_target_folder
 from app.services.user.auth import get_current_user
@@ -180,19 +179,7 @@ async def webhook_intake(
     if not profile:
         raise NotFoundError("Profile not found for token")
 
-    # Guard: only allow premium users (PRO or ADMIN). A downgraded user keeps their token so the
-    # same address works again if they re-upgrade; until then the error code lets the inbound
-    # worker bounce with an accurate reason, and senders prune the address over time.
-    if profile.role not in (UserRole.PRO, UserRole.ADMIN):
-        logger.info("Rejected newsletter email for non-premium recipient", user_id=str(profile.id))
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail={
-                "message": "Premium subscription required for newsletter ingestion",
-                "error_code": NEWSLETTER_PLAN_REQUIRED_ERROR_CODE,
-            },
-        )
-
+    # Newsletter ingestion is available to every user now that the paywall is removed.
     # 3. Parse Sender email
     parsed_name, sender_email = email.utils.parseaddr(payload.from_address)
     sender_email = sender_email.strip().lower()
@@ -274,12 +261,6 @@ async def get_or_generate_token(
     if not profile:
         raise NotFoundError("Profile not found")
 
-    if profile.role not in (UserRole.PRO, UserRole.ADMIN):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Premium subscription required for newsletter ingestion",
-        )
-
     # Generate token if missing
     if not profile.newsletter_token:
         # Generate an 8-character secure token
@@ -318,12 +299,6 @@ async def subscribe_newsletter(
     profile = await crud_profile.get_profile_by_id(db, user_id=user_uuid)
     if not profile:
         raise NotFoundError("Profile not found")
-
-    if profile.role not in (UserRole.PRO, UserRole.ADMIN):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Premium subscription required for newsletter ingestion",
-        )
 
     sender_email = subscribe_in.sender_email.strip().lower()
     if not sender_email or "@" not in sender_email:
