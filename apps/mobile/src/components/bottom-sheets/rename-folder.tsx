@@ -5,7 +5,7 @@ import { BottomSheetInput } from '@components/ui/input';
 import { Text } from '@components/ui/text';
 import { toast } from '@components/ui/toast';
 import { BUTTON_BORDER_RADIUS } from '@lib/constants/app';
-import { ApiError, useUpdateFolder } from '@readspace/shared';
+import { ApiError, useUpdateFolder } from '@infrss/shared';
 import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import { Keyboard, View } from 'react-native';
 

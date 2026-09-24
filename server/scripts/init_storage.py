@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Supabase Storage initialization script for Readspace.
+Supabase Storage initialization script for Infrss.
 
 Ensures the public favicons bucket exists. Feed favicons are uploaded there by the
 worker and served to clients via /storage/v1/object/public/favicons/<path>; on a fresh

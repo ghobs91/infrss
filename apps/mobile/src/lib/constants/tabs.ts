@@ -4,7 +4,7 @@
  * `Today` leads and is the default landing view: the inbox people actually open
  * the app for. `All` is the full backlog, `Saved` is Read Later.
  *
- * These indices are persisted (`readspace-following`) and are the source of
+ * These indices are persisted (`infrss-following`) and are the source of
  * truth for tab identity across the header, the query selection, the empty
  * states and the client-side filters — always reference the constant, never a
  * bare number, so a future reorder stays a one-line change plus a store

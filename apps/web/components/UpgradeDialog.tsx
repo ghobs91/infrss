@@ -57,7 +57,7 @@ export default function UpgradeDialog() {
                     {/* Features section - High-appeal SaaS typography */}
                     <div className="p-6 border-b border-border bg-card text-card-foreground">
                         <h3 className="font-semibold text-xs uppercase text-muted-foreground tracking-wide mb-4">
-                            Readspace Pro benefits
+                            Infrss Pro benefits
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Benefit 1: Morning digest */}

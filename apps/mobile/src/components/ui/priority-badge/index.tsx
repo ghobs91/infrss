@@ -1,6 +1,6 @@
 import { Text } from '@components/ui/text';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
-import { ArticlePriority } from '@readspace/shared';
+import { ArticlePriority } from '@infrss/shared';
 import { PaperclipIcon } from '@solar-icons/react-native/linear';
 import { StyleSheet, View } from 'react-native';
 

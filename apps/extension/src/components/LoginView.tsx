@@ -22,22 +22,22 @@ export function LoginView({ currentView, onViewChange }: LoginViewProps) {
             <div className="flex items-center justify-center mb-4">
               <div className="w-12 h-12">
                 <img
-                  src={browser.runtime.getURL('assets/readspace.svg')}
-                  alt="Readspace"
+                  src={browser.runtime.getURL('assets/infrss.svg')}
+                  alt="Infrss"
                   className="w-full h-full rounded"
                 />
               </div>
             </div>
-            <h1 className="text-lg font-semibold">Sign in to Readspace</h1>
+            <h1 className="text-lg font-semibold">Sign in to Infrss</h1>
           </div>
 
           {/* Embedded Login Form */}
           <LoginForm onShowSelfHosted={() => onViewChange('self-hosted')} />
 
-          {/* New to Readspace link */}
+          {/* New to Infrss link */}
           <div className="text-center">
             <p className="text-sm text-muted-foreground">
-              New to Readspace?{' '}
+              New to Infrss?{' '}
               <button
                 onClick={() =>
                   window.open('https://app.readspace.ai/signup', '_blank')

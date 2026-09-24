@@ -30,7 +30,7 @@ Get in, read what matters to you, and get out. Go build something. Go live your 
 
 ### Because Reading Should Be Simple
 
-Readspace doesn't interrupt. It doesn't manipulate. It doesn't demand to be fed with your data or your engagement.
+Infrss doesn't interrupt. It doesn't manipulate. It doesn't demand to be fed with your data or your engagement.
 
 It simply exists as a tool: a quiet, dependable place for the writing you actually want to read.
 
@@ -38,7 +38,7 @@ It simply exists as a tool: a quiet, dependable place for the writing you actual
 
 This is for people who miss the old internet. For people tired of being algorithmed. For people who want to read deeply instead of scroll endlessly. For people who believe that staying informed shouldn't mean being constantly overwhelmed.
 
-Those who want to be told what to think will find plenty of platforms eager to oblige. Readspace is for those who still want to think for themselves.
+Those who want to be told what to think will find plenty of platforms eager to oblige. Infrss is for those who still want to think for themselves.
 
 ### Because It Belongs to You
 
@@ -48,4 +48,4 @@ We're reclaiming the quiet space that reading used to occupy.
 
 One feed. Your feed. Nothing more, nothing less.
 
-This is Readspace.
+This is Infrss.

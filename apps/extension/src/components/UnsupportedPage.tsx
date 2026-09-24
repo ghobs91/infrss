@@ -15,7 +15,7 @@ export function UnsupportedPage({ currentUrl }: UnsupportedPageProps) {
           </div>
           <h2 className="text-lg font-semibold">Page Not Supported</h2>
           <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-            Readspace extension only works on websites (http:// and https://
+            Infrss extension only works on websites (http:// and https://
             pages). This page type is not supported for saving articles.
           </p>
           {currentUrl && (

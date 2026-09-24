@@ -1,7 +1,7 @@
 import { Text } from '@components/ui/text';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
-import { CodexDigestPhase } from '@readspace/shared';
+import { CodexDigestPhase } from '@infrss/shared';
 import { CheckCircleIcon, StarsIcon } from '@solar-icons/react-native/bold';
 import { MotiView } from 'moti';
 import { View } from 'react-native';

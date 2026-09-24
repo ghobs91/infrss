@@ -57,14 +57,14 @@ export function generateOPMLContent(feedsToExport: FeedForOPML[], folders: Folde
   }
 
   return generateOpml({
-    head: { title: 'Readspace Feeds Export', dateCreated: new Date() },
+    head: { title: 'Infrss Feeds Export', dateCreated: new Date() },
     body: { outlines },
   });
 }
 
-/** Default export filename, e.g. `readspace-feeds-2026-09-21.opml`. */
+/** Default export filename, e.g. `infrss-feeds-2026-09-21.opml`. */
 export function opmlExportFilename(date: Date = new Date()): string {
-  return `readspace-feeds-${date.toISOString().split('T')[0]}.opml`;
+  return `infrss-feeds-${date.toISOString().split('T')[0]}.opml`;
 }
 
 /**

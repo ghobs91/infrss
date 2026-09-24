@@ -79,17 +79,17 @@ export async function POST(req: NextRequest) {
             `[RevenueCat Webhook] Event received: ${eventType} for App User ID: ${appUserId}`
         )
 
-        // 3. Verify it affects the "Readspace Pro" entitlement (bypass for TEST events)
+        // 3. Verify it affects the "Infrss Pro" entitlement (bypass for TEST events)
         const isTestEvent = eventType === "TEST"
         const isProEntitlement =
             isTestEvent ||
-            entitlementId === "Readspace Pro" ||
+            entitlementId === "Infrss Pro" ||
             (Array.isArray(entitlementIds) &&
-                entitlementIds.includes("Readspace Pro"))
+                entitlementIds.includes("Infrss Pro"))
 
         if (!isProEntitlement) {
             console.log(
-                `[RevenueCat Webhook] Event does not affect 'Readspace Pro' entitlement. Skipping.`
+                `[RevenueCat Webhook] Event does not affect 'Infrss Pro' entitlement. Skipping.`
             )
             return new NextResponse(
                 JSON.stringify({ message: "Ignored (not Pro entitlement)" }),

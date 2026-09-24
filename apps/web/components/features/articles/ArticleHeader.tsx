@@ -1,4 +1,4 @@
-import type { Article } from "@readspace/shared"
+import type { Article } from "@infrss/shared"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { FeedIcon } from "@/components/features/feeds/FeedIcon"
 import { Badge } from "@/components/ui/badge"

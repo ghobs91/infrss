@@ -6,7 +6,7 @@ import {
     MOBILE_CATEGORY_NAMES,
     CATEGORY_DISPLAY_NAMES,
     FeedCategory,
-} from "@readspace/shared"
+} from "@infrss/shared"
 
 interface CategoryGridProps {
     onCategoryClick: (category: string) => void

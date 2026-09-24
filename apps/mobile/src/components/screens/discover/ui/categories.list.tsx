@@ -1,7 +1,7 @@
 import { DiscoverSectionHeader } from '@components/screens/discover/ui/discover-section-header';
 import { Chip } from '@components/ui/chip';
 import { Text } from '@components/ui/text';
-import { MOBILE_CATEGORY_NAMES } from '@readspace/shared';
+import { MOBILE_CATEGORY_NAMES } from '@infrss/shared';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
   type LayoutChangeEvent,

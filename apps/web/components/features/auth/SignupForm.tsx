@@ -138,7 +138,7 @@ export function SignupForm({
                 <CardHeader className="text-center">
                     <CardTitle className="text-xl">Get Started</CardTitle>
                     <CardDescription>
-                        Create your Readspace Account
+                        Create your Infrss Account
                     </CardDescription>
                 </CardHeader>
                 <CardContent>

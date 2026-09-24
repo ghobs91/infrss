@@ -1,7 +1,7 @@
 import { Card } from '@components/ui/card/index';
 import { Text } from '@components/ui/text';
 import { useFavicon } from '@hooks/useFavicon';
-import { type CodexWorthReadingItem, formatRelativeDate } from '@readspace/shared';
+import { type CodexWorthReadingItem, formatRelativeDate } from '@infrss/shared';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 

@@ -152,7 +152,7 @@ export function generateOPMLContent(feeds: Feed[], folders: Folder[]): string {
   let opmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 <opml version="2.0">
     <head>
-        <title>Readspace Feeds Export</title>
+        <title>Infrss Feeds Export</title>
         <dateCreated>${dateString}</dateCreated>
     </head>
     <body>
@@ -200,7 +200,7 @@ export async function exportFeedsToOPML(
     const opmlContent = generateOPMLContent(feeds, folders);
 
     const date = new Date().toISOString().split('T')[0];
-    const finalFilename = filename || `readspace-export-${date}.opml`;
+    const finalFilename = filename || `infrss-export-${date}.opml`;
 
     const fileUri = `${FileSystem.cacheDirectory}${finalFilename}`;
 

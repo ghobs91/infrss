@@ -106,7 +106,7 @@ class TestFeedSubscribe:
             if isinstance(error_msg, dict):
                 error_msg = error_msg.get("message", "")
         else:
-            # Custom ReadspaceException
+            # Custom InfrssException
             error_msg = response_data.get("message", "")
 
         assert "already subscribed" in str(error_msg).lower()

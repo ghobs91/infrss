@@ -14,7 +14,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { colorTokens } from "@readspace/design-tokens"
+import { colorTokens } from "@infrss/design-tokens"
 import {
     ArrowLeft,
     BookmarkIcon,
@@ -31,7 +31,7 @@ import {
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { LanguageSelector } from "./LanguageSelector"
-import { ContentView, type Article } from "@readspace/shared"
+import { ContentView, type Article } from "@infrss/shared"
 
 interface ArticleToolbarProps {
     hideBackground?: boolean

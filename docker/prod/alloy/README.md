@@ -1,8 +1,8 @@
-# Readspace observability
+# Infrss observability
 
 One Grafana Alloy container sends these signals to Grafana Cloud:
 
-- Docker stdout/stderr logs for the Readspace API, worker, and scheduler
+- Docker stdout/stderr logs for the Infrss API, worker, and scheduler
 - OpenTelemetry traces from the API, worker, and scheduler
 - VPS CPU, memory, disk, filesystem, network, load, and uptime metrics
 - Per-container CPU, memory, disk, and network metrics from cAdvisor
@@ -12,10 +12,10 @@ Grafana backend runs on the VPS.
 
 ## 1. Create the Grafana Cloud token
 
-1. Sign in to Grafana Cloud and open the Readspace stack.
+1. Sign in to Grafana Cloud and open the Infrss stack.
 2. Open **Administration > Users and access > Cloud access policies**. If the UI
    differs, search the Grafana menu for **Cloud access policies**.
-3. Create a policy named `readspace-production` with these scopes:
+3. Create a policy named `infrss-production` with these scopes:
    `logs:write`, `metrics:write`, and `traces:write`.
 4. Add a token to the policy and copy the `glc_...` value immediately. Grafana
    displays it only once.
@@ -25,7 +25,7 @@ in Dokploy; do not add it to this repository.
 
 ## 2. Copy the three endpoint/username pairs
 
-From the Grafana Cloud portal, open the Readspace stack and copy:
+From the Grafana Cloud portal, open the Infrss stack and copy:
 
 1. **Prometheus / Metrics > Details**
    - Remote write URL, ending in `/api/prom/push`
@@ -41,7 +41,7 @@ The three usernames can be different. Copy each from its own Grafana card.
 
 ## 3. Add the values to Dokploy
 
-Open the Readspace Compose application's environment settings and add:
+Open the Infrss Compose application's environment settings and add:
 
 ```dotenv
 GRAFANA_CLOUD_API_KEY=glc_your_token
@@ -70,13 +70,13 @@ job, then wait about one minute.
 
 Check these in Grafana:
 
-1. **Drilldown > Logs**: filter `service_name = readspace-api` and
+1. **Drilldown > Logs**: filter `service_name = infrss-api` and
    `environment = production`. Application logs are intentionally limited to
-   `readspace-api`, `readspace-worker`, and `readspace-scheduler`; infrastructure
+   `infrss-api`, `infrss-worker`, and `infrss-scheduler`; infrastructure
    containers remain visible through cAdvisor metrics without shipping their noisy
    stdout streams.
 2. **Drilldown > Traces** or **Application Observability**: look for
-   `readspace-api`, `readspace-worker`, and `readspace-scheduler`.
+   `infrss-api`, `infrss-worker`, and `infrss-scheduler`.
 3. **Explore > Metrics**: run `node_uname_info` for VPS metrics.
 4. **Explore > Metrics**: run `container_last_seen` for container metrics.
 

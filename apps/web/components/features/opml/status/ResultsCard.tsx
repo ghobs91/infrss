@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle, FileText } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
-import { OpmlImportTask } from "@readspace/shared"
+import { OpmlImportTask } from "@infrss/shared"
 
 interface ResultsCardProps {
     task: OpmlImportTask

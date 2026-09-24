@@ -7,7 +7,7 @@ import {
     useCodexPreferences,
     useFeeds,
     useUpdateCodexPreferences,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,

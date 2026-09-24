@@ -1,5 +1,5 @@
 import { CopyUrlButton } from './CopyUrlButton'
-import { DiscoveredFeed } from '@readspace/shared'
+import { DiscoveredFeed } from '@infrss/shared'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useState } from 'react'
 import { getFeedDisplayName } from '@/lib/feed-utils'

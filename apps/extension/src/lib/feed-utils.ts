@@ -1,4 +1,4 @@
-import { DiscoveredFeed } from '@readspace/shared'
+import { DiscoveredFeed } from '@infrss/shared'
 
 /**
  * Generate a user-friendly feed name from the URL if no title is provided

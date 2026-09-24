@@ -5,7 +5,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 // Cloud default configuration (hardcoded to always use production cloud instance)
 const CLOUD_SETTINGS = {
-  readspace_url: CLOUD_CONFIG.READSPACE_URL,
+  infrss_url: CLOUD_CONFIG.INFRSS_URL,
   supabase_url: CLOUD_CONFIG.SUPABASE_URL,
   supabase_anon_key: CLOUD_CONFIG.SUPABASE_ANON_KEY,
   meilisearch_url: CLOUD_CONFIG.MEILISEARCH_URL,
@@ -14,7 +14,7 @@ const CLOUD_SETTINGS = {
 
 export interface AppSettings {
   instance_type: 'cloud' | 'self-hosted';
-  readspace_url: string;
+  infrss_url: string;
   supabase_url: string;
   supabase_anon_key: string;
   meilisearch_url?: string;
@@ -79,7 +79,7 @@ export const useSettingsStore = create<SettingsStore>()(
         set({
           settings: {
             instance_type: 'self-hosted',
-            readspace_url: config.apiUrl,
+            infrss_url: config.apiUrl,
             supabase_url: config.supabaseUrl,
             supabase_anon_key: config.supabaseAnonKey,
             meilisearch_url: config.meilisearchUrl,
@@ -89,7 +89,7 @@ export const useSettingsStore = create<SettingsStore>()(
       },
     }),
     {
-      name: 'readspace-settings',
+      name: 'infrss-settings',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         settings: state.settings,

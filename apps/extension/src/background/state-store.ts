@@ -2,8 +2,8 @@ import browser from 'webextension-polyfill'
 import debounce from 'debounce'
 import { normalizeKey } from '../lib/normalize'
 
-const FOLLOW_KEY = 'readspace-follow-v1'
-const SAVE_KEY = 'readspace-save-v1'
+const FOLLOW_KEY = 'infrss-follow-v1'
+const SAVE_KEY = 'infrss-save-v1'
 const PERSIST_DEBOUNCE_MS = 1000
 
 export type ItemState = {

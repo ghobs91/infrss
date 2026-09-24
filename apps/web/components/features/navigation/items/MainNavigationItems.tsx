@@ -7,7 +7,7 @@ import {
     SidebarMenu,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { useUnreadCounts } from "@readspace/shared"
+import { useUnreadCounts } from "@infrss/shared"
 import { cn } from "@/lib/utils"
 
 interface MainNavItem {

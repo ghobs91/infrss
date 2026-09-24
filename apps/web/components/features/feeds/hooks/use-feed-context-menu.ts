@@ -1,4 +1,4 @@
-import { useUpdateFeed } from "@readspace/shared"
+import { useUpdateFeed } from "@infrss/shared"
 import { useState } from "react"
 
 interface UseFeedContextMenuProps {

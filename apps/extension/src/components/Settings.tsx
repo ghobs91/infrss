@@ -19,7 +19,7 @@ export function Settings({
 
   // Check if using production settings
   const isUsingProduction =
-    settings.readspace_url === PRODUCTION_DEFAULTS.readspace_url &&
+    settings.infrss_url === PRODUCTION_DEFAULTS.infrss_url &&
     settings.supabase_url === PRODUCTION_DEFAULTS.supabase_url &&
     settings.supabase_anon_key === PRODUCTION_DEFAULTS.supabase_anon_key
 
@@ -31,7 +31,7 @@ export function Settings({
 
   const switchToCloud = () => {
     updateSettings(PRODUCTION_DEFAULTS)
-    toast.success('Switched to Readspace Cloud')
+    toast.success('Switched to Infrss Cloud')
     onBack()
   }
 
@@ -84,7 +84,7 @@ export function Settings({
               {isUsingProduction ? (
                 <>
                   <Cloud className="w-4 h-4 text-green-600 flex-shrink-0" />
-                  <span className="font-medium text-sm">Readspace Cloud</span>
+                  <span className="font-medium text-sm">Infrss Cloud</span>
                 </>
               ) : (
                 <>
@@ -95,7 +95,7 @@ export function Settings({
             </div>
             {!isUsingProduction && (
               <div className="text-xs text-muted-foreground font-mono truncate pl-6">
-                {settings.readspace_url}
+                {settings.infrss_url}
               </div>
             )}
           </div>

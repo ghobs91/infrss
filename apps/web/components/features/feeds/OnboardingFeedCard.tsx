@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { useRefreshFeed, useCreateFeed } from "@readspace/shared"
+import { useRefreshFeed, useCreateFeed } from "@infrss/shared"
 import { Check, Plus } from "lucide-react"
 import React, { useState } from "react"
 import { BaseFeedCard } from "./BaseFeedCard"

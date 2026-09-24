@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 import { useQueryClient } from "@tanstack/react-query"
-import { queryKeys, RSS_QUERY_KEYS, type Article } from "@readspace/shared"
+import { queryKeys, RSS_QUERY_KEYS, type Article } from "@infrss/shared"
 import { StandaloneArticleReader } from "@/components/features/articles/StandaloneArticleReader"
 
 interface ArticleReaderPageClientProps {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { sendMessage } from '../shared/messaging'
-import { Folder } from '@readspace/shared'
+import { Folder } from '@infrss/shared'
 
 export function useCreateFeed() {
   const [isPending, setIsPending] = useState(false)

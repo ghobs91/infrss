@@ -10,7 +10,7 @@ interface UpgradeDialogStore {
 
 export const useUpgradeDialog = create<UpgradeDialogStore>((set) => ({
     isOpen: false,
-    title: "Upgrade to Readspace Pro",
+    title: "Upgrade to Infrss Pro",
     description:
         "Unlock unlimited feeds, advanced AI features, and seamless syncing.",
     open: ({ title, description }) => set({ isOpen: true, title, description }),

@@ -3,22 +3,22 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
 export default ({ config }: ConfigContext): ExpoConfig => {
   const APP_VARIANT = process.env.APP_VARIANT;
 
-  let name = 'Readspace';
-  let bundleIdentifier = 'com.readspace.rss';
-  let scheme = 'com.readspace.rss';
+  let name = 'Infrss';
+  let bundleIdentifier = 'com.infrss.rss';
+  let scheme = 'com.infrss.rss';
   let icon = './assets/app/icon.png';
   let adaptiveIconForeground = './assets/app/adaptive-icon.png';
 
   if (APP_VARIANT === 'development') {
-    name = 'Readspace (Dev)';
-    bundleIdentifier = 'com.readspace.rss.dev';
-    scheme = 'com.readspace.rss.dev';
+    name = 'Infrss (Dev)';
+    bundleIdentifier = 'com.infrss.rss.dev';
+    scheme = 'com.infrss.rss.dev';
     icon = './assets/app/icon-dev.png';
     adaptiveIconForeground = './assets/app/adaptive-icon-dev.png';
   } else if (APP_VARIANT === 'preview') {
-    name = 'Readspace (Preview)';
-    bundleIdentifier = 'com.readspace.rss.preview';
-    scheme = 'com.readspace.rss.preview';
+    name = 'Infrss (Preview)';
+    bundleIdentifier = 'com.infrss.rss.preview';
+    scheme = 'com.infrss.rss.preview';
     icon = './assets/app/icon-preview.png';
     adaptiveIconForeground = './assets/app/adaptive-icon-preview.png';
   }
@@ -26,7 +26,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   return {
     ...config,
     name,
-    slug: 'readspace',
+    slug: 'infrss',
     version: '1.1.0',
     platforms: ['ios', 'android'],
     orientation: 'portrait',
@@ -68,7 +68,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           NSAllowsArbitraryLoads: true,
         },
         NSLocalNetworkUsageDescription:
-          'Readspace needs access to your local network to connect to self-hosted API servers.',
+          'Infrss needs access to your local network to connect to self-hosted API servers.',
       },
     },
     android: {
@@ -114,7 +114,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         {
           url: 'https://sentry.io/',
           project: 'react-native',
-          organization: 'readspace',
+          organization: 'infrss',
         },
       ],
       [

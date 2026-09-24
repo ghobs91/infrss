@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import { useDeleteFeed, useDeleteFolder } from "@readspace/shared"
+import { useDeleteFeed, useDeleteFolder } from "@infrss/shared"
 import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from "react-hot-toast"

@@ -42,7 +42,7 @@ const FORBIDDEN_TAGS = [
  *
  * Classes and IDs are removed as well as inline styles: either can activate
  * application CSS (including Tailwind utilities such as `fixed` and `z-50`)
- * and let an article escape the reader surface. The one class Readspace owns
+ * and let an article escape the reader surface. The one class Infrss owns
  * is retained for generated highlights.
  */
 export function sanitizeArticleHtml(html: string): string {

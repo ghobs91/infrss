@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { Flame, MoreHorizontal } from "lucide-react"
 import * as React from "react"
 import { CATEGORY_CONFIG } from "@/lib/categories"
-import { FeedCategory } from "@readspace/shared"
+import { FeedCategory } from "@infrss/shared"
 import { cn } from "@/lib/utils"
 
 const categoryBadgeVariants = cva(

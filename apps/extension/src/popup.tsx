@@ -32,14 +32,14 @@ function PopupContent() {
   }, [checkExistingSession])
 
   const isUsingProduction =
-    settings.readspace_url === PRODUCTION_DEFAULTS.readspace_url
+    settings.infrss_url === PRODUCTION_DEFAULTS.infrss_url
 
-  const openReadspace = () => {
+  const openInfrss = () => {
     // Use the app URL, not the API URL
     const appUrl =
-      settings.readspace_url === 'https://api.readspace.ai'
+      settings.infrss_url === 'https://api.readspace.ai'
         ? 'https://app.readspace.ai'
-        : settings.readspace_url.replace('/api', '') // For self-hosted, remove /api if present
+        : settings.infrss_url.replace('/api', '') // For self-hosted, remove /api if present
     chrome.tabs.create({ url: appUrl })
   }
 
@@ -56,7 +56,7 @@ function PopupContent() {
   // Main authenticated view
   return (
     <MainView
-      onOpenReadspace={openReadspace}
+      onOpenInfrss={openInfrss}
       onLogout={logout}
       isSelfHosted={!isUsingProduction}
       isFeedDataLoading={isFeedDataLoading}

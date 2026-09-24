@@ -37,7 +37,7 @@ export const useTranslationHistory = create<TranslationHistoryStore>()(
       },
     }),
     {
-      name: 'readspace-translation-history',
+      name: 'infrss-translation-history',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         recentLanguages: state.recentLanguages,

@@ -1,7 +1,7 @@
 "use client"
 
 import { CheckCircleIcon, StarsIcon } from "@solar-icons/react/bold"
-import { CodexDigestPhase } from "@readspace/shared"
+import { CodexDigestPhase } from "@infrss/shared"
 import { cn } from "@/lib/utils"
 
 /**

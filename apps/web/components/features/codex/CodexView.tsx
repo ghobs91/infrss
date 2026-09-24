@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { format, parseISO } from "date-fns"
 import { ArrowRightIcon, StarsIcon } from "@solar-icons/react/bold"
-import type { CodexDigestPayload, CodexDigestResponse } from "@readspace/shared"
+import type { CodexDigestPayload, CodexDigestResponse } from "@infrss/shared"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { DevelopmentCard } from "./DevelopmentCard"

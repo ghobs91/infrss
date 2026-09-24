@@ -1,5 +1,5 @@
 // design-sync bundle entry: surfaces all 5 scoped primitives' exports so the
-// converter binds them onto window.ReadspaceUI.
+// converter binds them onto window.InfrssUI.
 export * from "../components/ui/button"
 export * from "../components/ui/card"
 export * from "../components/ui/input"

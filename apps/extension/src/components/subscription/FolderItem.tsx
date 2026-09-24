@@ -1,5 +1,5 @@
 import { Folder as FolderIcon } from 'lucide-react'
-import { Folder } from '@readspace/shared'
+import { Folder } from '@infrss/shared'
 
 interface FolderItemProps {
   folder: Folder

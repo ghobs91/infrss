@@ -3,7 +3,7 @@ import { FeedListItem } from '@components/screens/discover/ui/feed-list-item.car
 import { Button } from '@components/ui/button';
 import { Text } from '@components/ui/text';
 import { useSession } from '@contexts/auth-context';
-import { ApiClient, useCreateFeed, useDeleteFeed } from '@readspace/shared';
+import { ApiClient, useCreateFeed, useDeleteFeed } from '@infrss/shared';
 import { useOnboardingStore } from '@stores/onboarding';
 import { useIsMutating, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';

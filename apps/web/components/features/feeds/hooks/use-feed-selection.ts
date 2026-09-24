@@ -1,9 +1,9 @@
-import { useBulkDeleteFeeds, useUpdateFeed } from "@readspace/shared"
+import { useBulkDeleteFeeds, useUpdateFeed } from "@infrss/shared"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { exportFeedsToOPML } from "@/lib/opml-export"
 import type { FeedRowData } from "./use-feed-data"
-import type { Folder } from "@readspace/shared"
+import type { Folder } from "@infrss/shared"
 
 export function useFeedSelection(feeds: FeedRowData[], folders: Folder[]) {
     // Selection state

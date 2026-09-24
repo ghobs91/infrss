@@ -59,7 +59,7 @@ export default {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'X-Readspace-Secret': env.WEBHOOK_SECRET,
+				'X-Infrss-Secret': env.WEBHOOK_SECRET,
 			},
 			body: JSON.stringify(payload),
 		});
@@ -76,7 +76,7 @@ export default {
 
 		if (!backendResponse.ok) {
 			// If your main server crashes or drops the connection, bounce the mail back to sender
-			return message.setReject('Readspace intake server error.');
+			return message.setReject('Infrss intake server error.');
 		}
 	},
 
@@ -87,7 +87,7 @@ export default {
 		}
 
 		// Security: require matching secret to prevent public unauthenticated mock injections
-		const authHeader = request.headers.get('Authorization') || request.headers.get('X-Readspace-Secret');
+		const authHeader = request.headers.get('Authorization') || request.headers.get('X-Infrss-Secret');
 		const expectedSecret = env.WEBHOOK_SECRET;
 		if (!expectedSecret || (authHeader !== expectedSecret && authHeader !== `Bearer ${expectedSecret}`)) {
 			return new Response(JSON.stringify({ error: 'Unauthorized' }), {

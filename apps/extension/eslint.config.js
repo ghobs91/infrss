@@ -1,4 +1,4 @@
-import { config as extensionConfig } from "@readspace/eslint-config/extension"
+import { config as extensionConfig } from "@infrss/eslint-config/extension"
 import globals from "globals"
 
 /** @type {import("eslint").Linter.Config} */

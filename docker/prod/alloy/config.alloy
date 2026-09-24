@@ -1,23 +1,23 @@
 // Collect application logs only. Infrastructure remains covered by cAdvisor metrics.
-discovery.docker "readspace" {
+discovery.docker "infrss" {
   host = "unix:///var/run/docker.sock"
 }
 
-discovery.relabel "readspace" {
-  targets = discovery.docker.readspace.targets
+discovery.relabel "infrss" {
+  targets = discovery.docker.infrss.targets
 
   // Keep noisy database, Supabase, Redis, Meilisearch, and Alloy logs out of Loki.
   rule {
     source_labels = ["__meta_docker_container_name"]
-    regex         = "/readspace_(api|worker|scheduler)"
+    regex         = "/infrss_(api|worker|scheduler)"
     action        = "keep"
   }
 
   rule {
     source_labels = ["__meta_docker_container_name"]
-    regex         = "/readspace_(.+)"
+    regex         = "/infrss_(.+)"
     target_label  = "service_name"
-    replacement   = "readspace-$1"
+    replacement   = "infrss-$1"
   }
 
   rule {
@@ -34,19 +34,19 @@ discovery.relabel "readspace" {
 
   rule {
     target_label = "service_namespace"
-    replacement  = "readspace"
+    replacement  = "infrss"
   }
 }
 
-loki.source.docker "readspace" {
+loki.source.docker "infrss" {
   host       = "unix:///var/run/docker.sock"
-  targets    = discovery.relabel.readspace.output
-  forward_to = [loki.process.readspace.receiver]
+  targets    = discovery.relabel.infrss.output
+  forward_to = [loki.process.infrss.receiver]
 }
 
 // A fresh positions database can encounter old Docker history on its first pass.
 // Grafana Cloud accepts only recent timestamps, so discard that backlog locally.
-loki.process "readspace" {
+loki.process "infrss" {
   stage.drop {
     older_than          = "144h"
     drop_counter_reason = "outside_cloud_ingestion_window"
@@ -67,17 +67,17 @@ loki.write "grafana_cloud" {
 }
 
 // Receive traces from the API, worker, and scheduler over the private Compose network.
-otelcol.receiver.otlp "readspace" {
+otelcol.receiver.otlp "infrss" {
   http {
     endpoint = "0.0.0.0:4318"
   }
 
   output {
-    traces = [otelcol.processor.batch.readspace.input]
+    traces = [otelcol.processor.batch.infrss.input]
   }
 }
 
-otelcol.processor.batch "readspace" {
+otelcol.processor.batch "infrss" {
   output {
     traces = [otelcol.exporter.otlphttp.grafana_cloud.input]
   }
@@ -138,8 +138,8 @@ prometheus.scrape "docker" {
 prometheus.scrape "taskiq" {
   targets = [{
     "__address__" = "worker:9090",
-    "job"         = "readspace/taskiq",
-    "service_name" = "readspace-worker",
+    "job"         = "infrss/taskiq",
+    "service_name" = "infrss-worker",
     "environment" = "production",
   }]
 

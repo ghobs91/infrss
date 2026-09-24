@@ -8,7 +8,7 @@ import { toast } from '@components/ui/toast';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
 import { USES_NATIVE_HEADER } from '@lib/constants/platform';
-import { Feed, FeedDiscoveryResult } from '@readspace/shared';
+import { Feed, FeedDiscoveryResult } from '@infrss/shared';
 import { LinkMinimalistic2Icon, TrashBinTrashIcon } from '@solar-icons/react-native/bold';
 import {
   ArrowLeftIcon,

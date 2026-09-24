@@ -6,7 +6,7 @@ import { FilterActionButton } from '@components/screens/following/ui/filter-acti
 import type { SheetRef } from '@components/ui/bottom-sheet';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { FOLLOWING_TAB, NO_ACTIVE_TAB } from '@lib/constants/tabs';
-import { useFeeds, useUnreadCounts } from '@readspace/shared';
+import { useFeeds, useUnreadCounts } from '@infrss/shared';
 import { FolderIcon } from '@solar-icons/react-native/bold-duotone';
 import { useFeedViewStore } from '@stores/feed-view';
 import { useFollowingStore } from '@stores/following';

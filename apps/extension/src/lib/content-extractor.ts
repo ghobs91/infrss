@@ -1,4 +1,4 @@
-import { estimateReadingTime } from '@readspace/shared'
+import { estimateReadingTime } from '@infrss/shared'
 import Defuddle from 'defuddle'
 import { sanitizeArticleHtml } from './sanitize-article-html'
 

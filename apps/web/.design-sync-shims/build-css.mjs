@@ -19,6 +19,6 @@ const input = `@import ${JSON.stringify(themeCss)};\n` +
   comps.map((c) => `@source ${JSON.stringify(c)};`).join('\n') + '\n'
 
 const result = await postcss([tailwind()]).process(input, { from: themeCss, to: undefined })
-const out = resolve(here, 'readspace-tokens.css')
+const out = resolve(here, 'infrss-tokens.css')
 writeFileSync(out, result.css)
 console.log(`wrote ${out} (${(result.css.length / 1024).toFixed(1)} KB)`)

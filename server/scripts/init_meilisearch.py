@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Meilisearch initialization script for Readspace.
+Meilisearch initialization script for Infrss.
 
 This script initializes the Meilisearch index with proper configuration.
 It is idempotent and safe to run multiple times.

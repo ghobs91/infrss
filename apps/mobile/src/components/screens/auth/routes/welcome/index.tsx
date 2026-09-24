@@ -1,4 +1,4 @@
-import { Google, ReadspaceLogo } from '@components/icons/svg';
+import { Google, InfrssLogo } from '@components/icons/svg';
 import { Button } from '@components/ui/button';
 import { Text } from '@components/ui/text';
 import { ThreeDotsAnimation } from '@components/ui/three-dots';
@@ -171,10 +171,10 @@ export function WelcomeScreen() {
           <View
             className="items-center justify-center overflow-hidden rounded-xl"
             style={{ width: logoSize, height: logoSize, backgroundColor: '#232222' }}>
-            <ReadspaceLogo width={logoSize} height={logoSize} />
+            <InfrssLogo width={logoSize} height={logoSize} />
           </View>
           <Text className="text-primary-foreground font-figtree-semibold ml-4 text-4xl">
-            readspace
+            infrss
           </Text>
         </View>
 

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react"
-import type { Article } from "@readspace/shared"
+import type { Article } from "@infrss/shared"
 
 import { AiSummaryCard } from "./AiSummaryCard"
 import { AnimatedContent } from "./AnimatedContent"

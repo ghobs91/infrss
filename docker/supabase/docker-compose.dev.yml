@@ -127,4 +127,4 @@ services:
 
 networks:
   default:
-    name: readspace_shared_net
+    name: infrss_shared_net

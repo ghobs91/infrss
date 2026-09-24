@@ -1,4 +1,4 @@
-import { ApiClient, areUrlsEqual } from '@readspace/shared'
+import { ApiClient, areUrlsEqual } from '@infrss/shared'
 import { broadcast } from '../broadcast'
 import { isNotFoundError } from '../errors'
 import { ItemState, stateStore } from '../state-store'

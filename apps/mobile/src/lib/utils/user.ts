@@ -55,5 +55,5 @@ export function getUserDisplayName(user: UserLike | null | undefined): string {
  * them later setting a display name.
  */
 export function getUserAvatarSeed(user: UserLike | null | undefined): string {
-  return pickString(user?.id, user?.email) ?? 'readspace';
+  return pickString(user?.id, user?.email) ?? 'infrss';
 }

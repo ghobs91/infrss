@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { queryKeys, type OverLimitState } from "@readspace/shared"
+import { queryKeys, type OverLimitState } from "@infrss/shared"
 import { renderToStaticMarkup } from "react-dom/server"
 import { DowngradeFlow } from "./DowngradeFlow"
 

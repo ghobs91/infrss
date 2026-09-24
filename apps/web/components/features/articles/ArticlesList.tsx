@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { Article, ArticleFilterMode } from "@readspace/shared"
+import { Article, ArticleFilterMode } from "@infrss/shared"
 import { CalendarIcon } from "lucide-react"
 import { ArticleItem } from "./ArticleItem"
 import { ArticlesEmptyState } from "./ArticlesEmptyState"

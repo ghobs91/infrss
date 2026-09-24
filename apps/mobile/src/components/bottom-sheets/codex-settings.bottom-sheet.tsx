@@ -7,7 +7,7 @@ import { Skeleton } from '@components/ui/skeleton';
 import { Switch } from '@components/ui/switch';
 import { Text } from '@components/ui/text';
 import { toast } from '@components/ui/toast';
-import { useCodexPreferences, useFeeds, useUpdateCodexPreferences } from '@readspace/shared';
+import { useCodexPreferences, useFeeds, useUpdateCodexPreferences } from '@infrss/shared';
 import { FolderIcon } from '@solar-icons/react-native/linear';
 import {
   forwardRef,

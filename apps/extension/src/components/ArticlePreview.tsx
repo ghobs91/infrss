@@ -1,4 +1,4 @@
-import type { PageMetadata } from '@readspace/shared'
+import type { PageMetadata } from '@infrss/shared'
 import { ArticleForm } from './article/ArticleForm'
 import { ArticleHeader } from './article/ArticleHeader'
 import { ReadArticleCard } from './article/ReadArticleCard'

@@ -10,7 +10,7 @@ import {
   isCodexNotEntitled,
   useCodexToday,
   useGenerateCodexDigest,
-} from '@readspace/shared';
+} from '@infrss/shared';
 import { useIsFocused } from 'expo-router/react-navigation';
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import { AppState, View } from 'react-native';

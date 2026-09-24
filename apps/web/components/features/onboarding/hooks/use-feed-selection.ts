@@ -1,6 +1,6 @@
 import { useCurrentUser } from "@/hooks/use-current-user"
 import { useOnboardingStore } from "@/stores/onboarding"
-import { useFeeds, useUpdateProfile } from "@readspace/shared"
+import { useFeeds, useUpdateProfile } from "@infrss/shared"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useOnboardingFeeds } from "@/components/features/onboarding/hooks/use-onboarding-feeds"

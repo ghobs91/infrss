@@ -10,7 +10,7 @@ import { useRevenueCat } from '@contexts/revenuecat-context';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { BUTTON_BORDER_RADIUS } from '@lib/constants/app';
 import { COLORS } from '@lib/constants/colors';
-import { ApiClient, type FeedDiscoveryResult } from '@readspace/shared';
+import { ApiClient, type FeedDiscoveryResult } from '@infrss/shared';
 import { LinkMinimalistic2Icon } from '@solar-icons/react-native/bold';
 import {
   CheckCircleIcon,
@@ -135,7 +135,7 @@ export const AddFeedBottomSheet = forwardRef<AddFeedBottomSheetRef, AddFeedBotto
           // Free tier: close this sheet and go straight to the paywall
           bottomSheetRef.current?.dismiss();
           openUpgrade({
-            title: 'Upgrade to Readspace Pro',
+            title: 'Upgrade to Infrss Pro',
             description:
               'Unlock newsletter ingestion and subscribe to Substack, Mailchimp, or any mailing list directly in your feed.',
           });
@@ -362,7 +362,7 @@ export const AddFeedBottomSheet = forwardRef<AddFeedBottomSheetRef, AddFeedBotto
               fontFamily="geist"
               className="text-grey dark:text-grey mt-2 text-center"
               style={{ fontSize: 13, lineHeight: 18 }}>
-              Newsletter ingestion requires the hosted Readspace inbound email service, which
+              Newsletter ingestion requires the hosted Infrss inbound email service, which
               isn&apos;t available on self-hosted instances.
             </Text>
           </View>
@@ -372,7 +372,7 @@ export const AddFeedBottomSheet = forwardRef<AddFeedBottomSheetRef, AddFeedBotto
           <View className="mt-3 flex-1">
             <Text className="font-geist-regular text-grey dark:text-grey mb-5 text-sm">
               Use your private email alias to subscribe to any newsletter. Emails land straight in
-              Readspace.
+              Infrss.
             </Text>
 
             {/* Steps */}
@@ -474,7 +474,7 @@ export const AddFeedBottomSheet = forwardRef<AddFeedBottomSheetRef, AddFeedBotto
                 </View>
                 <View style={styles.stepBody}>
                   <Text fontFamily="geist-semibold" style={{ fontSize: 14, color: colors.black }}>
-                    Read in Readspace
+                    Read in Infrss
                   </Text>
                   <Text
                     fontFamily="geist"

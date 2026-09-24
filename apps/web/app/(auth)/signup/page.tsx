@@ -5,9 +5,9 @@ import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 
 export const metadata = {
-    title: "Sign up | Readspace",
+    title: "Sign up | Infrss",
     description:
-        "Create your free Readspace account and start your calm reading journey.",
+        "Create your free Infrss account and start your calm reading journey.",
 }
 
 export default async function SignupPage() {

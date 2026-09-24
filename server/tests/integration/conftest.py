@@ -83,7 +83,7 @@ async def _prepare_test_database(base_settings) -> dict[str, str]:
         ) from exc
     base_url = os.getenv("PYTEST_DB_BASE_URL", base_settings.DATABASE_URL_API)
     admin_db = _validate_identifier(os.getenv("PYTEST_DB_ADMIN", "postgres"))
-    db_name = _validate_identifier(os.getenv("PYTEST_DB_NAME", "readspace_test"))
+    db_name = _validate_identifier(os.getenv("PYTEST_DB_NAME", "infrss_test"))
 
     url_obj = make_url(base_url)
     # Keep as URL objects, don't convert to string (which hides password)

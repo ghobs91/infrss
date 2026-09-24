@@ -6,7 +6,7 @@ import {
   SaveOptions,
   Priority,
   ArticlePriority,
-} from '@readspace/shared'
+} from '@infrss/shared'
 import { ArrowLeft, Save, Flag, StickyNote } from 'lucide-react'
 import toast from 'react-hot-toast'
 

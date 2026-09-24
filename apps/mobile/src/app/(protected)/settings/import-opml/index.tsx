@@ -15,7 +15,7 @@ import {
   RSS_QUERY_KEYS,
   useActiveImportTask,
   useImportTaskStatus,
-} from '@readspace/shared';
+} from '@infrss/shared';
 import { DocumentTextIcon } from '@solar-icons/react-native/bold';
 import { useQueryClient } from '@tanstack/react-query';
 import * as DocumentPicker from 'expo-document-picker';

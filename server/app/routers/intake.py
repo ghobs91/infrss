@@ -160,14 +160,14 @@ async def _create_newsletter_feed(db: AsyncSession, *, virtual_url: str, title: 
 async def webhook_intake(
     payload: WebhookPayload,
     request: Request,
-    x_readspace_secret: Annotated[str | None, Header(alias="X-Readspace-Secret")] = None,
+    x_infrss_secret: Annotated[str | None, Header(alias="X-Infrss-Secret")] = None,
     db: Annotated[AsyncSession, Depends(get_db)] = None,
 ) -> dict:
     # 1. Security Check
     settings = get_settings()
     secret = settings.INBOUND_WEBHOOK_SECRET
     expected = secret.get_secret_value().strip().strip('"').strip("'") if secret else ""
-    received = x_readspace_secret.strip().strip('"').strip("'") if x_readspace_secret else ""
+    received = x_infrss_secret.strip().strip('"').strip("'") if x_infrss_secret else ""
 
     if not received or received != expected:
         raise HTTPException(

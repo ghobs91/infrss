@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Clock, FileText, X } from "lucide-react"
-import { OpmlImportTask } from "@readspace/shared"
+import { OpmlImportTask } from "@infrss/shared"
 
 interface PendingCardProps {
     task: OpmlImportTask

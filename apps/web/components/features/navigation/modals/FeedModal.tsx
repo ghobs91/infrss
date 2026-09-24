@@ -19,7 +19,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { useCreateFeed, type Folder } from "@readspace/shared"
+import { useCreateFeed, type Folder } from "@infrss/shared"
 
 interface FeedModalProps {
     /** Whether the modal is open */

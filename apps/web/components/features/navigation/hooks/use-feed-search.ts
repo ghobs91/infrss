@@ -1,4 +1,4 @@
-import { fuzzySearch, useFeeds, useUnreadCounts } from "@readspace/shared"
+import { fuzzySearch, useFeeds, useUnreadCounts } from "@infrss/shared"
 import { useMemo, useState } from "react"
 
 export function useFeedSearch() {

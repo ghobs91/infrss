@@ -15,7 +15,7 @@ import { NewsletterSection } from "./NewsletterSection"
 import { useDiscoverController } from "@/components/features/discover/hooks/use-discover-controller"
 import { CATEGORY_CONFIG } from "@/lib/categories"
 import { cn } from "@/lib/utils"
-import { FeedCategory } from "@readspace/shared"
+import { FeedCategory } from "@infrss/shared"
 
 interface DiscoverContentProps {
     aiSearchEnabled: boolean
@@ -90,8 +90,8 @@ export function DiscoverContent({
                         ) : (
                             <div className="flex items-center gap-4 mb-6 md:mb-8">
                                 <NextImage
-                                    src="/readspace.svg"
-                                    alt="readspace"
+                                    src="/infrss.svg"
+                                    alt="infrss"
                                     width={64}
                                     height={64}
                                     className="w-12 h-12 md:w-16 md:h-16 rounded"
@@ -102,7 +102,7 @@ export function DiscoverContent({
                                         fontFamily: "Figtree, sans-serif",
                                     }}
                                 >
-                                    readspace
+                                    infrss
                                 </h1>
                             </div>
                         )}

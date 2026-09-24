@@ -36,7 +36,7 @@ import {
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
 import { NAVIGATION_THEME } from '@lib/constants/navigation-theme';
-import { ApiError, isDowngradeRequiredError, queryKeys } from '@readspace/shared';
+import { ApiError, isDowngradeRequiredError, queryKeys } from '@infrss/shared';
 import * as Sentry from '@sentry/react-native';
 import { useHasSettingsHydrated, useSettingsStore } from '@stores/settings';
 import { useThemeStore } from '@stores/theme';
@@ -96,7 +96,7 @@ const handleGlobalError = (error: unknown) => {
   }
   if (error instanceof ApiError && error.status === 429) {
     useUpgradeDialog.getState().open({
-      title: 'Upgrade to Readspace Pro',
+      title: 'Upgrade to Infrss Pro',
       description: error.message || 'You have reached a limit on your current plan.',
     });
   }

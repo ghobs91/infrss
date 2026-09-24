@@ -16,7 +16,7 @@ import {
     type MeilisearchFeedDocument,
     FeedCategory,
     ContentType,
-} from "@readspace/shared"
+} from "@infrss/shared"
 
 interface SearchResultsProps {
     /** Callback to clear all search filters and query */

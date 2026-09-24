@@ -1,7 +1,7 @@
 import { useExtensionStore } from '@/store'
 import browser from 'webextension-polyfill'
 import { sendMessage, sendTabMessage } from '@/shared/messaging'
-import { PageMetadata } from '@readspace/shared'
+import { PageMetadata } from '@infrss/shared'
 import { ExtensionMessage } from '@/shared/types'
 import { CachedPageData } from '@/types'
 import { useCallback, useEffect, useState } from 'react'

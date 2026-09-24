@@ -1,6 +1,6 @@
-# Readspace Code Standards
+# Infrss Code Standards
 
-This document outlines the coding standards and file structure for the Readspace project.
+This document outlines the coding standards and file structure for the Infrss project.
 
 ## File Structure
 

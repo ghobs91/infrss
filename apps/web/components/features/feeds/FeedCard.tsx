@@ -17,7 +17,7 @@ import {
     type FeedSummary,
     type FeedDiscoveryResult,
     type ContentType,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { Pencil, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"

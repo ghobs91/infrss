@@ -17,7 +17,7 @@ export const getToastBackgroundColor = (
     return colors.grey6;
   }
 
-  // Soft premium tinted backgrounds matching Readspace palette in light mode
+  // Soft premium tinted backgrounds matching Infrss palette in light mode
   if (type === 'success') {
     return 'rgb(243, 249, 243)'; // Very soft forest green
   }
@@ -28,7 +28,7 @@ export const getToastBackgroundColor = (
     return 'rgb(255, 248, 240)'; // Soft apricot/orange tint
   }
   if (type === 'promise') {
-    return 'rgb(244, 247, 244)'; // Cohesive light green-grey (adhering to readspace theme)
+    return 'rgb(244, 247, 244)'; // Cohesive light green-grey (adhering to infrss theme)
   }
 
   return 'rgb(244, 247, 244)';

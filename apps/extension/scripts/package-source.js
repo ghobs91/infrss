@@ -21,10 +21,10 @@ const repositoryRoot = resolve(extensionRoot, '../..')
 const manifest = JSON.parse(
   readFileSync(join(extensionRoot, 'src/manifest.base.json'), 'utf8')
 )
-const archiveName = `readspace-${manifest.version}-source.zip`
+const archiveName = `infrss-${manifest.version}-source.zip`
 const artifactsDirectory = join(extensionRoot, 'web-ext-artifacts')
 const archivePath = join(artifactsDirectory, archiveName)
-const stagingRoot = mkdtempSync(join(tmpdir(), 'readspace-extension-source-'))
+const stagingRoot = mkdtempSync(join(tmpdir(), 'infrss-extension-source-'))
 
 const includedPaths = [
   'package.json',
@@ -74,7 +74,7 @@ function copyIncludedPath(relativePath) {
   })
 }
 
-const buildInstructions = `# Readspace Extension ${manifest.version} — Source Build
+const buildInstructions = `# Infrss Extension ${manifest.version} — Source Build
 
 This archive contains only the source and workspace files required to reproduce
 the submitted Firefox extension package. It does not contain dependencies,
@@ -100,7 +100,7 @@ To create the submission ZIP, run:
     bun run package:firefox
 
 The resulting file is
-\`apps/extension/web-ext-artifacts/readspace-${manifest.version}-firefox.zip\`.
+\`apps/extension/web-ext-artifacts/infrss-${manifest.version}-firefox.zip\`.
 
 No environment variables, private dependencies, or proprietary build tools are
 required.

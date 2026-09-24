@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { areUrlsEqual, DiscoveredFeed, Subscription } from '@readspace/shared'
+import { areUrlsEqual, DiscoveredFeed, Subscription } from '@infrss/shared'
 import { useCreateFeed, useDeleteFeed } from '@/hooks/use-feeds'
 import { Rss, Trash2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
@@ -193,7 +193,7 @@ export function FeedDiscoveryCard({
   const displayDescription =
     feeds.length > 1
       ? `${feeds.length} feeds available`
-      : 'Add to your Readspace feed'
+      : 'Add to your Infrss feed'
 
   const isPending = createFeedMutation.isPending || deleteFeedMutation.isPending
 

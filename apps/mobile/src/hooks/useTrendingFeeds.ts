@@ -1,7 +1,7 @@
 import { MAX_TRENDING_ITEMS, TRENDING_PAGE_SIZE } from '@lib/constants/app';
 import { FEEDS_INDEX_NAME, meilisearchClient } from '@lib/meilisearch-client';
-import type { FeedSummary } from '@readspace/shared';
-import { POPULAR_CATEGORIES } from '@readspace/shared';
+import type { FeedSummary } from '@infrss/shared';
+import { POPULAR_CATEGORIES } from '@infrss/shared';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 

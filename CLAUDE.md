@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Readspace is an open-source, privacy-first reading hub that brings RSS feeds, newsletters, saved articles, Twitter threads, Reddit posts, and books into one clean, distraction-free inbox. It's a full-stack application with a Python FastAPI backend, a Next.js web app, an Expo (iOS/Android) mobile app, and a Chrome/Firefox extension. The hosted product is `app.readspace.ai`; the project is designed for self-hosting via Docker.
+Infrss is an open-source, privacy-first reading hub that brings RSS feeds, newsletters, saved articles, Twitter threads, Reddit posts, and books into one clean, distraction-free inbox. It's a full-stack application with a Python FastAPI backend, a Next.js web app, an Expo (iOS/Android) mobile app, and a Chrome/Firefox extension. The hosted product is `app.readspace.ai`; the project is designed for self-hosting via Docker.
 
 ## Architecture
 
@@ -65,7 +65,7 @@ Key service patterns:
 - **`uniwind`** (Tailwind-for-RN) + `clsx` + `cva` for styling; `@legendapp/list` for long lists
 - **RevenueCat** (`react-native-purchases`) for subscriptions/paywall; **Sentry** for error tracking
 - Build variants via `APP_VARIANT` env (`development` / `preview` / production); EAS config in `eas.json`
-- Reuses `@readspace/shared` hooks — do not add new fetch hooks in the app
+- Reuses `@infrss/shared` hooks — do not add new fetch hooks in the app
 
 ### Cloudflare Worker (`apps/inbound/`)
 
@@ -378,11 +378,11 @@ Match CI locally before pushing: `poe lint && poe format && poe test-unit` in `s
 
 ### Monorepo Guidelines
 
-- **Workspace Dependencies**: Use workspace references (e.g., `"@readspace/shared": "workspace:*"`) for internal packages
+- **Workspace Dependencies**: Use workspace references (e.g., `"@infrss/shared": "workspace:*"`) for internal packages
 - **Shared Code**: Place common utilities, types, and business logic in `packages/shared`
 - **Configuration**: Use shared ESLint and TypeScript configs from `packages/` for consistency
 - **Turborepo**: Leverage Turborepo's caching and parallelization for faster builds
-- **Package Naming**: Follow the `@readspace/package-name` convention for internal packages
+- **Package Naming**: Follow the `@infrss/package-name` convention for internal packages
 
 ### Extension Patterns
 

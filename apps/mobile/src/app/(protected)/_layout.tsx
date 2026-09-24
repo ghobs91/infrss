@@ -2,7 +2,7 @@ import { PlanChangeScreen } from '@components/screens/plan-change';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { useReviewPrompt } from '@hooks/useReviewPrompt';
 import { COLORS } from '@lib/constants/colors';
-import { useUserLimits } from '@readspace/shared';
+import { useUserLimits } from '@infrss/shared';
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
 

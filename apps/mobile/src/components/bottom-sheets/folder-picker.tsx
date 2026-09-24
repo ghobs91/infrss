@@ -8,7 +8,7 @@ import { Button } from '@components/ui/button';
 import { EmptyState } from '@components/ui/empty-state';
 import { Radio } from '@components/ui/radio';
 import { BUTTON_BORDER_RADIUS } from '@lib/constants/app';
-import { useFeeds } from '@readspace/shared';
+import { useFeeds } from '@infrss/shared';
 import { FolderIcon } from '@solar-icons/react-native/linear';
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { View } from 'react-native';

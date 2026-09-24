@@ -1,4 +1,4 @@
-// Content script for Readspace extension
+// Content script for Infrss extension
 import browser from 'webextension-polyfill'
 import {
   extractArticleContent,

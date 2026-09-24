@@ -1,9 +1,9 @@
 "use client"
 
 import { useMemo } from "react"
-import { useInfiniteTodayArticles, ArticleFilterMode } from "@readspace/shared"
+import { useInfiniteTodayArticles, ArticleFilterMode } from "@infrss/shared"
 import { ArticlesView } from "@/components/features/articles/ArticlesView"
-import type { Article } from "@readspace/shared"
+import type { Article } from "@infrss/shared"
 
 interface TodayPageClientProps {
     defaultLayout?: number[]

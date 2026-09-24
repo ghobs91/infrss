@@ -1,6 +1,6 @@
-# CLAUDE.md — Readspace Mobile
+# CLAUDE.md — Infrss Mobile
 
-**Scope:** rules and conventions for AI-driven code changes in the Readspace Expo / React Native mobile app located in `apps/mobile` (monorepo root). This file is intended to guide automated coding assistants and humans working with them.
+**Scope:** rules and conventions for AI-driven code changes in the Infrss Expo / React Native mobile app located in `apps/mobile` (monorepo root). This file is intended to guide automated coding assistants and humans working with them.
 
 ---
 
@@ -45,7 +45,7 @@ This file does _not_ authorize any automated pushes to remote repositories. Huma
 - Keep components small: prefer composition over large `if/else` rendering logic.
 - Name folders with `snake-case` (note the hyphen, not underscore) for components (each component should have `index.tsx` file with implementation of component), `camelCase` for hooks/utils.
 - **Sheets: always use `@lodev09/react-native-true-sheet`, never `@gorhom/bottom-sheet`.** All new sheets are built on True Sheet. `@gorhom/bottom-sheet` has been removed from the app.
-- **Native UI: prefer SwiftUI via `@expo/ui/swift-ui` on iOS whenever a suitable component exists** (pickers, toggles, sliders, menus, forms/sections, buttons, etc.). On Android, do **not** use Expo UI / Jetpack Compose; stick to our own custom Readspace components (`@components/ui/*`). Use `.ios.tsx` / `.android.tsx` platform files (or `Platform.select`) to split implementations, keeping a shared props contract.
+- **Native UI: prefer SwiftUI via `@expo/ui/swift-ui` on iOS whenever a suitable component exists** (pickers, toggles, sliders, menus, forms/sections, buttons, etc.). On Android, do **not** use Expo UI / Jetpack Compose; stick to our own custom Infrss components (`@components/ui/*`). Use `.ios.tsx` / `.android.tsx` platform files (or `Platform.select`) to split implementations, keeping a shared props contract.
 - **Spot-refactor rule:** whenever you notice code that violates the two rules above (a gorhom sheet, or a hand-rolled iOS control where an Expo UI SwiftUI component fits), refactor it to comply on the spot as part of the current change, rather than leaving it or just flagging it. Keep the refactor scoped to the offending component and verify with `bun run check-types`.
 - **Sheets are `BottomSheet` / `Modal` (`@components/ui/bottom-sheet`, `@components/ui/modal`), built on True Sheet.** Type refs with `SheetRef` (`present` / `dismiss` / `snapToIndex`). Keyboard avoidance and Android back-dismiss are native, so no back-handler hook, provider, or gorhom-style props (`keyboardBehavior`, `enableDynamicSizing`, …) exist. Use `snapPoints={['auto']}` to fit content; the wrapper pins its own `ScrollView` (pass `contentScrollable={false}` if the children bring their own list, and never nest a second scroll view).
 - Exports: prefer named exports for components and hooks, default export only for `pages`/route components when required by router conventions.
@@ -140,7 +140,7 @@ Load fonts via Expo recommended pattern (`expo-font` + `useFonts`) at app entry.
 **Icon System**: The app uses two approaches for icons:
 
 1. **Solar Icons** — For standard UI icons, use `@solar-icons/react-native` (installed, widely available)
-2. **Custom SVG Components** — For custom icons (e.g., Readspace logo, special UI assets):
+2. **Custom SVG Components** — For custom icons (e.g., Infrss logo, special UI assets):
    - Store `.svg` files in `apps/mobile/assets/icons/`
    - Convert to React components using `react-native-svg` (installed as `react-native-svg`)
    - Components live in `src/components/icons/svg/` and are exported from `src/components/icons/svg/index.ts`
@@ -184,7 +184,7 @@ export function MyComponent() {
 
 - `ExpandVertical`, `ExpandVerticalAlt` — for expand/collapse interactions
 - `Language` — for language/translate actions (use this, not Solar.Globe)
-- `ReadspaceLogo` — Readspace branding
+- `InfrssLogo` — Infrss branding
 - `Sparkle`, `RefreshAI` — AI-powered features
 - `CheckCircle`, `CloseCircle`, `InfoCircle` — status/feedback
 - `Discord`, `Github`, `Google` — social login (use `currentColor`, pass colors via props if needed)
@@ -192,7 +192,7 @@ export function MyComponent() {
 
 Monicon has been removed; use Solar icons or custom SVG components for all icon needs.
 
-- Logo is `readspace-logo.svg` — use the `ReadspaceLogo` React component. Wrap in a small `Logo` component that selects the correct font family (Figtree) when rendering text-based variants.
+- Logo is `infrss-logo.svg` — use the `InfrssLogo` React component. Wrap in a small `Logo` component that selects the correct font family (Figtree) when rendering text-based variants.
 
 ---
 

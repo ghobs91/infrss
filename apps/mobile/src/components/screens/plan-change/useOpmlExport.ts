@@ -1,6 +1,6 @@
 import { toast } from '@components/ui/toast';
 import { exportFeedsToOPML } from '@lib/utils/opml';
-import type { FolderResponse, SubscriptionResponse } from '@readspace/shared';
+import type { FolderResponse, SubscriptionResponse } from '@infrss/shared';
 import { useState } from 'react';
 
 /** Share the user's regular feeds as an OPML file; tracks whether it has been exported yet. */

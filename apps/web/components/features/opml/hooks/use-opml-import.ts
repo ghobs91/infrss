@@ -1,4 +1,4 @@
-import { useImportOPML, ApiError, validateOpml } from "@readspace/shared"
+import { useImportOPML, ApiError, validateOpml } from "@infrss/shared"
 import { useRouter } from "next/navigation"
 import { useState, useCallback } from "react"
 import { toast } from "react-hot-toast"

@@ -5,7 +5,7 @@ import { useOnboardingStore } from "@/stores/onboarding"
 import { useRouter } from "next/navigation"
 import React, { ReactNode } from "react"
 import OnboardingProgress from "./OnboardingProgress"
-import { useUpdateProfile } from "@readspace/shared"
+import { useUpdateProfile } from "@infrss/shared"
 
 interface OnboardingLayoutProps {
     children: ReactNode

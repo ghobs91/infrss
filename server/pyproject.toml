@@ -1,5 +1,5 @@
 [project]
-name = "readspace-server"
+name = "infrss-server"
 version = "0.1.0"
 description = ""
 authors = [
@@ -13,7 +13,7 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "readspace-server"
+name = "infrss-server"
 description = ""
 version = "0.1.0"
 authors = [

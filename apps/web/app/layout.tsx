@@ -17,12 +17,12 @@ import { cn } from "@/lib/utils"
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://app.readspace.ai"
 
 export const metadata: Metadata = {
-    title: "Readspace | A calm inbox for your reading",
+    title: "Infrss | A calm inbox for your reading",
     description:
         "All your reading in one place — a privacy-friendly inbox for RSS, newsletters, threads, and books. Open-source, distraction-free, and self-hostable.",
     metadataBase: new URL(baseUrl),
     generator: "Next.js",
-    applicationName: "Readspace",
+    applicationName: "Infrss",
     referrer: "origin-when-cross-origin",
     keywords: [
         "RSS reader",
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
         "book reading",
         "calm reading",
     ],
-    authors: [{ name: "Readspace Team" }],
-    creator: "Readspace",
-    publisher: "Readspace",
+    authors: [{ name: "Infrss Team" }],
+    creator: "Infrss",
+    publisher: "Infrss",
     formatDetection: {
         email: false,
         telephone: false,
@@ -54,20 +54,20 @@ export const metadata: Metadata = {
         apple: [{ url: "/apple-touch-icon.png" }],
     },
     openGraph: {
-        title: "Readspace | A calm inbox for your reading",
+        title: "Infrss | A calm inbox for your reading",
         description:
             "All your reading in one place — a privacy-friendly inbox for RSS, newsletters, threads, and books. Open-source, distraction-free, and self-hostable.",
         url: baseUrl,
-        siteName: "Readspace",
+        siteName: "Infrss",
         locale: "en_US",
         type: "website",
     },
     twitter: {
         card: "summary",
-        title: "Readspace | A calm inbox for your reading",
+        title: "Infrss | A calm inbox for your reading",
         description:
             "All your reading in one place — a privacy-friendly inbox for RSS, newsletters, threads, and books. Open-source, distraction-free, and self-hostable.",
-        creator: "@readspace_ai",
+        creator: "@infrss_ai",
     },
     robots: {
         index: true,

@@ -1,5 +1,5 @@
 import { BaseFeedCard } from "./BaseFeedCard"
-import { type FeedSummary } from "@readspace/shared"
+import { type FeedSummary } from "@infrss/shared"
 
 interface FeedPreviewCardProps {
     feed: FeedSummary & {

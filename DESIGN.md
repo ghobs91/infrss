@@ -1,5 +1,5 @@
 ---
-name: Readspace
+name: Infrss
 description: A calm, borderless reading room — forest green on a faintly green-tinted canvas, serif for the writing, sans for the tools.
 colors:
   primary: 'hsl(131.74 29.11% 30.98%)'
@@ -173,7 +173,7 @@ components:
     padding: '6px 12px'
 ---
 
-# Design System: Readspace
+# Design System: Infrss
 
 ## Overview
 
@@ -183,7 +183,7 @@ structure (mastheads, source provenance, columns) and the notebook's plainness (
 mono metadata, nothing decorative), all inside a room whose walls are a barely-perceptible
 green.
 
-Readspace is an anti-engagement product, and the design has to _look_ like one. Every screen
+Infrss is an anti-engagement product, and the design has to _look_ like one. Every screen
 is mostly calm neutral space. The single warm color is a muted forest green, and it is
 structural in two senses: it tints the entire canvas to a faint green-warm white
 (`hsl(120 100% 99.41%)` — not a pure white anywhere), and in its saturated form it is
@@ -205,7 +205,7 @@ gentle transition — so the room responds to you without ever raising its voice
 ### Three surfaces, one identity
 
 The tokens above are the **web + extension** system: `apps/web` and `apps/extension` both
-import `@readspace/design-tokens/theme.css` unchanged and share byte-identical shadcn/ui
+import `@infrss/design-tokens/theme.css` unchanged and share byte-identical shadcn/ui
 primitives (the extension only adds a fixed ~450px popup width and skips the reading serif,
 since it is a capture popup, not a reader). Treat "web" below as covering both.
 
@@ -392,7 +392,7 @@ pull quote, the synthesized Daily Digest through-line), it is serif. If it is so
 telling you (labels, buttons, counts, nav), it is sans. Mono is only for machine metadata —
 times, slugs, keys. Don't mix the roles.
 
-**The One-Ceiling Rule.** Display type stops at `text-4xl` (~2.25rem). Readspace has no hero
+**The One-Ceiling Rule.** Display type stops at `text-4xl` (~2.25rem). Infrss has no hero
 headline; the biggest words on any screen are an article title, and they stay modest.
 
 ## Layout

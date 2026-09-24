@@ -14,7 +14,7 @@ import {
     ContentType,
     CURATED_CONTENT_TYPES,
     CONTENT_TYPE_DISPLAY_NAMES,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { cn } from "@/lib/utils"
 
 const CONTENT_TYPE_ICONS: Partial<

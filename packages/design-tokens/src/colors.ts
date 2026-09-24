@@ -1,5 +1,5 @@
 /**
- * Color definitions for Readspace Design System
+ * Color definitions for Infrss Design System
  * TypeScript definitions that match CSS variables
  */
 

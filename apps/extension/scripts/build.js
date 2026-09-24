@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const projectRoot = join(__dirname, '..')
 
-console.log('🚀 Readspace Extension Build Script')
+console.log('🚀 Infrss Extension Build Script')
 console.log('==================================')
 
 function runCommand(command, description) {

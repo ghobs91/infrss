@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import { useDeleteFeed, type FeedSummary } from "@readspace/shared"
+import { useDeleteFeed, type FeedSummary } from "@infrss/shared"
 import { Loader2, Trash2 } from "lucide-react"
 import { useState } from "react"
 

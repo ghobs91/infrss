@@ -1,6 +1,6 @@
 "use client"
 
-import type { ArticleSummary } from "@readspace/shared"
+import type { ArticleSummary } from "@infrss/shared"
 import { FeedIcon } from "@/components/features/feeds/FeedIcon"
 import { cn } from "@/lib/utils"
 

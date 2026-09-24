@@ -1,9 +1,9 @@
 "use client"
 
 import { useMemo } from "react"
-import { useInfiniteArticles } from "@readspace/shared"
+import { useInfiniteArticles } from "@infrss/shared"
 import { ArticlesView } from "@/components/features/articles/ArticlesView"
-import type { Article } from "@readspace/shared"
+import type { Article } from "@infrss/shared"
 
 interface FeedArticlesPageClientProps {
     feedId: string

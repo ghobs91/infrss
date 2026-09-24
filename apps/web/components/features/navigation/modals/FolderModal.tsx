@@ -12,7 +12,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { useCreateFolder } from "@readspace/shared"
+import { useCreateFolder } from "@infrss/shared"
 
 interface FolderModalProps {
     /** Whether the modal is open */

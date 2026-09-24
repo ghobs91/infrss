@@ -1,5 +1,5 @@
 import { useCallback } from "react"
-import type { Article } from "@readspace/shared"
+import type { Article } from "@infrss/shared"
 
 interface UseArticleReadingProps {
     article: Article | undefined

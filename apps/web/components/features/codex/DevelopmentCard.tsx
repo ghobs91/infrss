@@ -3,7 +3,7 @@
 import { useId, useState } from "react"
 import Image from "next/image"
 import { AltArrowDownIcon } from "@solar-icons/react/bold"
-import type { CodexDevelopment } from "@readspace/shared"
+import type { CodexDevelopment } from "@infrss/shared"
 import { cn } from "@/lib/utils"
 import { READING_SERIF } from "./constants"
 import { CodexSynthesis } from "./CodexSynthesis"

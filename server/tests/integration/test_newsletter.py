@@ -74,7 +74,7 @@ class TestNewsletterFeature:
         response = await async_client.post(
             "/api/intake/webhook",
             json=payload,
-            headers={"X-Readspace-Secret": settings.INBOUND_WEBHOOK_SECRET.get_secret_value()},
+            headers={"X-Infrss-Secret": settings.INBOUND_WEBHOOK_SECRET.get_secret_value()},
         )
 
         assert response.status_code == 201
@@ -121,7 +121,7 @@ class TestNewsletterFeature:
 
     @pytest.mark.asyncio
     async def test_webhook_intake_invalid_secret(self, async_client: AsyncClient):
-        """Test webhook fails with invalid X-Readspace-Secret."""
+        """Test webhook fails with invalid X-Infrss-Secret."""
         payload = {
             "token": "token",
             "from": "Python Weekly <newsletter@pythonweekly.com>",
@@ -130,7 +130,7 @@ class TestNewsletterFeature:
         }
 
         response = await async_client.post(
-            "/api/intake/webhook", json=payload, headers={"X-Readspace-Secret": "wrong-secret"}
+            "/api/intake/webhook", json=payload, headers={"X-Infrss-Secret": "wrong-secret"}
         )
         assert response.status_code == 401
 
@@ -148,7 +148,7 @@ class TestNewsletterFeature:
         response = await async_client.post(
             "/api/intake/webhook",
             json=payload,
-            headers={"X-Readspace-Secret": settings.INBOUND_WEBHOOK_SECRET.get_secret_value()},
+            headers={"X-Infrss-Secret": settings.INBOUND_WEBHOOK_SECRET.get_secret_value()},
         )
         assert response.status_code == 404
 
@@ -261,7 +261,7 @@ class TestNewsletterFeature:
         response = await async_client.post(
             "/api/intake/webhook",
             json=payload,
-            headers={"X-Readspace-Secret": settings.INBOUND_WEBHOOK_SECRET.get_secret_value()},
+            headers={"X-Infrss-Secret": settings.INBOUND_WEBHOOK_SECRET.get_secret_value()},
         )
         assert response.status_code == 403
         detail = response.json()["detail"]
@@ -283,7 +283,7 @@ class TestNewsletterLimitAndFolderStability:
         user.newsletter_token = TEST_NEWSLETTER_TOKEN
         db_session.add(user)
         await db_session.commit()
-        return {"X-Readspace-Secret": get_settings().INBOUND_WEBHOOK_SECRET.get_secret_value()}
+        return {"X-Infrss-Secret": get_settings().INBOUND_WEBHOOK_SECRET.get_secret_value()}
 
     @staticmethod
     def _payload(sender: str, subject: str) -> dict[str, str]:

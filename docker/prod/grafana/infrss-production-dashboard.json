@@ -3,7 +3,7 @@
     {
       "name": "DS_PROMETHEUS",
       "label": "Grafana Cloud Prometheus",
-      "description": "Readspace metrics datasource",
+      "description": "Infrss metrics datasource",
       "type": "datasource",
       "pluginId": "prometheus",
       "pluginName": "Prometheus"
@@ -11,7 +11,7 @@
     {
       "name": "DS_LOKI",
       "label": "Grafana Cloud Loki",
-      "description": "Readspace logs datasource",
+      "description": "Infrss logs datasource",
       "type": "datasource",
       "pluginId": "loki",
       "pluginName": "Loki"
@@ -19,7 +19,7 @@
     {
       "name": "DS_TEMPO",
       "label": "Grafana Cloud Tempo",
-      "description": "Readspace traces datasource",
+      "description": "Infrss traces datasource",
       "type": "datasource",
       "pluginId": "tempo",
       "pluginName": "Tempo"
@@ -1536,7 +1536,7 @@
     {
       "id": 21,
       "type": "row",
-      "title": "Readspace HTTP",
+      "title": "Infrss HTTP",
       "collapsed": false,
       "gridPos": {
         "x": 0,
@@ -2250,7 +2250,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(rate(received_tasks_total{service_name=\"readspace-worker\"}[$__rate_interval])) * 60",
+          "expr": "sum(rate(received_tasks_total{service_name=\"infrss-worker\"}[$__rate_interval])) * 60",
           "instant": true,
           "range": false,
           "editorMode": "code"
@@ -2313,7 +2313,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(rate(success_tasks_total{service_name=\"readspace-worker\"}[$__rate_interval])) * 60",
+          "expr": "sum(rate(success_tasks_total{service_name=\"infrss-worker\"}[$__rate_interval])) * 60",
           "instant": true,
           "range": false,
           "editorMode": "code"
@@ -2384,7 +2384,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(rate(found_errors_total{service_name=\"readspace-worker\"}[$__rate_interval])) * 60",
+          "expr": "sum(rate(found_errors_total{service_name=\"infrss-worker\"}[$__rate_interval])) * 60",
           "instant": true,
           "range": false,
           "editorMode": "code"
@@ -2455,7 +2455,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(execution_time_bucket{service_name=\"readspace-worker\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(execution_time_bucket{service_name=\"infrss-worker\"}[$__rate_interval])))",
           "instant": true,
           "range": false,
           "editorMode": "code"
@@ -2548,7 +2548,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum by (task_name) (rate(received_tasks_total{service_name=\"readspace-worker\"}[$__rate_interval])) * 60",
+          "expr": "sum by (task_name) (rate(received_tasks_total{service_name=\"infrss-worker\"}[$__rate_interval])) * 60",
           "legendFormat": "{{task_name}}",
           "range": true,
           "editorMode": "code"
@@ -2641,7 +2641,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "histogram_quantile(0.95, sum by (le, task_name) (rate(execution_time_bucket{service_name=\"readspace-worker\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (le, task_name) (rate(execution_time_bucket{service_name=\"infrss-worker\"}[$__rate_interval])))",
           "legendFormat": "{{task_name}}",
           "range": true,
           "editorMode": "code"
@@ -2684,7 +2684,7 @@
             "type": "loki",
             "uid": "${DS_LOKI}"
           },
-          "expr": "{environment=\"production\",service_name=\"readspace-worker\"} | json",
+          "expr": "{environment=\"production\",service_name=\"infrss-worker\"} | json",
           "queryType": "range",
           "editorMode": "code"
         }
@@ -2760,7 +2760,7 @@
             "type": "tempo",
             "uid": "${DS_TEMPO}"
           },
-          "query": "{ resource.service.name =~ \"readspace-(api|worker|scheduler)\" }",
+          "query": "{ resource.service.name =~ \"infrss-(api|worker|scheduler)\" }",
           "queryType": "traceql",
           "tableType": "traces",
           "limit": 50,
@@ -2825,7 +2825,7 @@
             "type": "tempo",
             "uid": "${DS_TEMPO}"
           },
-          "query": "{ resource.service.name =~ \"readspace-(api|worker|scheduler)\" && status = error }",
+          "query": "{ resource.service.name =~ \"infrss-(api|worker|scheduler)\" && status = error }",
           "queryType": "traceql",
           "tableType": "traces",
           "limit": 50,
@@ -2838,7 +2838,7 @@
   "refresh": "30s",
   "schemaVersion": 41,
   "tags": [
-    "readspace",
+    "infrss",
     "production",
     "alloy",
     "opentelemetry"
@@ -2897,9 +2897,9 @@
         "name": "service",
         "label": "Application services",
         "type": "custom",
-        "query": "readspace-api,readspace-worker,readspace-scheduler",
+        "query": "infrss-api,infrss-worker,infrss-scheduler",
         "includeAll": true,
-        "allValue": "readspace-api|readspace-worker|readspace-scheduler",
+        "allValue": "infrss-api|infrss-worker|infrss-scheduler",
         "multi": true,
         "options": [],
         "current": {
@@ -2934,8 +2934,8 @@
     ]
   },
   "timezone": "browser",
-  "title": "Readspace Production — Full Stack",
-  "uid": "readspace-production-full-stack",
+  "title": "Infrss Production — Full Stack",
+  "uid": "infrss-production-full-stack",
   "version": 1,
   "weekStart": ""
 }

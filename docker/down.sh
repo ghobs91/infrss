@@ -31,7 +31,7 @@ ENV_FILES=("--env-file" "$SCRIPT_DIR/supabase/.env" "--env-file" "$SCRIPT_DIR/.e
 # Must match launch.sh's --project-name, or this targets a different (empty) Compose
 # project and silently does nothing. Deliberately no --project-directory — see launch.sh
 # for why (it breaks docker/supabase/docker-compose.yml's own relative volume paths).
-PROJECT_FLAGS=("--project-name" "readspace")
+PROJECT_FLAGS=("--project-name" "infrss")
 PROFILES=()
 
 # Load RSSHUB_MODE from docker/.env to determine if we should include RSSHub profile
@@ -42,10 +42,10 @@ fi
 # Add dev-specific overlay if in development mode
 if [ "$DEV_MODE" = true ]; then
     COMPOSE_FILES+=("-f" "$SCRIPT_DIR/supabase/docker-compose.dev.yml")
-    print_info "› Stopping Readspace in DEVELOPMENT mode..."
+    print_info "› Stopping Infrss in DEVELOPMENT mode..."
 else
     PROFILES+=("app")
-    print_info "› Stopping Readspace in SELF-HOSTED mode..."
+    print_info "› Stopping Infrss in SELF-HOSTED mode..."
 fi
 
 # Add RSSHub profile if using local instance (matches launch.sh)
@@ -59,7 +59,7 @@ for profile in "${PROFILES[@]}"; do
     PROFILE_FLAGS+=("--profile" "$profile")
 done
 
-# Stop the main services (supabase + readspace app + optionally rsshub)
+# Stop the main services (supabase + infrss app + optionally rsshub)
 if ! docker compose "${COMPOSE_FILES[@]}" "${ENV_FILES[@]}" "${PROJECT_FLAGS[@]}" "${PROFILE_FLAGS[@]}" down; then
     print_error "Failed to stop services."
     exit 1
@@ -67,6 +67,6 @@ fi
 print_success "✓ All services stopped."
 
 # --- Final Output ---
-print_info "🎉 --- Readspace Shutdown Complete! --- 🎉"
-echo "All Readspace services have been stopped."
+print_info "🎉 --- Infrss Shutdown Complete! --- 🎉"
+echo "All Infrss services have been stopped."
 echo ""

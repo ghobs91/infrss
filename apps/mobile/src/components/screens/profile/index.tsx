@@ -29,7 +29,7 @@ import { CLOUD_CONFIG } from '@lib/constants/config';
 import { openStoreReview } from '@lib/review';
 import { exportFeedsToOPML } from '@lib/utils/opml';
 import { getUserAvatarSeed, getUserDisplayName } from '@lib/utils/user';
-import { useFeeds } from '@readspace/shared';
+import { useFeeds } from '@infrss/shared';
 import { CloudIcon, CrownIcon, ServerIcon, ShieldCheckIcon } from '@solar-icons/react-native/bold';
 import {
   ArchiveUpMinimalisticIcon,
@@ -112,7 +112,7 @@ export function ProfileScreen() {
   };
 
   const handleGithubPress = () => {
-    const url = 'https://github.com/kamui-fin/readspace';
+    const url = 'https://github.com/ghobs91/infrss';
     Linking.openURL(url).catch(() => {
       toast.error('Cannot open GitHub link');
     });
@@ -160,9 +160,9 @@ export function ProfileScreen() {
     confirm({
       title: 'Manage Subscription',
       message:
-        'This subscription was purchased on the web. Please manage your billing via the web version of Readspace.',
+        'This subscription was purchased on the web. Please manage your billing via the web version of Infrss.',
       confirmLabel: 'Open Web',
-      onConfirm: () => Linking.openURL(CLOUD_CONFIG.READSPACE_APP_URL),
+      onConfirm: () => Linking.openURL(CLOUD_CONFIG.INFRSS_APP_URL),
     });
   };
 

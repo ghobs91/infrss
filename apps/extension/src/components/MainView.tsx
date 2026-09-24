@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill'
-import type { PageMetadata } from '@readspace/shared'
+import type { PageMetadata } from '@infrss/shared'
 import { ExternalLink, LogOut } from 'lucide-react'
 import { ArticlePreview } from './ArticlePreview'
 import { FeedDiscoveryCard } from './FeedDiscoveryCard'
@@ -8,7 +8,7 @@ import { Button } from './ui/button'
 import toast from 'react-hot-toast'
 
 interface MainViewProps {
-  onOpenReadspace: () => void
+  onOpenInfrss: () => void
   onLogout: () => Promise<void>
   isSelfHosted: boolean
   isFeedDataLoading: boolean
@@ -19,7 +19,7 @@ interface MainViewProps {
 }
 
 export function MainView({
-  onOpenReadspace,
+  onOpenInfrss,
   onLogout,
   isSelfHosted,
   isFeedDataLoading,
@@ -43,8 +43,8 @@ export function MainView({
         <div className="flex items-center gap-2">
           <div className="w-5 h-5">
             <img
-              src={browser.runtime.getURL('assets/readspace.svg')}
-              alt="Readspace"
+              src={browser.runtime.getURL('assets/infrss.svg')}
+              alt="Infrss"
               className="w-full h-full"
             />
           </div>
@@ -52,7 +52,7 @@ export function MainView({
             className="font-semibold text-lg"
             style={{ fontFamily: 'Figtree' }}
           >
-            readspace
+            infrss
           </h1>
         </div>
         <div className="flex items-center gap-2">
@@ -61,9 +61,9 @@ export function MainView({
             <Button
               variant="ghost"
               size="sm"
-              onClick={onOpenReadspace}
+              onClick={onOpenInfrss}
               className="h-8 w-8 p-0"
-              title="Open Readspace"
+              title="Open Infrss"
             >
               <ExternalLink className="w-4 h-4" />
             </Button>

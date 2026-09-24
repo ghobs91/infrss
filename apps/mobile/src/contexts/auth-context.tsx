@@ -1,7 +1,7 @@
 import { configureApiClient } from '@lib/api-client';
 import { supabase } from '@lib/supabase/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ApiClient } from '@readspace/shared';
+import { ApiClient } from '@infrss/shared';
 import { useFeedSwitcherStore } from '@stores/feed-switcher';
 import { useFeedViewStore } from '@stores/feed-view';
 import { useFollowingStore } from '@stores/following';

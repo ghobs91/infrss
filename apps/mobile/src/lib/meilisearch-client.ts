@@ -1,7 +1,7 @@
 import { CLOUD_CONFIG } from '@lib/constants/config';
 import { resolveHostname } from '@lib/utils/network';
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch';
-import type { HybridSearchConfig } from '@readspace/shared';
+import type { HybridSearchConfig } from '@infrss/shared';
 import { getSettings } from '@stores/settings';
 import { MeiliSearch } from 'meilisearch';
 import { Platform } from 'react-native';
@@ -205,4 +205,4 @@ export {
   DEFAULT_RANKING_SCORE_THRESHOLD,
   DEFAULT_SEMANTIC_RATIO,
   type HybridSearchConfig,
-} from '@readspace/shared';
+} from '@infrss/shared';

@@ -6,7 +6,7 @@ import { Text } from '@components/ui/text';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { BOTTOM_TABBAR_BASE_HEIGHT } from '@lib/constants/app';
 import { COLORS } from '@lib/constants/colors';
-import { type CodexDigestResponse, formatAbsoluteDate } from '@readspace/shared';
+import { type CodexDigestResponse, formatAbsoluteDate } from '@infrss/shared';
 import { StarsIcon } from '@solar-icons/react-native/bold';
 import { useRef } from 'react';
 import { ScrollView, View } from 'react-native';

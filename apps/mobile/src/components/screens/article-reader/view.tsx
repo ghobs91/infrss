@@ -28,7 +28,7 @@ import {
   useSummarizeArticleMutation,
   useTranslateArticleMutation,
   useUpdateArticle,
-} from '@readspace/shared';
+} from '@infrss/shared';
 import { useTranslationHistory } from '@stores/translation-history';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Clipboard from 'expo-clipboard';

@@ -1,4 +1,4 @@
-import { ArticlePriority, PageMetadata, Priority } from '@readspace/shared'
+import { ArticlePriority, PageMetadata, Priority } from '@infrss/shared'
 import { Flag, Pencil, StickyNote } from 'lucide-react'
 import React, { useId, useState } from 'react'
 import { ArticleHeroImage } from './ArticleHeroImage'

@@ -2,7 +2,7 @@ import { Card } from '@components/ui/card';
 import { Text } from '@components/ui/text';
 import { toast } from '@components/ui/toast';
 import { stripHtml } from '@lib/utils/html';
-import { type FeedPreviewArticle, formatRelativeDate } from '@readspace/shared';
+import { type FeedPreviewArticle, formatRelativeDate } from '@infrss/shared';
 import { useMemo } from 'react';
 import { Linking, View } from 'react-native';
 

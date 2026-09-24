@@ -1,4 +1,4 @@
-import { useFeeds, type SubscriptionExtended } from "@readspace/shared"
+import { useFeeds, type SubscriptionExtended } from "@infrss/shared"
 import { useMemo } from "react"
 
 export interface FeedRowData {

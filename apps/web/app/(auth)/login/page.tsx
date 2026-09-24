@@ -5,7 +5,7 @@ import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 
 export const metadata = {
-    title: "Log in | Readspace",
+    title: "Log in | Infrss",
     description:
         "Sign in to your calm reading inbox for RSS, newsletters, threads, and books.",
 }
@@ -31,13 +31,13 @@ export default async function LoginPage() {
                 >
                     <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                         <Image
-                            src="/readspace.svg"
+                            src="/infrss.svg"
                             width={24}
                             height={24}
                             alt="Logo"
                         />
                     </div>
-                    readspace
+                    infrss
                 </a>
                 <LoginForm isProd={isProd} />
             </div>

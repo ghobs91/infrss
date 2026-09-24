@@ -1,6 +1,6 @@
 import { FEEDS_INDEX_NAME, meilisearchClient } from "@/lib/meilisearch-client"
 import { useQuery } from "@tanstack/react-query"
-import { type FeedSummary, type ContentType, type FeedCategory } from "@readspace/shared"
+import { type FeedSummary, type ContentType, type FeedCategory } from "@infrss/shared"
 import { ApiClient } from "@/lib/api-client"
 
 export interface MeilisearchHit {

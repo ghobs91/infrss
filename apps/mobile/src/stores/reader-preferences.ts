@@ -50,7 +50,7 @@ export const useReaderPreferences = create<ReaderPreferencesStore>()(
       reset: () => set(initialState),
     }),
     {
-      name: 'readspace-reader-preferences',
+      name: 'infrss-reader-preferences',
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

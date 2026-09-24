@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { sendMessage } from '../shared/messaging'
-import { CheckArticleSavedResponse } from '@readspace/shared'
+import { CheckArticleSavedResponse } from '@infrss/shared'
 import { ExtensionMessage, SaveChangedPayload } from '../shared/types'
 import browser from 'webextension-polyfill'
 import { normalizeKey } from '../lib/normalize'

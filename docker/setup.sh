@@ -5,7 +5,7 @@
 # ==============================================================================
 # Production Self-Host Configuration Script
 #
-# This script automates the setup of a self-hosted Readspace instance by:
+# This script automates the setup of a self-hosted Infrss instance by:
 # 1. Collecting deployment configuration (IP:PORT or custom domain)
 # 2. Generating all necessary secrets (passwords, JWT keys, etc.)
 # 3. Creating environment files with deployment-specific URLs
@@ -163,7 +163,7 @@ if [ "$DEV_FLAG" = true ]; then
 else
     echo ""
     echo "🌐 Production Configuration"
-    echo "Choose how you'll access Readspace:"
+    echo "Choose how you'll access Infrss:"
     echo ""
     echo "1) IP address with ports (e.g., http://192.168.1.100:18042)"
     echo "   └─ For private network access"
@@ -381,13 +381,13 @@ echo "🚀 Starting Meilisearch container with the generated master key..."
 # Include supabase/docker-compose.yml here too (with .env.example as a placeholder —
 # docker/supabase/.env doesn't exist yet at this point in the script, and we're not
 # starting any supabase service so its real values don't matter). This is needed
-# purely so Compose picks up that file's `networks: default: name: readspace_shared_net`
+# purely so Compose picks up that file's `networks: default: name: infrss_shared_net`
 # override — without it, this narrower invocation falls back to Compose's implicit
-# default network name ("readspace_default"), which conflicts with launch.sh's later
-# full-stack invocation and breaks with "network readspace_default not found".
+# default network name ("infrss_default"), which conflicts with launch.sh's later
+# full-stack invocation and breaks with "network infrss_default not found".
 docker compose -f "$SCRIPT_DIR/supabase/docker-compose.yml" -f "$SCRIPT_DIR/docker-compose.yml" \
     --env-file "$SCRIPT_DIR/supabase/.env.example" --env-file "$SCRIPT_DIR/.env" \
-    --project-name "readspace" up -d meilisearch
+    --project-name "infrss" up -d meilisearch
 
 # Wait for Meilisearch to be ready
 echo "⏳ Waiting for Meilisearch to be ready..."
@@ -734,8 +734,8 @@ if [ "$ACCESS_TYPE" = "2" ]; then
     echo "Configure your reverse proxy (Traefik, nginx, Caddy, etc.) to route:"
     echo ""
     echo "If proxy runs in Docker (same network):"
-    echo "  ${WEB_URL} → readspace_web:8042"
-    echo "  ${API_URL} → readspace_api:8008"
+    echo "  ${WEB_URL} → infrss_web:8042"
+    echo "  ${API_URL} → infrss_api:8008"
     echo "  ${SUPABASE_PUBLIC_URL} → kong:8000"
     echo ""
     echo "If proxy runs on host:"

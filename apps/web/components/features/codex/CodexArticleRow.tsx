@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { formatDistanceToNowStrict, parseISO } from "date-fns"
 import { ArrowRightIcon } from "@solar-icons/react/bold"
-import type { ArticleSummary } from "@readspace/shared"
+import type { ArticleSummary } from "@infrss/shared"
 import { FeedIcon } from "@/components/features/feeds/FeedIcon"
 import { cn } from "@/lib/utils"
 
@@ -24,7 +24,7 @@ interface CodexArticleRowProps {
 /**
  * One article under a Development or in the Worth Reading list. Newspaper row: a mono
  * dateline (source · relative time), then the headline. The lead (rank 0) is heavier and
- * carries a thumbnail when the article has an image. Opens the piece in the Readspace
+ * carries a thumbnail when the article has an image. Opens the piece in the Infrss
  * reader at `/articles/[id]`.
  */
 export function CodexArticleRow({

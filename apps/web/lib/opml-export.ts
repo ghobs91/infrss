@@ -3,7 +3,7 @@ import {
     opmlExportFilename,
     type FeedForOPML,
     type Folder,
-} from "@readspace/shared"
+} from "@infrss/shared"
 
 export { generateOPMLContent, type FeedForOPML }
 

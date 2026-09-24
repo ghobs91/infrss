@@ -4,7 +4,7 @@ import {
   useInfiniteReadLaterArticles,
   useInfiniteRecentlyReadArticles,
   useInfiniteTodayArticles,
-} from '@readspace/shared';
+} from '@infrss/shared';
 
 interface UseArticleQueriesParams {
   activeTab: number;

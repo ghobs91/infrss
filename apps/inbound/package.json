@@ -1,5 +1,5 @@
 {
-	"name": "@readspace/inbound",
+	"name": "@infrss/inbound",
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {

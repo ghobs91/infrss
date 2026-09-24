@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "readspace-email-intake",
+	"name": "infrss-email-intake",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-06-14",
 	"observability": {

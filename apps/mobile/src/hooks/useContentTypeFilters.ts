@@ -1,4 +1,4 @@
-import { ALL_CONTENT_TYPES } from '@readspace/shared';
+import { ALL_CONTENT_TYPES } from '@infrss/shared';
 import { useMemo } from 'react';
 import { useClearRefinements, useCurrentRefinements, useRefinementList } from 'react-instantsearch';
 

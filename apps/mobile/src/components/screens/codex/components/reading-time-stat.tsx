@@ -1,5 +1,5 @@
 import { Text } from '@components/ui/text';
-import type { CodexDigestStats } from '@readspace/shared';
+import type { CodexDigestStats } from '@infrss/shared';
 import { type StyleProp, View, type ViewStyle } from 'react-native';
 import { RailCard } from './codex-rail-card';
 

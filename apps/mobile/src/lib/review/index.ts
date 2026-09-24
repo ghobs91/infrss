@@ -7,7 +7,7 @@ import {
   type ReviewHistory,
 } from './eligibility';
 
-const STORAGE_KEY = 'readspace-review-history';
+const STORAGE_KEY = 'infrss-review-history';
 // Temporary local testing switch. Remove this adapter once native review testing is available.
 const USE_REVIEW_PROMPT_MOCK = __DEV__;
 let queue: Promise<unknown> = Promise.resolve();

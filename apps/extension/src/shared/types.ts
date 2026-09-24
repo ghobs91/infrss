@@ -1,5 +1,5 @@
 import { Session } from '@supabase/supabase-js'
-import { CheckArticleSavedResponse } from '@readspace/shared'
+import { CheckArticleSavedResponse } from '@infrss/shared'
 
 export type MessageType =
   | 'login'

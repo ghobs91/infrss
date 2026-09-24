@@ -7,7 +7,7 @@ import { useState } from "react"
 import { FeedIcon } from "@/components/features/feeds/FeedIcon"
 import { getArticleListDate } from "./hooks/use-article-grouping"
 
-import type { Article } from "@readspace/shared"
+import type { Article } from "@infrss/shared"
 
 interface ArticleItemProps {
     /** The article to display */

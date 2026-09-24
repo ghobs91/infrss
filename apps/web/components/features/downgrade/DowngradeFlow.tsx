@@ -10,7 +10,7 @@ import {
     useResolveDowngrade,
     type OverLimitState,
     type SubscriptionResponse,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { useMemo, useState } from "react"
 import { toast } from "react-hot-toast"
 import { DowngradeLayout } from "./DowngradeLayout"

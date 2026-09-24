@@ -1,6 +1,6 @@
 import { Card, type CardProps } from '@components/ui/card/index';
 import { Divider } from '@components/ui/divider';
-import type { Article } from '@readspace/shared';
+import type { Article } from '@infrss/shared';
 import { useArticleActionsStore } from '@stores/article-actions';
 import { forwardRef, useEffect } from 'react';
 import { Pressable, View } from 'react-native';

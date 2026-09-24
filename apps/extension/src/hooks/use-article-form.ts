@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Priority, CheckArticleSavedResponse } from '@readspace/shared'
+import { Priority, CheckArticleSavedResponse } from '@infrss/shared'
 
 export function useArticleForm(savedArticle: CheckArticleSavedResponse | null) {
   const [form, setForm] = useState({

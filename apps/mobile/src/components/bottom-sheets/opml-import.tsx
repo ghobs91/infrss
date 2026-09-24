@@ -6,7 +6,7 @@ import { toast } from '@components/ui/toast';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { BUTTON_BORDER_RADIUS } from '@lib/constants/app';
 import { COLORS } from '@lib/constants/colors';
-import { useImportOPML } from '@readspace/shared';
+import { useImportOPML } from '@infrss/shared';
 import { DocumentTextIcon, InfoCircleIcon } from '@solar-icons/react-native/bold';
 import type * as DocumentPicker from 'expo-document-picker';
 import { forwardRef, useCallback } from 'react';

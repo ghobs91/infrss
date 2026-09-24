@@ -71,9 +71,9 @@ export const SelfHostSettingsBottomSheet = forwardRef<SheetRef, SelfHostSettings
     const savedUrl = useMemo(() => {
       return (
         initialData?.apiUrl ||
-        (settings.instance_type === 'self-hosted' ? settings.readspace_url : '')
+        (settings.instance_type === 'self-hosted' ? settings.infrss_url : '')
       );
-    }, [initialData, settings.readspace_url, settings.instance_type]);
+    }, [initialData, settings.infrss_url, settings.instance_type]);
 
     // Local state for checking if the input is non-empty (to enable the submit button)
     const [apiUrl, setApiUrl] = useState(savedUrl);
@@ -130,7 +130,7 @@ export const SelfHostSettingsBottomSheet = forwardRef<SheetRef, SelfHostSettings
               );
             }
             throw new Error(
-              'Unable to connect to the Readspace server. Verify the URL is correct and the server is running.'
+              'Unable to connect to the Infrss server. Verify the URL is correct and the server is running.'
             );
           }
 
@@ -143,7 +143,7 @@ export const SelfHostSettingsBottomSheet = forwardRef<SheetRef, SelfHostSettings
               throw new Error('Server endpoint not found (404). Verify the server URL is correct.');
             } else if (configResponse.status >= 500) {
               throw new Error(
-                `Server error (${configResponse.status}). The Readspace server may be down.`
+                `Server error (${configResponse.status}). The Infrss server may be down.`
               );
             }
             throw new Error(`Server returned error status ${configResponse.status}`);
@@ -344,7 +344,7 @@ export const SelfHostSettingsBottomSheet = forwardRef<SheetRef, SelfHostSettings
         }>
         <View style={{ gap: 16 }}>
           <Text className="font-geist-medium text-grey dark:text-grey text-base">
-            Connect to your own Readspace instance URL
+            Connect to your own Infrss instance URL
           </Text>
 
           <BottomSheetInput

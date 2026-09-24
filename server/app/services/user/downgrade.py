@@ -40,7 +40,7 @@ async def invalidate_plan_compliance(user_id: UUID) -> None:
 def _downgrade_required_error(state: OverLimitState) -> DowngradeRequiredError:
     """Build the error returned to clients that must finish the downgrade flow."""
     return DowngradeRequiredError(
-        message="Your plan changed. Open Readspace to choose which feeds to keep.",
+        message="Your plan changed. Open Infrss to choose which feeds to keep.",
         error_code=DOWNGRADE_ACTION_REQUIRED_ERROR_CODE,
         details=state.model_dump(),
     )

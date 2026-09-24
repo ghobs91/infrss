@@ -3,13 +3,13 @@ import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { View } from 'react-native';
 
 /**
- * Readspace-branded color palette for feed fallback icons.
+ * Infrss-branded color palette for feed fallback icons.
  * Each entry is a [lightBg, darkBg, lightText, darkText] tuple.
  * Colors are carefully chosen to feel cohesive with the app's green/earthy palette.
  */
 const FALLBACK_PALETTES: [string, string, string, string][] = [
   // [light bg, dark bg, light text, dark text]
-  ['#DCF0DC', '#1E3A1E', '#2F6B2F', '#6EBF6E'], // Readspace primary green family
+  ['#DCF0DC', '#1E3A1E', '#2F6B2F', '#6EBF6E'], // Infrss primary green family
   ['#D4E8D4', '#1A3520', '#386641', '#7EC87E'], // Secondary green
   ['#E8F0D4', '#252E1A', '#4A6020', '#96B84A'], // Olive green
   ['#D4E8F0', '#1A2A35', '#205470', '#5AACCC'], // Teal-blue
@@ -62,9 +62,9 @@ export interface FeedFallbackIconProps {
 }
 
 /**
- * FeedFallbackIcon — a beautiful, Readspace-branded fallback icon for feeds
+ * FeedFallbackIcon — a beautiful, Infrss-branded fallback icon for feeds
  * that don't have a favicon/image. Renders 1–2 initials on a deterministic
- * pastel background drawn from Readspace's earthy/green color family.
+ * pastel background drawn from Infrss's earthy/green color family.
  *
  * - Adapts to light/dark mode automatically
  * - Scales correctly with the `size` prop (used in article cards, feed switcher, discover, etc.)

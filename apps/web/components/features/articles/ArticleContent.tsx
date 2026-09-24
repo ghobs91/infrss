@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react"
 import { useIsMobile } from "@/hooks/use-mobile"
-import type { Article } from "@readspace/shared"
+import type { Article } from "@infrss/shared"
 import { useTheme } from "next-themes"
 
 import { ArticleReaderBody } from "./ArticleReaderBody"

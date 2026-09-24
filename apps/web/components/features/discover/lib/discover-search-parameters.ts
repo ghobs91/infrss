@@ -1,4 +1,4 @@
-import { createHybridSearchParams } from "@readspace/shared"
+import { createHybridSearchParams } from "@infrss/shared"
 
 /** Keep mode in InstantSearch state so requests and cached pages share an identity. */
 export function getDiscoverSearchParameters(smart: boolean) {

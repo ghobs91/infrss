@@ -9,7 +9,7 @@ from fastapi.responses import ORJSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.core.config import get_settings
-from app.core.custom_exceptions import ReadspaceException, readspace_exception_handler
+from app.core.custom_exceptions import InfrssException, infrss_exception_handler
 from app.core.logging_config import setup_logging
 from app.core.redis_cache import close_pool, get_pool
 from app.core.taskiq_app import broker
@@ -49,7 +49,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 settings = get_settings()
 
 app = FastAPI(
-    title="Readspace API",
+    title="Infrss API",
     description="A privacy-focused open-source RSS reader.",
     version="1.0.0",
     lifespan=lifespan,
@@ -88,7 +88,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     return ORJSONResponse(status_code=422, content={"detail": exc.errors()})
 
 
-app.add_exception_handler(ReadspaceException, readspace_exception_handler)
+app.add_exception_handler(InfrssException, infrss_exception_handler)
 
 # --- Router ---
 app.include_router(api_router, prefix="/api")

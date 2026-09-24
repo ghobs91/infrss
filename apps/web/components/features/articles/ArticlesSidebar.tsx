@@ -15,7 +15,7 @@ import {
     type FeedDetail,
     type Subscription,
     type Folder,
-} from "@readspace/shared"
+} from "@infrss/shared"
 
 interface ArticlesSidebarProps {
     // Context

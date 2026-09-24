@@ -1,6 +1,6 @@
 import { Divider } from '@components/ui/divider';
 import { Text } from '@components/ui/text';
-import type { CodexDigestResponse } from '@readspace/shared';
+import type { CodexDigestResponse } from '@infrss/shared';
 import { type StyleProp, View, type ViewStyle } from 'react-native';
 import { RailCard } from './codex-rail-card';
 

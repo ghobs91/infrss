@@ -5,7 +5,7 @@
 import * as Sentry from "@sentry/nextjs";
 import { isCloudProd } from "@/lib/is-cloud-prod";
 
-// Only report to Readspace's Sentry project on the hosted cloud instance — never
+// Only report to Infrss's Sentry project on the hosted cloud instance — never
 // for self-hosted deployments, which have no reason to send errors to us.
 if (isCloudProd()) {
   Sentry.init({

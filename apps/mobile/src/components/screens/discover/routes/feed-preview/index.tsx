@@ -20,7 +20,7 @@ import {
   useCreateFeed,
   useDeleteFeed,
   useFeed,
-} from '@readspace/shared';
+} from '@infrss/shared';
 import { discoverLanguageToCode, getDiscoverLanguage } from '@stores/discover-preferences';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter, useSegments } from 'expo-router';

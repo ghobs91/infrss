@@ -1,4 +1,4 @@
-import { useProfile } from "@readspace/shared"
+import { useProfile } from "@infrss/shared"
 
 export function useUserRole() {
     const {

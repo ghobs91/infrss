@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { SidebarLeftTrigger } from "@/components/ui/sidebar"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { useFeeds, ArticleFilterMode } from "@readspace/shared"
+import { useFeeds, ArticleFilterMode } from "@infrss/shared"
 import { AlertTriangle, BookOpen, RefreshCw, Rss, Upload } from "lucide-react"
 import { useDeepRefresh } from "./hooks/use-deep-refresh"
 import Link from "next/link"

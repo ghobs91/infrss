@@ -5,7 +5,7 @@ import {
     RSS_QUERY_KEYS,
     useCancelImportTask,
     useImportTaskStatus,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { useQueryClient } from "@tanstack/react-query"
 import { ChevronLeft } from "lucide-react"
 import Link from "next/link"

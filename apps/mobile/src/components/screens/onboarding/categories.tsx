@@ -1,7 +1,7 @@
 import { Button } from '@components/ui/button';
 import { Chip } from '@components/ui/chip';
 import { Text } from '@components/ui/text';
-import { MOBILE_CATEGORY_NAMES } from '@readspace/shared';
+import { MOBILE_CATEGORY_NAMES } from '@infrss/shared';
 import { useOnboardingStore } from '@stores/onboarding';
 import { useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';

@@ -1,5 +1,5 @@
 import { useRevenueCat } from '@contexts/revenuecat-context';
-import { isCodexUnlimited, useUserLimits } from '@readspace/shared';
+import { isCodexUnlimited, useUserLimits } from '@infrss/shared';
 import { useUpgradeDialog } from '@stores/upgrade-dialog';
 
 // Upsell here is ALWAYS `useUpgradeDialog` — never the RevenueCat paywall UI

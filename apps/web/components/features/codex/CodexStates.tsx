@@ -156,7 +156,7 @@ export function CodexNotEntitledState({
             <Shell
                 tone="neutral"
                 icon={LockKeyholeIcon}
-                title="This Readspace runs without AI"
+                title="This Infrss runs without AI"
                 body="The Daily Digest needs a model provider, and this instance was set up with AI features off."
             />
         )
@@ -198,7 +198,7 @@ function UpgradeButton() {
         <Button
             onClick={() =>
                 openUpgrade({
-                    title: "Upgrade to Readspace Pro",
+                    title: "Upgrade to Infrss Pro",
                     description:
                         "Pro gives you a Daily Digest every day, plus unlimited AI interactions",
                 })

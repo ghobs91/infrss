@@ -1,6 +1,6 @@
 import { FOLLOWING_TAB } from '@lib/constants/tabs';
 import { groupArticlesByDate } from '@lib/utils/date';
-import type { Article, ArticleSummary } from '@readspace/shared';
+import type { Article, ArticleSummary } from '@infrss/shared';
 import type { InfiniteData } from '@tanstack/react-query';
 
 export interface ListItem {

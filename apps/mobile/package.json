@@ -1,5 +1,5 @@
 {
-  "name": "@readspace/mobile",
+  "name": "@infrss/mobile",
   "version": "1.1.0",
   "scripts": {
     "eas-build-post-install": "bun scripts/patch-galeria.mjs && bun scripts/patch-reanimated.mjs --strict",
@@ -36,7 +36,7 @@
     "@nandorojo/galeria": "^1.2.0",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-masked-view/masked-view": "0.3.2",
-    "@readspace/shared": "workspace:*",
+    "@infrss/shared": "workspace:*",
     "@sentry/react-native": "~7.11.0",
     "@solar-icons/react-native": "^2.1.0",
     "@supabase/supabase-js": "^2.80.0",

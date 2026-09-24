@@ -47,7 +47,7 @@ const original = `            // Events can be dispatched from any thread so we 
 // ANR trace shows this repeatedly applying UI props inside SvgView.onDraw.
 // Skip only Reanimated's work for unhandled SVG layout events; React Native's
 // event dispatcher still delivers the original event to JS listeners.
-const patched = `            // Readspace: avoid flushing animations for unhandled SVG draw events.
+const patched = `            // Infrss: avoid flushing animations for unhandled SVG draw events.
             if (event.eventName == "topSvgLayout") {
                 val eventName = mCustomEventNamesResolver.resolveCustomEventName(event.eventName) ?: return
                 if (!mNativeProxy!!.isAnyHandlerWaitingForEvent(eventName, event.viewTag)) {

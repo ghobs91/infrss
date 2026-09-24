@@ -57,7 +57,7 @@ export function NewsletterSection() {
     const handleTriggerClick = () => {
         if (isBasic) {
             openUpgrade({
-                title: "Upgrade to Readspace Pro",
+                title: "Upgrade to Infrss Pro",
                 description:
                     "Unlock newsletter ingestion and subscribe to Substack, Mailchimp, or any mailing list directly in your feed.",
             })
@@ -160,7 +160,7 @@ export function NewsletterSection() {
                                     </div>
                                     <div className="space-y-1">
                                         <span className="text-sm font-medium text-foreground">
-                                            Read in Readspace
+                                            Read in Infrss
                                         </span>
                                         <p className="text-xs text-muted-foreground leading-relaxed">
                                             The first email received will

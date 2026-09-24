@@ -1,7 +1,7 @@
 import { Text } from '@components/ui/text';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
-import type { CodexDevelopment } from '@readspace/shared';
+import type { CodexDevelopment } from '@infrss/shared';
 import { AltArrowRightIcon } from '@solar-icons/react-native/linear';
 import { Image as ExpoImage } from 'expo-image';
 import { useState } from 'react';

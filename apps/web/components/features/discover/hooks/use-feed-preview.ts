@@ -1,4 +1,4 @@
-import { type FeedDiscoveryResult, usePreviewFeedUrl } from "@readspace/shared"
+import { type FeedDiscoveryResult, usePreviewFeedUrl } from "@infrss/shared"
 import { useMemo } from "react"
 
 /**

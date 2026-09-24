@@ -4,7 +4,7 @@ import {
   type FolderPickerBottomSheetRef,
 } from '@components/bottom-sheets/folder-picker';
 import { toast } from '@components/ui/toast';
-import { useCreateFeed } from '@readspace/shared';
+import { useCreateFeed } from '@infrss/shared';
 import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 
 export interface AddFeedFlowRef {

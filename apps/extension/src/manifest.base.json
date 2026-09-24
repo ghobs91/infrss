@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Readspace – RSS Feed Finder & Read Later",
+  "name": "Infrss – RSS Feed Finder & Read Later",
   "version": "1.1.5",
   "description": "Find and follow RSS or Atom feeds on any website, save articles to read later, and sync everything across web and mobile.",
   "content_security_policy": {
@@ -16,7 +16,7 @@
   "host_permissions": ["http://*/*", "https://*/*"],
   "action": {
     "default_popup": "index.html",
-    "default_title": "Readspace – RSS Feed Finder & Read Later"
+    "default_title": "Infrss – RSS Feed Finder & Read Later"
   },
   "content_scripts": [
     {
@@ -27,7 +27,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["assets/readspace.svg"],
+      "resources": ["assets/infrss.svg"],
       "matches": ["*://*/*"]
     }
   ]

@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { FolderList } from '@/components/subscription/FolderList'
-import { DiscoveredFeed, Subscription } from '@readspace/shared'
+import { DiscoveredFeed, Subscription } from '@infrss/shared'
 import { useCreateFeed } from '@/hooks/use-feeds'
 import { BellPlus, Rss } from 'lucide-react'
 import React, { useState } from 'react'

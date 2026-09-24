@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FileText, XCircle } from "lucide-react"
 import Link from "next/link"
-import { OpmlImportTask } from "@readspace/shared"
+import { OpmlImportTask } from "@infrss/shared"
 
 interface FailedCardProps {
     task: OpmlImportTask

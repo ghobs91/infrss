@@ -3,7 +3,7 @@
 import { FeedIcon } from "@/components/features/feeds/FeedIcon"
 import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
-import type { SubscriptionResponse } from "@readspace/shared"
+import type { SubscriptionResponse } from "@infrss/shared"
 import { Search } from "lucide-react"
 import { useMemo, useState } from "react"
 import { KeepingSlots } from "./KeepingSlots"

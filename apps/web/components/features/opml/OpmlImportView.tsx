@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Clock, Upload } from "lucide-react"
 import { useRef } from "react"
 import { useOpmlImport } from "./hooks/use-opml-import"
-import { useActiveImportTask } from "@readspace/shared"
+import { useActiveImportTask } from "@infrss/shared"
 
 export default function OpmlImportView() {
     const fileInputRef = useRef<HTMLInputElement>(null)

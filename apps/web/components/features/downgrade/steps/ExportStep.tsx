@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { opmlExportFilename } from "@readspace/shared"
+import { opmlExportFilename } from "@infrss/shared"
 import { Check, Download, FileText } from "lucide-react"
 
 interface ExportStepProps {

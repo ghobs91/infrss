@@ -7,8 +7,8 @@
 
 import { instantMeiliSearch } from "@meilisearch/instant-meilisearch"
 import { MeiliSearch } from "meilisearch"
-import type { HybridSearchConfig } from "@readspace/shared"
-import { POPULAR_CATEGORIES } from "@readspace/shared"
+import type { HybridSearchConfig } from "@infrss/shared"
+import { POPULAR_CATEGORIES } from "@infrss/shared"
 import { env } from "@/env"
 
 // ============================================================================
@@ -335,4 +335,4 @@ export {
     DEFAULT_SEMANTIC_RATIO,
     DEFAULT_RANKING_SCORE_THRESHOLD,
     type HybridSearchConfig,
-} from "@readspace/shared"
+} from "@infrss/shared"

@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import React, { useState } from "react"
 import OnboardingLayout from "../OnboardingLayout"
 import { CATEGORY_CONFIG } from "@/lib/categories"
-import { FeedCategory } from "@readspace/shared"
+import { FeedCategory } from "@infrss/shared"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 
 const CATEGORY_GROUPS = [

@@ -1,15 +1,15 @@
 # Reverse Proxy Configuration Examples
 
-When using Readspace with a custom domain, you'll need to configure your reverse proxy to route traffic to the three main services. This guide provides configuration examples for the most popular reverse proxy solutions.
+When using Infrss with a custom domain, you'll need to configure your reverse proxy to route traffic to the three main services. This guide provides configuration examples for the most popular reverse proxy solutions.
 
 ## Service Overview
 
-Readspace consists of three services that need to be exposed:
+Infrss consists of three services that need to be exposed:
 
 | Service         | Container Name  | Internal Port | Host Port | Subdomain Example      |
 | --------------- | --------------- | ------------- | --------- | ---------------------- |
-| Web Application | `readspace_web` | `8042`        | `18042`   | `app.example.com`      |
-| API Server      | `readspace_api` | `8008`        | `18008`   | `api.example.com`      |
+| Web Application | `infrss_web` | `8042`        | `18042`   | `app.example.com`      |
+| API Server      | `infrss_api` | `8008`        | `18008`   | `api.example.com`      |
 | Supabase        | `kong`          | `8000`        | `18000`   | `supabase.example.com` |
 | Meilisearch     | `meilisearch`   | `7700`        | `7700`    | `search.example.com`   |
 
@@ -17,10 +17,10 @@ Readspace consists of three services that need to be exposed:
 
 The port you use depends on where your reverse proxy is running:
 
-**🐳 Reverse Proxy in Docker (same network as Readspace)**
+**🐳 Reverse Proxy in Docker (same network as Infrss)**
 
 - Use container names with internal ports
-- Example: `readspace_web:8042`, `readspace_api:8008`, `kong:8000`
+- Example: `infrss_web:8042`, `infrss_api:8008`, `kong:8000`
 - Common for: Traefik, Caddy in Docker, nginx in Docker
 
 **💻 Reverse Proxy on Host (installed directly on server)**
@@ -55,26 +55,26 @@ services:
   web:
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.readspace-web.rule=Host(`app.example.com`)'
-      - 'traefik.http.routers.readspace-web.entrypoints=websecure'
-      - 'traefik.http.routers.readspace-web.tls.certresolver=letsencrypt'
-      - 'traefik.http.services.readspace-web.loadbalancer.server.port=8042'
+      - 'traefik.http.routers.infrss-web.rule=Host(`app.example.com`)'
+      - 'traefik.http.routers.infrss-web.entrypoints=websecure'
+      - 'traefik.http.routers.infrss-web.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.infrss-web.loadbalancer.server.port=8042'
 
   api:
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.readspace-api.rule=Host(`api.example.com`)'
-      - 'traefik.http.routers.readspace-api.entrypoints=websecure'
-      - 'traefik.http.routers.readspace-api.tls.certresolver=letsencrypt'
-      - 'traefik.http.services.readspace-api.loadbalancer.server.port=8008'
+      - 'traefik.http.routers.infrss-api.rule=Host(`api.example.com`)'
+      - 'traefik.http.routers.infrss-api.entrypoints=websecure'
+      - 'traefik.http.routers.infrss-api.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.infrss-api.loadbalancer.server.port=8008'
 
   meilisearch:
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.readspace-search.rule=Host(`search.example.com`)'
-      - 'traefik.http.routers.readspace-search.entrypoints=websecure'
-      - 'traefik.http.routers.readspace-search.tls.certresolver=letsencrypt'
-      - 'traefik.http.services.readspace-search.loadbalancer.server.port=7700'
+      - 'traefik.http.routers.infrss-search.rule=Host(`search.example.com`)'
+      - 'traefik.http.routers.infrss-search.entrypoints=websecure'
+      - 'traefik.http.routers.infrss-search.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.infrss-search.loadbalancer.server.port=7700'
 ```
 
 For Supabase, add labels to the `kong` service in `docker/supabase/docker-compose.yml`:
@@ -84,10 +84,10 @@ services:
   kong:
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.readspace-supabase.rule=Host(`supabase.example.com`)'
-      - 'traefik.http.routers.readspace-supabase.entrypoints=websecure'
-      - 'traefik.http.routers.readspace-supabase.tls.certresolver=letsencrypt'
-      - 'traefik.http.services.readspace-supabase.loadbalancer.server.port=8000'
+      - 'traefik.http.routers.infrss-supabase.rule=Host(`supabase.example.com`)'
+      - 'traefik.http.routers.infrss-supabase.entrypoints=websecure'
+      - 'traefik.http.routers.infrss-supabase.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.infrss-supabase.loadbalancer.server.port=8000'
 ```
 
 **Note**: Replace `letsencrypt` with your Traefik certificate resolver name.
@@ -107,7 +107,7 @@ nginx Proxy Manager provides a web UI for managing reverse proxy configurations,
    **Proxy Host 1 - Web Application**
    - Domain Names: `app.example.com`
    - Scheme: `http`
-   - Forward Hostname/IP: `readspace_web` (or `localhost` if NPM is on host)
+   - Forward Hostname/IP: `infrss_web` (or `localhost` if NPM is on host)
    - Forward Port: `8042`
    - Enable: ☑ Websockets Support
    - SSL Tab: ☑ Request a new SSL Certificate (Let's Encrypt)
@@ -115,7 +115,7 @@ nginx Proxy Manager provides a web UI for managing reverse proxy configurations,
    **Proxy Host 2 - API Server**
    - Domain Names: `api.example.com`
    - Scheme: `http`
-   - Forward Hostname/IP: `readspace_api` (or `localhost`)
+   - Forward Hostname/IP: `infrss_api` (or `localhost`)
    - Forward Port: `8008`
    - Enable: ☑ Websockets Support
    - SSL Tab: ☑ Request a new SSL Certificate
@@ -138,12 +138,12 @@ nginx Proxy Manager provides a web UI for managing reverse proxy configurations,
 
 3. **Save** each configuration
 
-**Network Setup**: If NPM is running in Docker, ensure it's in the same network as Readspace:
+**Network Setup**: If NPM is running in Docker, ensure it's in the same network as Infrss:
 
 ```yaml
 networks:
   default:
-    name: readspace_shared_net
+    name: infrss_shared_net
     external: true
 ```
 
@@ -160,13 +160,13 @@ Create or edit your `Caddyfile`:
 ```caddyfile
 # Web Application
 app.example.com {
-    reverse_proxy readspace_web:8042
+    reverse_proxy infrss_web:8042
     encode gzip
 }
 
 # API Server
 api.example.com {
-    reverse_proxy readspace_api:8008
+    reverse_proxy infrss_api:8008
     encode gzip
 }
 
@@ -232,7 +232,7 @@ server {
 
     location / {
         # Use localhost:18042 if nginx is on host
-        # Use readspace_web:8042 if nginx is in Docker network
+        # Use infrss_web:8042 if nginx is in Docker network
         proxy_pass http://localhost:18042;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -256,7 +256,7 @@ server {
 
     location / {
         # Use localhost:18008 if nginx is on host
-        # Use readspace_api:8008 if nginx is in Docker network
+        # Use infrss_api:8008 if nginx is in Docker network
         proxy_pass http://localhost:18008;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -314,7 +314,7 @@ server {
 **Enable and reload nginx**:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/readspace.conf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/infrss.conf /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```

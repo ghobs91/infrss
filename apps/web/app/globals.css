@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@import "@readspace/design-tokens/theme.css";
+@import "@infrss/design-tokens/theme.css";
 
 @layer utilities {
     button {

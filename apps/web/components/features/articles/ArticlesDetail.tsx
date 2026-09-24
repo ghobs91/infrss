@@ -1,5 +1,5 @@
 import { ArticleContent } from "./ArticleContent"
-import { useArticle, type Article } from "@readspace/shared"
+import { useArticle, type Article } from "@infrss/shared"
 
 interface ArticlesDetailProps {
     article: Article | undefined

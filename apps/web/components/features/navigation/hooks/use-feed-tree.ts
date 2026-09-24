@@ -1,4 +1,4 @@
-import { useFeeds, useUnreadCounts, type Subscription } from "@readspace/shared"
+import { useFeeds, useUnreadCounts, type Subscription } from "@infrss/shared"
 import { usePathname } from "next/navigation"
 import { useMemo } from "react"
 import type { CollapsibleFeedItemData } from "../items/CollapsibleFeedItem"

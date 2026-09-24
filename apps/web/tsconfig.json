@@ -1,5 +1,5 @@
 {
-    "extends": "@readspace/typescript-config/nextjs.json",
+    "extends": "@infrss/typescript-config/nextjs.json",
     "compilerOptions": {
         "plugins": [
             {

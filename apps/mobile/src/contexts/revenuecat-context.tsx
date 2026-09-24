@@ -1,6 +1,6 @@
 import { toast } from '@components/ui/toast';
 import { useSession } from '@contexts/auth-context';
-import { ApiClient } from '@readspace/shared';
+import { ApiClient } from '@infrss/shared';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { NativeModules, Platform } from 'react-native';
 import type { CustomerInfo, PurchasesOffering, PurchasesPackage } from 'react-native-purchases';
@@ -123,7 +123,7 @@ const REVENUECAT_API_KEY =
       process.env.EXPO_PUBLIC_REVENUECAT_API_KEY,
   }) || 'test_cfHuzuhOXcYuSOZuLbNixiMXADV';
 
-const ENTITLEMENT_ID = 'Readspace Pro';
+const ENTITLEMENT_ID = 'Infrss Pro';
 
 export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
   const { user, isLoading: isAuthLoading } = useSession();

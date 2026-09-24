@@ -6,7 +6,7 @@
 
 adaptive
 
-<!-- Readspace ships three design surfaces from one monorepo: a Next.js web app (apps/web,
+<!-- Infrss ships three design surfaces from one monorepo: a Next.js web app (apps/web,
      the primary hosted product at app.readspace.ai), an Expo iOS + Android app (apps/mobile),
      and a Manifest V3 Chrome/Firefox extension (apps/extension). Web and extension share the
      same shadcn/ui + Tailwind v4 token system from packages/design-tokens; mobile re-implements
@@ -27,16 +27,16 @@ Two audiences, served equally as one product — the design must not favor eithe
   browser full of "read later" tabs, who want one calm inbox where all of it lands and can
   actually be worked through — instead of five apps and a guilty conscience.
 
-Both use Readspace across web, mobile, and (for capture) the browser extension. A subset are
+Both use Infrss across web, mobile, and (for capture) the browser extension. A subset are
 privacy-conscious self-hosters who run the full stack via Docker to own their data; the hosted
 app is the convenience tier for everyone else.
 
 ## Product Purpose
 
-Readspace is a privacy-first, open-source reading hub that brings RSS feeds, newsletters, and
+Infrss is a privacy-first, open-source reading hub that brings RSS feeds, newsletters, and
 saved articles into one distraction-free inbox — no algorithm, no ads, no tracking. It exists
 because the tools people used to find and read content stopped serving readers and started
-serving advertisers and engagement metrics; Readspace reclaims the user-controlled web reading
+serving advertisers and engagement metrics; Infrss reclaims the user-controlled web reading
 experience that fractured when Google Reader shut down.
 
 Success is the reader getting in, reading what matters to them, and getting out — with the
@@ -53,7 +53,7 @@ The combination is the position; no neighboring product holds all of it at once:
 2. **One hub for feeds, newsletters, and saved articles** — unified in a single chronological
    inbox, fully open-source and self-hostable, with no tracking or ads. Your reading habits
    belong to you, not a company.
-3. **Efficient consumption of what you follow.** Beyond the raw stream, Readspace helps readers
+3. **Efficient consumption of what you follow.** Beyond the raw stream, Infrss helps readers
    who follow more sources than any feed view can still make sense of — via summaries,
    translations, and the **Daily Digest** (see below), which answers "what did I miss?" by
    clustering the day's articles across sources into synthesized developments plus a short
@@ -72,7 +72,7 @@ and saved articles.)
   a page to "Read Later," and a built-in RSS radar that detects feeds on any site (including
   ones that hide them) to follow directly from the browser.
 - **Newsletters arrive by email.** Inbound newsletters route through a Cloudflare Worker to
-  the backend; the user forwards or subscribes with a Readspace address and the newsletter
+  the backend; the user forwards or subscribes with a Infrss address and the newsletter
   shows up in the same inbox as everything else.
 - **Organization is folder-based and manual** — the user arranges feeds into folders; no
   algorithm reorders anything.
@@ -125,7 +125,7 @@ for the digest feature — code, routes, component names — but never appears i
 
 ## Brand Commitments
 
-- **Name:** Readspace. Hosted at `app.readspace.ai`. Open-source (repo `kamui-fin/readspace`).
+- **Name:** Infrss. Hosted at `app.readspace.ai`. Open-source (repo `ghobs91/infrss`).
 - **Wordmark & logo:** `apps/web/public/wordmark.png` is a fixed identity asset; `--font-logo`
   is the reserved logo typeface. Do not substitute or restyle the wordmark.
 - **Palette & tokens are locked.** `packages/design-tokens` (shadcn/ui-style CSS variables,

@@ -18,7 +18,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { useBulkUpdateFeedsFolder } from "@readspace/shared"
+import { useBulkUpdateFeedsFolder } from "@infrss/shared"
 
 interface BulkEditFolderModalProps {
     /** Whether the modal is open */

@@ -4,7 +4,7 @@ import {
     interleaveOnboardingFeeds,
     mapHitToOnboardingFeed,
     type OnboardingFeed,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { useQuery } from "@tanstack/react-query"
 import { useCallback, useMemo, useState } from "react"
 

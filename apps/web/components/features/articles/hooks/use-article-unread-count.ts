@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { type Subscription, ArticleFilterMode } from "@readspace/shared"
+import { type Subscription, ArticleFilterMode } from "@infrss/shared"
 
 interface UseArticleUnreadCountProps {
     unreadCounts:

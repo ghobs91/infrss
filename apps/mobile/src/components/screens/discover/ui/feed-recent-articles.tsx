@@ -3,7 +3,7 @@ import { EmptyState } from '@components/ui/empty-state';
 import { SectionHeader } from '@components/ui/section-header';
 import { Skeleton } from '@components/ui/skeleton';
 import { resolveSupabaseImageUrl } from '@lib/utils/network';
-import { Feed, FeedDiscoveryResult, formatRelativeDate } from '@readspace/shared';
+import { Feed, FeedDiscoveryResult, formatRelativeDate } from '@infrss/shared';
 import { DocumentTextIcon } from '@solar-icons/react-native/linear';
 import { Dimensions, FlatList, View } from 'react-native';
 

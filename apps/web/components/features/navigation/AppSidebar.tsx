@@ -19,7 +19,7 @@ import { SidebarMain } from "./SidebarMain"
 import { SidebarSecondary } from "./SidebarSecondary"
 import { Logo } from "@/components/ui/logo"
 import { SidebarUser } from "./SidebarUser"
-import { useUserLimits, UserRole } from "@readspace/shared"
+import { useUserLimits, UserRole } from "@infrss/shared"
 import { useUpgradeDialog } from "@/stores/upgrade-dialog"
 import { Sparkles } from "lucide-react"
 
@@ -27,7 +27,7 @@ const data = {
     navSecondary: [
         {
             title: "Github",
-            url: "https://github.com/kamui-fin/readspace",
+            url: "https://github.com/ghobs91/infrss",
             icon: function Github() {
                 return (
                     <>
@@ -149,7 +149,7 @@ export function AppSidebar({
                             <button
                                 onClick={() =>
                                     openUpgrade({
-                                        title: "Upgrade to Readspace Pro",
+                                        title: "Upgrade to Infrss Pro",
                                         description:
                                             "Unlock unlimited feeds, advanced AI features, and seamless syncing.",
                                     })

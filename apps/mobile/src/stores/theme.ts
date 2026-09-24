@@ -50,7 +50,7 @@ export const useThemeStore = create<ThemeStore>()(
       },
     }),
     {
-      name: 'readspace-theme',
+      name: 'infrss-theme',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         theme: state.theme,

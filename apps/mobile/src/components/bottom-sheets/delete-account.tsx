@@ -8,7 +8,7 @@ import { useSession } from '@contexts/auth-context';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { BUTTON_BORDER_RADIUS } from '@lib/constants/app';
 import { COLORS } from '@lib/constants/colors';
-import { ApiError, useDeleteAccount } from '@readspace/shared';
+import { ApiError, useDeleteAccount } from '@infrss/shared';
 import { useQueryClient } from '@tanstack/react-query';
 import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import { Keyboard } from 'react-native';

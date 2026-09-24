@@ -5,7 +5,7 @@ import debounce from 'debounce'
 import { CachedPageData } from '../types'
 
 const MAX_CACHE_SIZE = 200
-const CACHE_STORAGE_KEY_PREFIX = 'readspace-page-cache-v1:'
+const CACHE_STORAGE_KEY_PREFIX = 'infrss-page-cache-v1:'
 const PAGE_CACHE_MAX_ITEMS_PER_DOMAIN = 100
 const PERSIST_DEBOUNCE_MS = 1000
 

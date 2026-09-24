@@ -9,8 +9,8 @@ from fastapi import HTTPException, Request, status
 from fastapi.responses import JSONResponse
 
 
-class ReadspaceException(Exception):
-    """Base exception for all Readspace-specific errors with structured error details"""
+class InfrssException(Exception):
+    """Base exception for all Infrss-specific errors with structured error details"""
 
     def __init__(
         self,
@@ -52,37 +52,37 @@ class ReadspaceException(Exception):
         return error_dict
 
 
-class ValidationError(ReadspaceException):
+class ValidationError(InfrssException):
     """Raised when input validation fails"""
 
     pass
 
 
-class NotFoundError(ReadspaceException):
+class NotFoundError(InfrssException):
     """Raised when a resource is not found"""
 
     pass
 
 
-class AuthenticationError(ReadspaceException):
+class AuthenticationError(InfrssException):
     """Raised when authentication fails"""
 
     pass
 
 
-class AuthorizationError(ReadspaceException):
+class AuthorizationError(InfrssException):
     """Raised when user lacks permission for an operation"""
 
     pass
 
 
-class DuplicateResourceError(ReadspaceException):
+class DuplicateResourceError(InfrssException):
     """Raised when attempting to create a duplicate resource"""
 
     pass
 
 
-class ExternalServiceError(ReadspaceException):
+class ExternalServiceError(InfrssException):
     """Raised when external service calls fail"""
 
     pass
@@ -118,38 +118,38 @@ class StorageError(ExternalServiceError):
     pass
 
 
-class DatabaseError(ReadspaceException):
+class DatabaseError(InfrssException):
     """Raised when database operations fail"""
 
     pass
 
 
-class ConfigurationError(ReadspaceException):
+class ConfigurationError(InfrssException):
     """Raised when configuration is invalid"""
 
     pass
 
 
-class ServiceUnavailableError(ReadspaceException):
+class ServiceUnavailableError(InfrssException):
     """Raised when a service is unavailable or not configured"""
 
     pass
 
 
-class ResourceLimitError(ReadspaceException):
+class ResourceLimitError(InfrssException):
     """Raised when a user hits a usage limit (e.g. max subscriptions)"""
 
     pass
 
 
-class DowngradeRequiredError(ReadspaceException):
+class DowngradeRequiredError(InfrssException):
     """Raised when a user's holdings exceed their plan (post-downgrade) and they must pick what to keep"""
 
     pass
 
 
 # Exception Mapper - Maps custom exceptions to HTTP exceptions
-EXCEPTION_STATUS_MAP: dict[type[ReadspaceException], int] = {
+EXCEPTION_STATUS_MAP: dict[type[InfrssException], int] = {
     # Client errors (4xx)
     NotFoundError: status.HTTP_404_NOT_FOUND,
     ValidationError: status.HTTP_400_BAD_REQUEST,
@@ -171,7 +171,7 @@ EXCEPTION_STATUS_MAP: dict[type[ReadspaceException], int] = {
 }
 
 
-def to_http_exception(exc: ReadspaceException) -> HTTPException:
+def to_http_exception(exc: InfrssException) -> HTTPException:
     """Convert a custom exception to an HTTP exception with structured error details.
 
     Args:
@@ -183,7 +183,7 @@ def to_http_exception(exc: ReadspaceException) -> HTTPException:
     Example:
         try:
             feed = await feed_service.get_feed(feed_id)
-        except ReadspaceException as e:
+        except InfrssException as e:
             raise to_http_exception(e)
     """
     status_code = EXCEPTION_STATUS_MAP.get(type(exc), status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -202,13 +202,13 @@ def to_http_exception(exc: ReadspaceException) -> HTTPException:
 logger = structlog.get_logger("api.errors")
 
 
-async def readspace_exception_handler(request: Request, exc: Exception):
+async def infrss_exception_handler(request: Request, exc: Exception):
     """
-    Global handler for all ReadspaceException subclasses.
+    Global handler for all InfrssException subclasses.
     Automatically maps the exception to the correct HTTP status code and JSON format.
     """
-    if not isinstance(exc, ReadspaceException):
-        # Fallback for non-ReadspaceException exceptions
+    if not isinstance(exc, InfrssException):
+        # Fallback for non-InfrssException exceptions
         logger.error("Unexpected exception type", exc_type=type(exc).__name__, path=request.url.path)
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

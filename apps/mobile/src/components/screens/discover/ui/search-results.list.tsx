@@ -3,7 +3,7 @@ import { InfiniteScrollList } from '@components/ui/infinite-scroll-list';
 import { Skeleton } from '@components/ui/skeleton';
 import { Text } from '@components/ui/text';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
-import type { FeedSummary } from '@readspace/shared';
+import type { FeedSummary } from '@infrss/shared';
 import { type ReactElement, type ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import { View } from 'react-native';
 

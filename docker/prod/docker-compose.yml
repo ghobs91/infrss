@@ -8,7 +8,7 @@ services:
   # --- Observability collector (Grafana hosts Loki/Tempo) ---
   alloy:
     image: grafana/alloy:v1.19.2
-    container_name: readspace_alloy
+    container_name: infrss_alloy
     restart: unless-stopped
     # Required by Alloy's embedded cAdvisor exporter on a Linux Docker host.
     privileged: true
@@ -41,7 +41,7 @@ services:
   # --- Core Cache & Databases ---
   redis:
     image: redis:alpine
-    container_name: readspace_redis
+    container_name: infrss_redis
     restart: always
     ports:
       - 127.0.0.1:6379:6379
@@ -135,7 +135,7 @@ services:
 
   meilisearch:
     image: getmeili/meilisearch:v1.16
-    container_name: readspace_meilisearch
+    container_name: infrss_meilisearch
     restart: always
     volumes:
       - meilisearch-data:/meili_data
@@ -235,7 +235,7 @@ services:
       # and the callback URL below registered with the Apple Services ID.
       # CLIENT_ID: put the web Services ID first for OAuth, followed by
       # every native bundle ID accepted for ID-token sign-in, e.g.
-      # com.readspace.rss.web,com.readspace.rss,com.readspace.rss.dev,com.readspace.rss.preview
+      # com.infrss.rss.web,com.infrss.rss,com.infrss.rss.dev,com.infrss.rss.preview
       GOTRUE_EXTERNAL_APPLE_ENABLED: ${GOTRUE_EXTERNAL_APPLE_ENABLED:-false}
       GOTRUE_EXTERNAL_APPLE_CLIENT_ID: ${GOTRUE_EXTERNAL_APPLE_CLIENT_ID}
       GOTRUE_EXTERNAL_APPLE_SECRET: ${GOTRUE_EXTERNAL_APPLE_SECRET:-}
@@ -377,8 +377,8 @@ services:
       HOSTNAME: 0.0.0.0
       STUDIO_PG_META_URL: http://meta:8080
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      DEFAULT_ORGANIZATION_NAME: ${STUDIO_DEFAULT_ORGANIZATION:-Readspace}
-      DEFAULT_PROJECT_NAME: ${STUDIO_DEFAULT_PROJECT:-Readspace}
+      DEFAULT_ORGANIZATION_NAME: ${STUDIO_DEFAULT_ORGANIZATION:-Infrss}
+      DEFAULT_PROJECT_NAME: ${STUDIO_DEFAULT_PROJECT:-Infrss}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       SUPABASE_URL: http://kong:8000
       SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
@@ -404,11 +404,11 @@ services:
       analytics:
         condition: service_healthy
 
-  # --- Readspace Python Backend ---
+  # --- Infrss Python Backend ---
   api:
-    image: readspace-server:local
+    image: infrss-server:local
     build: *server-build
-    container_name: readspace_api
+    container_name: infrss_api
     restart: always
     command: >
       sh -c "alembic upgrade head &&
@@ -456,8 +456,8 @@ services:
       - MEILISEARCH_INDEX_NAME=feeds
       - ENVIRONMENT=production
       - PYTHONUNBUFFERED=1
-      - OTEL_SERVICE_NAME=readspace-api
-      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=production,service.namespace=readspace
+      - OTEL_SERVICE_NAME=infrss-api
+      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=production,service.namespace=infrss
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
       - OTEL_METRICS_EXPORTER=none
@@ -486,10 +486,10 @@ services:
         max-file: "3"
 
   worker:
-    image: readspace-server:local
-    # api builds readspace-server:local once; worker and scheduler reuse that image
+    image: infrss-server:local
+    # api builds infrss-server:local once; worker and scheduler reuse that image
     pull_policy: never
-    container_name: readspace_worker
+    container_name: infrss_worker
     restart: always
     command: opentelemetry-instrument taskiq worker app.core.taskiq_app:broker app.workers.registry --max-async-tasks 200
     depends_on:
@@ -517,8 +517,8 @@ services:
       - MEILISEARCH_INDEX_NAME=feeds
       - ENVIRONMENT=production
       - PYTHONUNBUFFERED=1
-      - OTEL_SERVICE_NAME=readspace-worker
-      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=production,service.namespace=readspace
+      - OTEL_SERVICE_NAME=infrss-worker
+      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=production,service.namespace=infrss
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
       - OTEL_METRICS_EXPORTER=none
@@ -535,9 +535,9 @@ services:
       - OPENAI_EMBEDDING_DIMENSIONS=${OPENAI_EMBEDDING_DIMENSIONS:-768}
 
   scheduler:
-    image: readspace-server:local
+    image: infrss-server:local
     pull_policy: never
-    container_name: readspace_scheduler
+    container_name: infrss_scheduler
     restart: always
     command: opentelemetry-instrument taskiq scheduler app.core.taskiq_app:scheduler app.workers.registry
     depends_on:
@@ -560,8 +560,8 @@ services:
       - MEILISEARCH_INDEX_NAME=feeds
       - ENVIRONMENT=production
       - PYTHONUNBUFFERED=1
-      - OTEL_SERVICE_NAME=readspace-scheduler
-      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=production,service.namespace=readspace
+      - OTEL_SERVICE_NAME=infrss-scheduler
+      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=production,service.namespace=infrss
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
       - OTEL_METRICS_EXPORTER=none

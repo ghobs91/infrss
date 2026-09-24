@@ -13,12 +13,12 @@ import { BOTTOM_TABBAR_BASE_HEIGHT } from '@lib/constants/app';
 import { COLORS } from '@lib/constants/colors';
 import { USES_NATIVE_HEADER } from '@lib/constants/platform';
 import { createListItems, type ListItem } from '@lib/utils/article';
-import type { Article } from '@readspace/shared';
+import type { Article } from '@infrss/shared';
 import {
   isPaywallError,
   useInfiniteRecentlyReadArticles,
   useUpdateArticle,
-} from '@readspace/shared';
+} from '@infrss/shared';
 import { HistoryIcon } from '@solar-icons/react-native/broken';
 import * as Haptics from 'expo-haptics';
 import { useFocusEffect, useRouter } from 'expo-router';

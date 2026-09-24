@@ -6,7 +6,7 @@ import { toast } from '@components/ui/toast';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
 import { stripHtml } from '@lib/utils/html';
-import { useCreateFeed, useDeleteFeed } from '@readspace/shared';
+import { useCreateFeed, useDeleteFeed } from '@infrss/shared';
 import { AddCircleIcon, CheckCircleIcon } from '@solar-icons/react-native/bold-duotone';
 import * as Haptics from 'expo-haptics';
 import { useMemo } from 'react';

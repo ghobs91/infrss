@@ -15,7 +15,7 @@ import { BOTTOM_TABBAR_BASE_HEIGHT } from '@lib/constants/app';
 import { COLORS } from '@lib/constants/colors';
 import { USES_NATIVE_HEADER } from '@lib/constants/platform';
 import { FEEDS_INDEX_NAME, meilisearchClient } from '@lib/meilisearch-client';
-import { ApiClient, useCreateFeed } from '@readspace/shared';
+import { ApiClient, useCreateFeed } from '@infrss/shared';
 import { DocumentTextIcon } from '@solar-icons/react-native/linear';
 import { discoverLanguageToCode, getDiscoverLanguage } from '@stores/discover-preferences';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';

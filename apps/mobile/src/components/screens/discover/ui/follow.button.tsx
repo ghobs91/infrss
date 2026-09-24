@@ -10,7 +10,7 @@ import { toast } from '@components/ui/toast';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { useLimitChecker } from '@hooks/useLimitChecker';
 import { COLORS } from '@lib/constants/colors';
-import { useCreateFeed, useDeleteFeed, useFeeds } from '@readspace/shared';
+import { useCreateFeed, useDeleteFeed, useFeeds } from '@infrss/shared';
 import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import * as Haptics from 'expo-haptics';

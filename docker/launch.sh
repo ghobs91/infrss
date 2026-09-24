@@ -1,5 +1,5 @@
 #!/bin/bash
-# Launch Readspace infrastructure and services (development or self-hosted)
+# Launch Infrss infrastructure and services (development or self-hosted)
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -30,7 +30,7 @@ COMPOSE_FILES=("-f" "$SCRIPT_DIR/supabase/docker-compose.yml" "-f" "$SCRIPT_DIR/
 ENV_FILES=("--env-file" "$SCRIPT_DIR/supabase/.env" "--env-file" "$SCRIPT_DIR/.env")
 # --project-name is pinned explicitly (rather than left to Compose's default, which is
 # derived from the first -f file's directory) so image tags and volume names read
-# "readspace_*", not "supabase_*". Changing this value requires docker/reset.sh + relaunch
+# "infrss_*", not "supabase_*". Changing this value requires docker/reset.sh + relaunch
 # on any existing deployment, or its volumes are orphaned under the old project name.
 #
 # Deliberately NOT using --project-directory here: it forces every relative path in BOTH
@@ -40,7 +40,7 @@ ENV_FILES=("--env-file" "$SCRIPT_DIR/supabase/.env" "--env-file" "$SCRIPT_DIR/.e
 # are written relative to docker/supabase/, not docker/). docker-compose.yml's build
 # contexts and bind mounts instead use ${PROJECT_ROOT} (exported above) to resolve
 # absolutely, so no shared base directory is needed at all.
-PROJECT_FLAGS=("--project-name" "readspace")
+PROJECT_FLAGS=("--project-name" "infrss")
 PROFILES=()
 
 # Load RSSHUB_MODE from docker/.env to determine if we should enable RSSHub profile
@@ -53,11 +53,11 @@ if [ "$DEV_MODE" = true ]; then
     COMPOSE_FILES+=("-f" "$SCRIPT_DIR/supabase/docker-compose.dev.yml")
     # docker-compose.yml defaults Meilisearch to production (no dashboard); keep it locally
     export MEILI_ENV=development
-    print_info "› Starting Readspace in DEVELOPMENT mode..."
+    print_info "› Starting Infrss in DEVELOPMENT mode..."
 else
     # Add app profile for self-host (full Docker stack)
     PROFILES+=("app")
-    print_info "› Starting Readspace in SELF-HOSTED mode..."
+    print_info "› Starting Infrss in SELF-HOSTED mode..."
 fi
 
 # Add RSSHub profile if using local instance
@@ -92,10 +92,10 @@ if [ "$RSSHUB_MODE" = "external" ]; then
 fi
 
 # --- Final Output ---
-print_info "🎉 --- Readspace Setup Complete! --- 🎉"
-echo "Your Readspace instance is now running."
+print_info "🎉 --- Infrss Setup Complete! --- 🎉"
+echo "Your Infrss instance is now running."
 echo ""
-print_success "Readspace Web App: http://localhost:18042"
+print_success "Infrss Web App: http://localhost:18042"
 echo ""
 
 if [ "$DEV_MODE" = true ]; then

@@ -6,7 +6,7 @@ import {
     useSummarizeArticleMutation,
     useTranslateArticleMutation,
     type Article,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { useEffect, useMemo, useState } from "react"
 import { toast } from "react-hot-toast"
 

@@ -1,6 +1,6 @@
-# Readspace Browser Extension
+# Infrss Browser Extension
 
-A powerful browser extension to save articles to Readspace for later reading. Works on both Chrome and Firefox.
+A powerful browser extension to save articles to Infrss for later reading. Works on both Chrome and Firefox.
 
 ## Cross-Browser Support
 

@@ -1,6 +1,6 @@
 import { CategoriesList } from '@components/screens/discover/ui/categories.list';
 import { TrendingSection } from '@components/screens/discover/ui/trending-section.list';
-import type { FeedSummary } from '@readspace/shared';
+import type { FeedSummary } from '@infrss/shared';
 import { useCallback } from 'react';
 import { type NativeScrollEvent, type NativeSyntheticEvent, ScrollView, View } from 'react-native';
 

@@ -1,4 +1,4 @@
-import type { Article } from "@readspace/shared"
+import type { Article } from "@infrss/shared"
 import { format, parseISO } from "date-fns"
 import { useMemo } from "react"
 

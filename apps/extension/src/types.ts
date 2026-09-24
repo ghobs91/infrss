@@ -1,5 +1,5 @@
 export interface ExtensionSettings {
-  readspace_url: string
+  infrss_url: string
   supabase_url: string
   supabase_anon_key: string
   google_client_id?: string

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
 import { ArrowLeft } from "lucide-react"
-import { useArticle, type Article } from "@readspace/shared"
+import { useArticle, type Article } from "@infrss/shared"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Button } from "@/components/ui/button"

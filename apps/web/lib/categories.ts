@@ -23,7 +23,7 @@ import {
     type LucideIcon,
 } from "lucide-react"
 
-import { FeedCategory } from "@readspace/shared"
+import { FeedCategory } from "@infrss/shared"
 
 export interface CategoryConfig {
     name: string

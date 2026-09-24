@@ -4,9 +4,9 @@ import { useMemo } from "react"
 import {
     useInfiniteReadLaterArticles,
     ArticleFilterMode,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { ArticlesView } from "@/components/features/articles/ArticlesView"
-import type { Article } from "@readspace/shared"
+import type { Article } from "@infrss/shared"
 
 interface ReadLaterPageClientProps {
     defaultLayout?: number[]

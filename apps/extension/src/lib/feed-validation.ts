@@ -29,7 +29,7 @@ export async function validateFeeds(
         let response = await fetch(feed.url, {
           method: 'HEAD',
           signal: controller.signal,
-          headers: { 'User-Agent': 'Readspace Extension Feed Validator' },
+          headers: { 'User-Agent': 'Infrss Extension Feed Validator' },
         })
         clearTimeout(timeoutId)
 
@@ -40,7 +40,7 @@ export async function validateFeeds(
           response = await fetch(feed.url, {
             method: 'GET',
             signal: getController.signal,
-            headers: { 'User-Agent': 'Readspace Extension Feed Validator' },
+            headers: { 'User-Agent': 'Infrss Extension Feed Validator' },
           })
           clearTimeout(getTimeoutId)
         }

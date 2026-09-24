@@ -21,15 +21,15 @@ interface ConfigResponse {
 export function SelfHostedSettings({ onBack }: SelfHostedSettingsProps) {
   const { settings, updateSettings } = useExtensionStore()
   const [apiUrl, setApiUrl] = useState(
-    settings.readspace_url === PRODUCTION_DEFAULTS.readspace_url
+    settings.infrss_url === PRODUCTION_DEFAULTS.infrss_url
       ? ''
-      : settings.readspace_url
+      : settings.infrss_url
   )
   const [isValidating, setIsValidating] = useState(false)
   const [error, setError] = useState<string>('')
 
   const isUsingProduction =
-    settings.readspace_url === PRODUCTION_DEFAULTS.readspace_url
+    settings.infrss_url === PRODUCTION_DEFAULTS.infrss_url
 
   const isValid = apiUrl.trim().length > 0
 
@@ -63,7 +63,7 @@ export function SelfHostedSettings({ onBack }: SelfHostedSettingsProps) {
           )
         } else if (configResponse.status >= 500) {
           throw new Error(
-            `Server error (${configResponse.status}). The Readspace server may be down.`
+            `Server error (${configResponse.status}). The Infrss server may be down.`
           )
         }
         throw new Error(`Server returned error status ${configResponse.status}`)
@@ -79,7 +79,7 @@ export function SelfHostedSettings({ onBack }: SelfHostedSettingsProps) {
 
       // Update settings with fetched config
       updateSettings({
-        readspace_url: trimmedUrl,
+        infrss_url: trimmedUrl,
         supabase_url: config.supabase_url,
         supabase_anon_key: config.supabase_anon_key,
       })
@@ -99,7 +99,7 @@ export function SelfHostedSettings({ onBack }: SelfHostedSettingsProps) {
   const handleUseCloudConfig = () => {
     setApiUrl('')
     updateSettings(PRODUCTION_DEFAULTS)
-    toast.success('Switched to Readspace Cloud')
+    toast.success('Switched to Infrss Cloud')
     onBack()
   }
 
@@ -123,7 +123,7 @@ export function SelfHostedSettings({ onBack }: SelfHostedSettingsProps) {
         <p className="text-muted-foreground">
           {isUsingProduction ? (
             <>
-              Connected to <span className="font-medium">Readspace Cloud</span>
+              Connected to <span className="font-medium">Infrss Cloud</span>
             </>
           ) : (
             <>

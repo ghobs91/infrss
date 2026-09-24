@@ -1,5 +1,5 @@
 import { toast } from "sonner"
-import { useRefreshFeed } from "@readspace/shared"
+import { useRefreshFeed } from "@infrss/shared"
 
 export function useDeepRefresh() {
     const refreshFeed = useRefreshFeed()

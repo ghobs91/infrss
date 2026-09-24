@@ -22,12 +22,12 @@ export function Logo({
             )}
         >
             <Image
-                src="/readspace.svg"
+                src="/infrss.svg"
                 width={iconSize}
                 height={iconSize}
-                alt="readspace logo"
+                alt="infrss logo"
             />
-            {showText && <span className={textSize}>readspace</span>}
+            {showText && <span className={textSize}>infrss</span>}
         </div>
     )
 }

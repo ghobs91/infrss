@@ -1,6 +1,6 @@
 "use client"
 
-import { useUserLimits } from "@readspace/shared"
+import { useUserLimits } from "@infrss/shared"
 import { useUpgradeDialog } from "@/stores/upgrade-dialog"
 
 export function useLimitChecker() {

@@ -3,7 +3,7 @@ import { Text } from '@components/ui/text';
 import { useFavicon } from '@hooks/useFavicon';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
-import type { ArticleSummary } from '@readspace/shared';
+import type { ArticleSummary } from '@infrss/shared';
 import { View } from 'react-native';
 
 interface Source {

@@ -3,7 +3,7 @@ import { BottomSheet } from '@components/ui/bottom-sheet';
 import { Card } from '@components/ui/card/index';
 import { Text } from '@components/ui/text';
 import { useFavicon } from '@hooks/useFavicon';
-import { type ArticleSummary, type CodexDevelopment, formatRelativeDate } from '@readspace/shared';
+import { type ArticleSummary, type CodexDevelopment, formatRelativeDate } from '@infrss/shared';
 import { useRouter } from 'expo-router';
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { View } from 'react-native';

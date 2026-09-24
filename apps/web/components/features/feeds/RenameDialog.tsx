@@ -8,7 +8,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { useUpdateFeed, useUpdateFolder, ApiError } from "@readspace/shared"
+import { useUpdateFeed, useUpdateFolder, ApiError } from "@infrss/shared"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 

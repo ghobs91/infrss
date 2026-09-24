@@ -700,7 +700,7 @@ summary:focus-visible,
 
 /* The mark, on its own. The before panel is fifteen tiles and fifteen counts;
    the after panel earns its point by being almost empty, so it gets no card, no
-   chrome and no badge. An unread count here would also be a lie — Readspace
+   chrome and no badge. An unread count here would also be a lie — Infrss
    aggregates everything, so the number is large, it's just in one place now. */
 .shift-one {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -708,7 +708,7 @@ summary:focus-visible,
 }
 .shift-one-mark {
   display: block; width: 72px; height: 72px;
-  /* readspace.svg ships square — every other placement rounds it in CSS. */
+  /* infrss.svg ships square — every other placement rounds it in CSS. */
   border-radius: 19px;
   box-shadow: 0 18px 30px -14px rgba(24, 48, 30, .34);
 }

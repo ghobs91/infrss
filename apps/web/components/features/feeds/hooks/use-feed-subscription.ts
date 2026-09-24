@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useCreateFolder, useCreateFeed, ApiError } from "@readspace/shared"
+import { useCreateFolder, useCreateFeed, ApiError } from "@infrss/shared"
 import { toast } from "react-hot-toast"
 
 interface UseFeedSubscriptionProps {

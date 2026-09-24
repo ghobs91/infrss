@@ -9,7 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import { useFeeds } from "@readspace/shared"
+import { useFeeds } from "@infrss/shared"
 import { Loader2, Rss } from "lucide-react"
 import { FolderSelect } from "./FolderSelect"
 import { FeedIcon } from "./FeedIcon"

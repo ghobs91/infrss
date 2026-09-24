@@ -24,7 +24,7 @@ import {
   useRefreshFeed,
   useUnreadCounts,
   useUpdateArticle,
-} from '@readspace/shared';
+} from '@infrss/shared';
 import { useFeedViewStore } from '@stores/feed-view';
 import { getTabKey, useFollowingStore } from '@stores/following';
 import { useQueryClient } from '@tanstack/react-query';

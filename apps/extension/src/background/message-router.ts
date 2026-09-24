@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill'
 import { supabase } from './supabase-client'
 import { ExtensionMessage } from '../shared/types'
-import { ApiClient } from '@readspace/shared'
+import { ApiClient } from '@infrss/shared'
 import { pageCache } from '../lib/page-cache'
 import { stateStore } from './state-store'
 import * as AuthHandlers from './handlers/auth'

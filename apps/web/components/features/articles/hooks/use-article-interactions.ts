@@ -2,7 +2,7 @@ import {
     isPaywallError,
     useUpdateArticle,
     type Article,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 

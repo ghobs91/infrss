@@ -6,7 +6,7 @@ import { Chip } from '@components/ui/chip';
 import { Text } from '@components/ui/text';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
-import { CONTENT_TYPE_DISPLAY_NAMES, ContentType } from '@readspace/shared';
+import { CONTENT_TYPE_DISPLAY_NAMES, ContentType } from '@infrss/shared';
 import {
   BookIcon,
   BookmarkIcon,

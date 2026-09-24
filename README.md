@@ -1,7 +1,7 @@
 <div align="center">
 
 <a href="https://readspace.ai">
-  <img src="./apps/web/public/wordmark.png" alt="Readspace" width="300" />
+  <img src="./apps/web/public/wordmark.png" alt="Infrss" width="300" />
 </a>
 
 <h1>The open-source reader for everything you follow</h1>
@@ -28,38 +28,38 @@
 </p>
 
 <p>
-  <a href="https://github.com/kamui-fin/readspace/actions/workflows/ci.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/kamui-fin/readspace/ci.yml?branch=main"></a>
-  <a href="./LICENSE"><img alt="AGPL-3.0 license" src="https://img.shields.io/github/license/kamui-fin/readspace"></a>
-  <a href="https://github.com/kamui-fin/readspace/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/kamui-fin/readspace"></a>
+  <a href="https://github.com/ghobs91/infrss/actions/workflows/ci.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/ghobs91/infrss/ci.yml?branch=main"></a>
+  <a href="./LICENSE"><img alt="AGPL-3.0 license" src="https://img.shields.io/github/license/ghobs91/infrss"></a>
+  <a href="https://github.com/ghobs91/infrss/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/ghobs91/infrss"></a>
   <a href="https://discord.gg/2q5ptywuqz"><img alt="Discord community" src="https://img.shields.io/discord/1349476822290530357?logo=discord&label=discord"></a>
 </p>
 
 </div>
 
-![Readspace feed and article reader](./landing/assets/img/main_feed_web-1200.webp)
+![Infrss feed and article reader](./landing/assets/img/main_feed_web-1200.webp)
 
 <p align="center">
   <img src="./landing/assets/img/smart_discover.png" alt="Semantic search results for writers who think deeply about technology and society" width="50%" align="middle" />
   &nbsp;
-  <img src="./landing/assets/img/read_later_desktop.webp" alt="Readspace browser extension saving an article with a priority and note" width="40%" align="middle" />
+  <img src="./landing/assets/img/read_later_desktop.webp" alt="Infrss browser extension saving an article with a priority and note" width="40%" align="middle" />
 </p>
 
 <p align="center">
-  <img src="./landing/assets/img/main_feed_mobile.webp" alt="Readspace mobile feed" width="280" />
+  <img src="./landing/assets/img/main_feed_mobile.webp" alt="Infrss mobile feed" width="280" />
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./landing/assets/img/daily_digest_mobile.webp" alt="Readspace mobile daily digest" width="280" />
+  <img src="./landing/assets/img/daily_digest_mobile.webp" alt="Infrss mobile daily digest" width="280" />
 </p>
 
 > [!TIP]
 > Watch or star the repo to hear about new releases, and come say hi in [Discord](https://discord.gg/2q5ptywuqz) if you want a say in what gets built next.
 
-## Why Readspace
+## Why Infrss
 
-I follow a mix of tech writers, market newsletters, political coverage, and a handful of small blogs. Before Readspace, those lived in different places: publications on their own sites, newsletters piling up in Gmail, indie blogs in bookmarks I never opened. Social feeds put everything in one place, but an algorithm picks what you see and the feed never ends.
+I follow a mix of tech writers, market newsletters, political coverage, and a handful of small blogs. Before Infrss, those lived in different places: publications on their own sites, newsletters piling up in Gmail, indie blogs in bookmarks I never opened. Social feeds put everything in one place, but an algorithm picks what you see and the feed never ends.
 
 RSS fixes most of this, but the readers built on it tend to assume you already know how RSS works. You start with an empty screen and a box asking for a feed URL, and the mobile apps are usually an afterthought. I wanted an RSS reader my mom could use without ever learning what RSS is.
 
-Readspace also makes it easier to discover new sources. Explore over 120,000 feeds with semantic search on the hosted service, from major publications to indie blogs and hidden gems across the open web.
+Infrss also makes it easier to discover new sources. Explore over 120,000 feeds with semantic search on the hosted service, from major publications to indie blogs and hidden gems across the open web.
 
 Read [the manifesto](./MANIFESTO.md) for the longer version.
 
@@ -127,8 +127,8 @@ The Docker setup runs the web app, API, workers, Supabase, Redis, Meilisearch, a
 ### Install
 
 ```bash
-git clone https://github.com/kamui-fin/readspace.git
-cd readspace
+git clone https://github.com/ghobs91/infrss.git
+cd infrss
 
 ./docker/setup.sh
 ./docker/launch.sh
@@ -146,7 +146,7 @@ For a public deployment, follow the [reverse proxy examples](./docs/reverse-prox
 
 ### Connect an extension or mobile app to your instance
 
-Open the extension or mobile app settings and enter your **instance URL**. This is the URL of the Readspace API, which usually ends in port `18008`:
+Open the extension or mobile app settings and enter your **instance URL**. This is the URL of the Infrss API, which usually ends in port `18008`:
 
 ```text
 http://192.168.1.42:18008
@@ -177,7 +177,7 @@ To also regenerate secrets:
 
 ## Development
 
-Readspace is a monorepo containing several product surfaces and services:
+Infrss is a monorepo containing several product surfaces and services:
 
 | Path             | What it contains                                  |
 | ---------------- | ------------------------------------------------- |
@@ -196,16 +196,16 @@ For prerequisites, local infrastructure, app-specific commands, database migrati
 You do not need to run the whole stack to help. Documentation fixes, self-hosting reports, browser extension tweaks, design feedback, and bug reports all help, and they are the easiest place to start.
 
 1. Read the [contributing guide](./CONTRIBUTING.md).
-2. Check [existing issues](https://github.com/kamui-fin/readspace/issues) before opening a new one.
-3. For ideas or questions that are not yet actionable bugs, start a [GitHub discussion](https://github.com/kamui-fin/readspace/discussions).
+2. Check [existing issues](https://github.com/ghobs91/infrss/issues) before opening a new one.
+3. For ideas or questions that are not yet actionable bugs, start a [GitHub discussion](https://github.com/ghobs91/infrss/discussions).
 
-Self-hosted Readspace on something unusual, or hit a wall during setup? Tell us in [Discord](https://discord.gg/2q5ptywuqz) or a discussion. Setup friction reports are one of the most valuable contributions right now.
+Self-hosted Infrss on something unusual, or hit a wall during setup? Tell us in [Discord](https://discord.gg/2q5ptywuqz) or a discussion. Setup friction reports are one of the most valuable contributions right now.
 
 ## Community
 
 - [Join the Discord](https://discord.gg/2q5ptywuqz)
-- [Start a discussion](https://github.com/kamui-fin/readspace/discussions)
+- [Start a discussion](https://github.com/ghobs91/infrss/discussions)
 
 ## License
 
-Readspace is licensed under the [GNU Affero General Public License v3.0](./LICENSE).
+Infrss is licensed under the [GNU Affero General Public License v3.0](./LICENSE).

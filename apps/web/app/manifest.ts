@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next"
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: "Readspace",
-        short_name: "Readspace",
+        name: "Infrss",
+        short_name: "Infrss",
         description:
             "All your reading in one place — a privacy-friendly inbox for RSS, newsletters, threads, and books.",
         start_url: "/today",

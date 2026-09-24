@@ -3,7 +3,7 @@ import {
     type Article,
     ContentView,
     estimateReadingTime,
-} from "@readspace/shared"
+} from "@infrss/shared"
 
 import { useArticleAI } from "./use-article-ai"
 import { useArticleInteractions } from "./use-article-interactions"

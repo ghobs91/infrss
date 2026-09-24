@@ -1,5 +1,5 @@
 {
-    "name": "@readspace/web",
+    "name": "@infrss/web",
     "version": "0.1.0",
     "private": true,
     "type": "module",
@@ -48,8 +48,8 @@
         "@radix-ui/react-toggle": "^1.1.2",
         "@radix-ui/react-toggle-group": "^1.1.2",
         "@radix-ui/react-tooltip": "^1.1.8",
-        "@readspace/design-tokens": "workspace:*",
-        "@readspace/shared": "workspace:^",
+        "@infrss/design-tokens": "workspace:*",
+        "@infrss/shared": "workspace:^",
         "@sentry/nextjs": "^10",
         "@solar-icons/react": "^2.1.0",
         "@supabase/ssr": "^0.6.1",
@@ -140,8 +140,8 @@
     "devDependencies": {
         "@eslint/eslintrc": "^3",
         "@faker-js/faker": "^9.6.0",
-        "@readspace/eslint-config": "workspace:*",
-        "@readspace/typescript-config": "workspace:*",
+        "@infrss/eslint-config": "workspace:*",
+        "@infrss/typescript-config": "workspace:*",
         "@supabase/supabase-js": "^2.49.4",
         "@tailwindcss/postcss": "^4.0.15",
         "@tailwindcss/typography": "^0.5.16",

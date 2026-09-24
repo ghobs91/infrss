@@ -10,7 +10,7 @@ import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
 import { USES_NATIVE_HEADER } from '@lib/constants/platform';
 import { createSearchClient, FEEDS_INDEX_NAME } from '@lib/meilisearch-client';
-import { createHybridSearchParams, MOBILE_CATEGORY_NAMES } from '@readspace/shared';
+import { createHybridSearchParams, MOBILE_CATEGORY_NAMES } from '@infrss/shared';
 import {
   type DiscoverLanguage,
   discoverLanguageToCode,

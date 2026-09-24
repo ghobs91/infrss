@@ -41,7 +41,7 @@ export const useDiscoverPreferences = create<DiscoverPreferencesStore>()(
       },
     }),
     {
-      name: 'readspace-discover-preferences',
+      name: 'infrss-discover-preferences',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         language: state.language,

@@ -10,7 +10,7 @@ import { useNetworkConnectivity } from '@hooks/useNetworkConnectivity';
 import { COLORS } from '@lib/constants/colors';
 import { USES_NATIVE_HEADER } from '@lib/constants/platform';
 import { resolveSupabaseImageUrl } from '@lib/utils/network';
-import { ApiClient, type Article, formatRelativeDate, useFeed } from '@readspace/shared';
+import { ApiClient, type Article, formatRelativeDate, useFeed } from '@infrss/shared';
 import { InboxLineIcon } from '@solar-icons/react-native/linear';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter, useSegments } from 'expo-router';

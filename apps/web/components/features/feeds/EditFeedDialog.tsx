@@ -5,7 +5,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import { type FeedDetail, type FeedSummary } from "@readspace/shared"
+import { type FeedDetail, type FeedSummary } from "@infrss/shared"
 import { EditFeedForm } from "./EditFeedForm"
 
 interface EditFeedDialogProps {

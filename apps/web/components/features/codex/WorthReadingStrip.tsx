@@ -1,6 +1,6 @@
 "use client"
 
-import type { CodexWorthReadingItem } from "@readspace/shared"
+import type { CodexWorthReadingItem } from "@infrss/shared"
 import { CodexArticleRow } from "./CodexArticleRow"
 
 interface WorthReadingStripProps {

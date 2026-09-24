@@ -2,7 +2,7 @@ import {
   ApiClient,
   CheckArticleSavedResponse,
   Priority,
-} from '@readspace/shared'
+} from '@infrss/shared'
 import { normalizeKey } from '../../lib/normalize'
 import { broadcast } from '../broadcast'
 import { isNotFoundError } from '../errors'

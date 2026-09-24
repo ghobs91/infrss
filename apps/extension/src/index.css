@@ -4,7 +4,7 @@
 @import 'tailwindcss';
 
 /* Import local design tokens */
-@import '@readspace/design-tokens/theme.css';
+@import '@infrss/design-tokens/theme.css';
 
 /* Ensure consistent popup width across browsers */
 body {

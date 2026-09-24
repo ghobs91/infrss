@@ -1,6 +1,6 @@
 import { supabase } from '@lib/supabase/client';
 import { resolveHostname } from '@lib/utils/network';
-import { ApiClient } from '@readspace/shared';
+import { ApiClient } from '@infrss/shared';
 import { getSettings, useSettingsStore } from '@stores/settings';
 
 /**
@@ -10,10 +10,10 @@ import { getSettings, useSettingsStore } from '@stores/settings';
  * - When settings are updated (instance switch)
  * - After login/logout
  */
-export function configureApiClient(readspaceUrl?: string) {
+export function configureApiClient(infrssUrl?: string) {
   const settings = getSettings();
   const apiBaseUrl = resolveHostname(
-    readspaceUrl || settings?.readspace_url || 'http://localhost:8008'
+    infrssUrl || settings?.infrss_url || 'http://localhost:8008'
   );
 
   console.log('[API] Configuring with baseUrl:', apiBaseUrl);
@@ -40,8 +40,8 @@ export function configureApiClient(readspaceUrl?: string) {
 // Listen for settings changes to reconfigure client
 if (typeof useSettingsStore !== 'undefined') {
   useSettingsStore.subscribe((state, previousState) => {
-    if (state.settings.readspace_url !== previousState.settings.readspace_url) {
-      configureApiClient(state.settings.readspace_url);
+    if (state.settings.infrss_url !== previousState.settings.infrss_url) {
+      configureApiClient(state.settings.infrss_url);
     }
   });
 }

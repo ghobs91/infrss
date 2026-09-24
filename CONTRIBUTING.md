@@ -1,8 +1,8 @@
-# Contributing to Readspace
+# Contributing to Infrss
 
-Thanks for contributing to Readspace. Bug fixes, documentation improvements, feature work, and thoughtful product feedback are all welcome.
+Thanks for contributing to Infrss. Bug fixes, documentation improvements, feature work, and thoughtful product feedback are all welcome.
 
-Before starting a large change, check the [existing issues](https://github.com/kamui-fin/readspace/issues) and [discussions](https://github.com/kamui-fin/readspace/discussions). Opening an issue first helps confirm the scope and avoids duplicated work.
+Before starting a large change, check the [existing issues](https://github.com/ghobs91/infrss/issues) and [discussions](https://github.com/ghobs91/infrss/discussions). Opening an issue first helps confirm the scope and avoids duplicated work.
 
 ## Prerequisites
 
@@ -21,9 +21,9 @@ Mobile development also requires the platform tools described in the [Expo local
 1. Fork the repository, then clone your fork:
 
    ```bash
-   git clone https://github.com/YOUR_USERNAME/readspace.git
-   cd readspace
-   git remote add upstream https://github.com/kamui-fin/readspace.git
+   git clone https://github.com/YOUR_USERNAME/infrss.git
+   cd infrss
+   git remote add upstream https://github.com/ghobs91/infrss.git
    ```
 
 2. Install the JavaScript workspace dependencies:

@@ -6,7 +6,7 @@ import {
   PageMetadata,
   Priority,
   CheckArticleSavedResponse,
-} from '@readspace/shared'
+} from '@infrss/shared'
 import { useCheckArticleSaved } from './use-check-article-saved'
 import { useArticleForm } from './use-article-form'
 import { extractContentForSave } from '../lib/extraction-utils'

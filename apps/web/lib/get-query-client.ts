@@ -3,7 +3,7 @@ import {
     ApiError,
     isDowngradeRequiredError,
     queryKeys,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { useUpgradeDialog } from "@/stores/upgrade-dialog"
 
 function makeQueryClient() {
@@ -17,7 +17,7 @@ function makeQueryClient() {
         }
         if (error instanceof ApiError && error.status === 429) {
             useUpgradeDialog.getState().open({
-                title: "Upgrade to Readspace Pro",
+                title: "Upgrade to Infrss Pro",
                 description:
                     error.message ||
                     "You have reached a limit on your current plan.",

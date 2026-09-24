@@ -28,7 +28,7 @@ import {
   useFeeds,
   useUnreadCounts,
   useUpdateFeed,
-} from '@readspace/shared';
+} from '@infrss/shared';
 import {
   AddFolderIcon,
   FolderWithFilesIcon,

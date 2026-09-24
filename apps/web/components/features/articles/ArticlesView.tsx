@@ -19,8 +19,8 @@ import {
     useArticleGrouping,
 } from "./hooks/use-article-grouping"
 
-import { useFeed, useUpdateArticle, ArticleFilterMode } from "@readspace/shared"
-import type { Article } from "@readspace/shared"
+import { useFeed, useUpdateArticle, ArticleFilterMode } from "@infrss/shared"
+import type { Article } from "@infrss/shared"
 import type { UseInfiniteQueryResult } from "@tanstack/react-query"
 
 interface ArticlesViewProps {

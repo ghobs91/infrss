@@ -1,6 +1,6 @@
 # Native integration TODOs
 
-Readspace currently uses Expo SDK 57. The packages below are installed and the
+Infrss currently uses Expo SDK 57. The packages below are installed and the
 localization, background-task, and notifications config plugins are registered.
 Feature integration remains TODO; installation does not enable these features.
 

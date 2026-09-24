@@ -8,7 +8,7 @@ import {
     isCodexNotEntitled,
     useCodexToday,
     useGenerateCodexDigest,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { CodexView } from "./CodexView"

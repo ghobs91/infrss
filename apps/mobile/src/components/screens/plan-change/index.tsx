@@ -12,7 +12,7 @@ import {
   type SubscriptionResponse,
   useFeeds,
   useResolveDowngrade,
-} from '@readspace/shared';
+} from '@infrss/shared';
 import { DownloadMinimalisticIcon } from '@solar-icons/react-native/bold';
 import { type ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, View } from 'react-native';

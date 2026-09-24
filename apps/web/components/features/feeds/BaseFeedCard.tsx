@@ -5,7 +5,7 @@ import {
     type FeedCategory,
     CATEGORY_DISPLAY_NAMES,
     CONTENT_TYPE_DISPLAY_NAMES,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { cn } from "@/lib/utils"
 import { Trash2 } from "lucide-react"
 import Link from "next/link"

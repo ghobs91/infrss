@@ -1,6 +1,6 @@
 import { Text } from '@components/ui/text';
 import { LegendList } from '@legendapp/list';
-import type { SubscriptionResponse } from '@readspace/shared';
+import type { SubscriptionResponse } from '@infrss/shared';
 import clsx from 'clsx';
 import { useCallback, useMemo } from 'react';
 import { View } from 'react-native';

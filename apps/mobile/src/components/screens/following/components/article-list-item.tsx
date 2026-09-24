@@ -6,8 +6,8 @@ import { Text } from '@components/ui/text';
 import { useFavicon } from '@hooks/useFavicon';
 import { READ_LATER_READER_MODE } from '@lib/constants/app';
 import type { ListItem } from '@lib/utils/article';
-import type { Article } from '@readspace/shared';
-import { formatRelativeDate } from '@readspace/shared';
+import type { Article } from '@infrss/shared';
+import { formatRelativeDate } from '@infrss/shared';
 import { Link } from 'expo-router';
 import { View } from 'react-native';
 

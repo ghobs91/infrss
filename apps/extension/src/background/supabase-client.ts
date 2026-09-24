@@ -1,5 +1,5 @@
 import { createClient, SupabaseClient, Session } from '@supabase/supabase-js'
-import { ApiClient } from '@readspace/shared'
+import { ApiClient } from '@infrss/shared'
 import browser from 'webextension-polyfill'
 import { PRODUCTION_DEFAULTS, EXTENSION_STORAGE_KEY } from '../lib/constants'
 import { ExtensionMessage } from '../shared/types'
@@ -13,7 +13,7 @@ export const initSupabase = async () => {
 
     let supabaseUrl = PRODUCTION_DEFAULTS.supabase_url
     let supabaseKey = PRODUCTION_DEFAULTS.supabase_anon_key
-    let readspaceUrl = PRODUCTION_DEFAULTS.readspace_url
+    let infrssUrl = PRODUCTION_DEFAULTS.infrss_url
 
     if (rawState) {
       const state = JSON.parse(rawState)
@@ -23,8 +23,8 @@ export const initSupabase = async () => {
           supabaseUrl = settings.supabase_url
           supabaseKey = settings.supabase_anon_key
         }
-        if (settings.readspace_url) {
-          readspaceUrl = settings.readspace_url
+        if (settings.infrss_url) {
+          infrssUrl = settings.infrss_url
         }
       }
     }
@@ -40,7 +40,7 @@ export const initSupabase = async () => {
 
     // Configure ApiClient
     ApiClient.configure({
-      baseUrl: readspaceUrl,
+      baseUrl: infrssUrl,
       getAuthToken: async () => {
         const storage = await browser.storage.local.get('session')
         const session = storage.session as Session | undefined
@@ -78,7 +78,7 @@ export const initSupabase = async () => {
     })
 
     console.log('Supabase initialized with URL:', supabaseUrl)
-    console.log('ApiClient initialized with URL:', readspaceUrl)
+    console.log('ApiClient initialized with URL:', infrssUrl)
   } catch (error) {
     console.error('Failed to initialize Supabase/ApiClient:', error)
   }

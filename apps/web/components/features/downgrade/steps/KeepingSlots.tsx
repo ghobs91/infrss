@@ -1,7 +1,7 @@
 "use client"
 
 import { FeedIcon } from "@/components/features/feeds/FeedIcon"
-import type { SubscriptionResponse } from "@readspace/shared"
+import type { SubscriptionResponse } from "@infrss/shared"
 import { X } from "lucide-react"
 
 interface KeepingSlotsProps {

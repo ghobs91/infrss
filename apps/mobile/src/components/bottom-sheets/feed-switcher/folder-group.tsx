@@ -7,7 +7,7 @@ import { type MenuAction, MenuView } from '@expo/ui/community/menu';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
 import { resolveSupabaseImageUrl } from '@lib/utils/network';
-import type { Folder, Subscription } from '@readspace/shared';
+import type { Folder, Subscription } from '@infrss/shared';
 import {
   CheckCircleIcon,
   FolderOpenIcon,

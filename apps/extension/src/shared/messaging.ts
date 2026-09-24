@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill'
-import { ApiError } from '@readspace/shared'
+import { ApiError } from '@infrss/shared'
 import { ExtensionMessage } from './types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

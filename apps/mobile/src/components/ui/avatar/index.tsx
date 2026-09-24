@@ -8,7 +8,7 @@ import BoringAvatar from 'react-native-boring-avatars';
  * The previous palette mixed in an off-white (#F3F3F3) and a desaturated grey,
  * so generated avatars came out washed out and clashed with whatever surface
  * they sat on. Keeping every stop on the same hue with clear steps in value
- * means any combination the hash picks still reads as Readspace.
+ * means any combination the hash picks still reads as Infrss.
  */
 const AVATAR_COLORS = ['#2F4A32', '#386641', '#6A994E', '#A7BF9B', '#D1DBCD'];
 

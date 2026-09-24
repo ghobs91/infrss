@@ -4,7 +4,7 @@ import { FeedSelectionStep } from '@components/screens/onboarding/feeds';
 import { useSession } from '@contexts/auth-context';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
-import { ApiClient } from '@readspace/shared';
+import { ApiClient } from '@infrss/shared';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import { BackHandler, Platform, View } from 'react-native';

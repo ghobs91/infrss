@@ -10,7 +10,7 @@ import {
   READER_FONT_STACKS,
   READER_LINE_HEIGHTS,
 } from '@lib/constants/reader';
-import type { Article } from '@readspace/shared';
+import type { Article } from '@infrss/shared';
 import { useReaderPreferences } from '@stores/reader-preferences';
 import { Image as ExpoImage } from 'expo-image';
 import {
@@ -334,7 +334,7 @@ export const ArticleReader = forwardRef<ArticleReaderHandle, ArticleReaderProps>
       if (webViewRef.current && isReady) {
         webViewRef.current.injectJavaScript(`
         (function() {
-          var el = document.getElementById('readspace-reader-content');
+          var el = document.getElementById('infrss-reader-content');
           if (!el) return true;
           if (${highlightsEnabled}) {
             el.classList.add('rs-highlights-on');
@@ -395,7 +395,7 @@ export const ArticleReader = forwardRef<ArticleReaderHandle, ArticleReaderProps>
       -webkit-text-size-adjust: 100%;
     }
 
-    #readspace-reader-content {
+    #infrss-reader-content {
       padding-left: ${isNewsletter ? '0' : '24px'};
       padding-right: ${isNewsletter ? '0' : '24px'};
       padding-bottom: ${isNewsletter ? '0' : '24px'};
@@ -407,7 +407,7 @@ export const ArticleReader = forwardRef<ArticleReaderHandle, ArticleReaderProps>
       box-sizing: border-box;
     }
 
-    /* AI Highlights (Skim Mode) — invisible until #readspace-reader-content carries
+    /* AI Highlights (Skim Mode) — invisible until #infrss-reader-content carries
        .rs-highlights-on, toggled via injectedJavaScript so the marked-up HTML can be
        baked in once and shown/hidden without a WebView reload. Applies to newsletters
        too, unlike Translate. */
@@ -420,7 +420,7 @@ export const ArticleReader = forwardRef<ArticleReaderHandle, ArticleReaderProps>
       box-decoration-break: clone;
       -webkit-box-decoration-break: clone;
     }
-    #readspace-reader-content.rs-highlights-on mark.rs-highlight {
+    #infrss-reader-content.rs-highlights-on mark.rs-highlight {
       --rs-highlight-color: color-mix(in srgb, var(--color-secondary) var(--rs-highlight-alpha), transparent);
       background-image: linear-gradient(90deg, var(--rs-highlight-color) 0%, var(--rs-highlight-color) 100%);
       background-repeat: no-repeat;
@@ -430,7 +430,7 @@ export const ArticleReader = forwardRef<ArticleReaderHandle, ArticleReaderProps>
       animation: rs-highlight-sweep 320ms ease-out forwards;
       animation-delay: calc(var(--rs-highlight-index, 0) * 30ms);
     }
-    #readspace-reader-content.rs-highlights-on mark.rs-highlight[data-rank="2"] {
+    #infrss-reader-content.rs-highlights-on mark.rs-highlight[data-rank="2"] {
       --rs-highlight-color: color-mix(in srgb, var(--color-secondary) var(--rs-highlight-alpha-2), transparent);
     }
     @keyframes rs-highlight-sweep {
@@ -438,7 +438,7 @@ export const ArticleReader = forwardRef<ArticleReaderHandle, ArticleReaderProps>
       to   { background-size: 100% 100%; }
     }
     @media (prefers-reduced-motion: reduce) {
-      #readspace-reader-content.rs-highlights-on mark.rs-highlight {
+      #infrss-reader-content.rs-highlights-on mark.rs-highlight {
         animation: none;
         background-size: 100% 100%;
       }
@@ -671,7 +671,7 @@ export const ArticleReader = forwardRef<ArticleReaderHandle, ArticleReaderProps>
   </style>
 </head>
 <body>
-  <div id="readspace-reader-content">
+  <div id="infrss-reader-content">
     ${cleanedContent || '<p>No content available</p>'}
   </div>
   <script>
@@ -716,7 +716,7 @@ export const ArticleReader = forwardRef<ArticleReaderHandle, ArticleReaderProps>
 
     const injectedJS = `
     (function() {
-      var container = document.getElementById('readspace-reader-content');
+      var container = document.getElementById('infrss-reader-content');
       if (!container) return;
 
       // Headings, for the outline sheet. Recomputed alongside the height

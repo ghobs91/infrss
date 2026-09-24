@@ -1,5 +1,5 @@
 {
-  "name": "@readspace/shared",
+  "name": "@infrss/shared",
   "main": "./src/index.ts",
   "scripts": {
     "lint": "eslint .",
@@ -8,8 +8,8 @@
     "format:check": "prettier --check src"
   },
   "devDependencies": {
-    "@readspace/eslint-config": "*",
-    "@readspace/typescript-config": "*",
+    "@infrss/eslint-config": "*",
+    "@infrss/typescript-config": "*",
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.0.1",

@@ -4,7 +4,7 @@ import { handleMessage } from './background/message-router'
 import { initTabs } from './background/tabs'
 import { ExtensionMessage } from './shared/types'
 
-console.log('Readspace Background Service Worker Starting...')
+console.log('Infrss Background Service Worker Starting...')
 
 // Initialize tabs listeners
 initTabs()

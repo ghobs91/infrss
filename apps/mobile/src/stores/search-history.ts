@@ -55,7 +55,7 @@ export const useSearchHistory = create<SearchHistoryStore>()(
       },
     }),
     {
-      name: 'readspace-search-history',
+      name: 'infrss-search-history',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         searches: state.searches,

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Completely reset a Readspace deployment: stop everything and permanently
+# Completely reset a Infrss deployment: stop everything and permanently
 # delete ALL data (Postgres database, Meilisearch index, Redis cache).
 #
 # Secrets and configuration in docker/supabase/.env and docker/.env are left
@@ -33,7 +33,7 @@ print_error() {
     printf "\033[1;31mERROR: %s\033[0m\n" "$1" >&2
 }
 
-echo "⚠️  WARNING: This will permanently delete ALL Readspace data:"
+echo "⚠️  WARNING: This will permanently delete ALL Infrss data:"
 echo "   - Postgres database (users, feeds, articles — everything in Supabase)"
 echo "   - Meilisearch search index"
 echo "   - Redis cache"
@@ -57,7 +57,7 @@ ENV_FILES=("--env-file" "$SCRIPT_DIR/supabase/.env" "--env-file" "$SCRIPT_DIR/.e
 # Must match launch.sh's --project-name, or this targets a different (empty) Compose
 # project and silently does nothing. Deliberately no --project-directory — see launch.sh
 # for why (it breaks docker/supabase/docker-compose.yml's own relative volume paths).
-PROJECT_FLAGS=("--project-name" "readspace")
+PROJECT_FLAGS=("--project-name" "infrss")
 PROFILES=()
 
 # Load RSSHUB_MODE from docker/.env to determine if we should include RSSHub profile
@@ -68,10 +68,10 @@ fi
 # Add dev-specific overlay if in development mode
 if [ "$DEV_MODE" = true ]; then
     COMPOSE_FILES+=("-f" "$SCRIPT_DIR/supabase/docker-compose.dev.yml")
-    print_info "› Resetting Readspace DEVELOPMENT deployment..."
+    print_info "› Resetting Infrss DEVELOPMENT deployment..."
 else
     PROFILES+=("app")
-    print_info "› Resetting Readspace SELF-HOSTED deployment..."
+    print_info "› Resetting Infrss SELF-HOSTED deployment..."
 fi
 
 # Add RSSHub profile if using local instance (matches launch.sh)
@@ -94,7 +94,7 @@ print_success "✓ All containers and data volumes removed."
 
 # --- Final Output ---
 print_info "🎉 --- Reset Complete! --- 🎉"
-echo "All Readspace data has been wiped. Secrets were preserved."
+echo "All Infrss data has been wiped. Secrets were preserved."
 echo ""
 if [ "$DEV_MODE" = true ]; then
     echo "Run './docker/launch.sh --dev' to start a fresh instance."

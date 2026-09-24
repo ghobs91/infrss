@@ -5,7 +5,7 @@ import { Skeleton } from '@components/ui/skeleton';
 import { Text } from '@components/ui/text';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
-import type { SummarizeResponse } from '@readspace/shared';
+import type { SummarizeResponse } from '@infrss/shared';
 import { DangerTriangleIcon } from '@solar-icons/react-native/bold';
 import { forwardRef, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';

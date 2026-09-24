@@ -5,7 +5,7 @@ import { type MenuAction, MenuView } from '@expo/ui/community/menu';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
 import { resolveSupabaseImageUrl } from '@lib/utils/network';
-import type { Subscription } from '@readspace/shared';
+import type { Subscription } from '@infrss/shared';
 import { CheckCircleIcon, MenuDotsIcon } from '@solar-icons/react-native/bold';
 import { memo } from 'react';
 import { TouchableOpacity, View, type ViewStyle } from 'react-native';

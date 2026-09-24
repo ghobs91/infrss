@@ -2,7 +2,7 @@ import { sendMessage } from '@/shared/messaging'
 import browser from 'webextension-polyfill'
 import { ExtensionSettings } from '@/types'
 import { ExtensionMessage } from '@/shared/types'
-import { PageMetadata, User } from '@readspace/shared'
+import { PageMetadata, User } from '@infrss/shared'
 import { create } from 'zustand'
 import { createJSONStorage, persist, StateStorage } from 'zustand/middleware'
 import { PRODUCTION_DEFAULTS } from '@/lib/constants'
@@ -31,7 +31,7 @@ interface ExtensionState {
 }
 
 const defaultSettings: ExtensionSettings = {
-  readspace_url: PRODUCTION_DEFAULTS.readspace_url,
+  infrss_url: PRODUCTION_DEFAULTS.infrss_url,
   supabase_url: PRODUCTION_DEFAULTS.supabase_url,
   supabase_anon_key: PRODUCTION_DEFAULTS.supabase_anon_key,
   google_client_id: PRODUCTION_DEFAULTS.google_client_id,
@@ -84,7 +84,7 @@ export const useExtensionStore = create<ExtensionState>()(
         set({ settings })
 
         // Reconfigure API client if URL changed
-        if (newSettings.readspace_url || newSettings.supabase_url) {
+        if (newSettings.infrss_url || newSettings.supabase_url) {
           sendMessage({ type: 'config-changed' }).catch(console.error)
         }
       },
@@ -148,7 +148,7 @@ export const useExtensionStore = create<ExtensionState>()(
         set({ currentPageMetadata: metadata }),
     }),
     {
-      name: 'readspace-extension',
+      name: 'infrss-extension',
       storage: createJSONStorage(() => extensionStorage),
       partialize: (state) => ({
         settings: state.settings,

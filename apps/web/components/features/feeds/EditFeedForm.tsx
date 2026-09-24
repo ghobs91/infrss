@@ -23,7 +23,7 @@ import {
     type FeedSummary,
     useAdminUpdateFeed,
     useFeed,
-} from "@readspace/shared"
+} from "@infrss/shared"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"

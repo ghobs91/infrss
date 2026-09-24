@@ -114,7 +114,7 @@ export const useFollowingStore = create<FollowingStore>()(
       },
     }),
     {
-      name: 'readspace-following',
+      name: 'infrss-following',
       storage: createJSONStorage(() => AsyncStorage),
       // v1 moved Today to the front of the tab row (was All, Today, Saved).
       // Without this, everyone with a persisted tab index would silently land
