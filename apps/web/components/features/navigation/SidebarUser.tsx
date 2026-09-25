@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronsUpDown, Clock, LogOut, Upload } from "lucide-react"
+import { ChevronsUpDown, Clock, LogOut, Settings, Upload } from "lucide-react"
 import { useState } from "react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -111,6 +111,15 @@ export function SidebarUser({
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator />
                             <DropdownMenuGroup>
+                                <DropdownMenuItem asChild>
+                                    <Link
+                                        href="/settings"
+                                        className="cursor-pointer"
+                                    >
+                                        <Settings className="mr-2 h-4 w-4" />
+                                        Settings
+                                    </Link>
+                                </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                     <Link
                                         href="/import-opml"
