@@ -47,6 +47,8 @@ export interface FeedContextFields {
   feed_title: string | null;
   feed_icon: string | null;
   published_at: string | null;
+  /** True when the article's feed was promoted from the primary-source catalog. */
+  feed_is_primary: boolean;
 }
 
 /**

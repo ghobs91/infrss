@@ -1,4 +1,5 @@
 import { ApiClient } from '../core';
+import type { LaymanSummary, LaymanSummaryInput } from '../types/layman';
 import {
   Article,
   ArticleCountsResponse,
@@ -175,6 +176,34 @@ export const articles = {
     return ApiClient.post<SummarizeResponse>(
       `/api/articles/${id}/summarize${queryString ? `?${queryString}` : ''}`,
       data
+    );
+  },
+
+  getLaymanSummary: (id: string, article_type?: string) => {
+    const queryParams = new URLSearchParams();
+    if (article_type === 'clipped') queryParams.append('clipped', 'true');
+    const queryString = queryParams.toString();
+    return ApiClient.get<LaymanSummary>(
+      `/api/articles/${id}/layman-summary${queryString ? `?${queryString}` : ''}`
+    );
+  },
+
+  cacheLaymanSummary: (id: string, data: LaymanSummaryInput, article_type?: string) => {
+    const queryParams = new URLSearchParams();
+    if (article_type === 'clipped') queryParams.append('clipped', 'true');
+    const queryString = queryParams.toString();
+    return ApiClient.put<LaymanSummary>(
+      `/api/articles/${id}/layman-summary${queryString ? `?${queryString}` : ''}`,
+      data
+    );
+  },
+
+  generateLaymanSummary: (id: string, article_type?: string) => {
+    const queryParams = new URLSearchParams();
+    if (article_type === 'clipped') queryParams.append('clipped', 'true');
+    const queryString = queryParams.toString();
+    return ApiClient.post<LaymanSummary>(
+      `/api/articles/${id}/layman-summary/generate${queryString ? `?${queryString}` : ''}`
     );
   },
 

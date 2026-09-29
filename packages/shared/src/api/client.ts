@@ -7,11 +7,14 @@ import { discover } from './endpoints/discover';
 import { users } from './endpoints/users';
 import { newsletters } from './endpoints/newsletters';
 import { codex } from './endpoints/codex';
+import { catalog } from './endpoints/catalog';
 
 export * from './core';
 export * from './types/common';
 export * from './types/feeds';
 export * from './types/articles';
+export * from './types/layman';
+export * from './types/catalog';
 export * from './types/folders';
 export * from './types/opml';
 export * from './types/codex';
@@ -29,7 +32,18 @@ class BaseApiClient extends CoreApiClient {
   }
 }
 
-Object.assign(BaseApiClient, feeds, folders, opml, articles, discover, users, newsletters, codex);
+Object.assign(
+  BaseApiClient,
+  feeds,
+  folders,
+  opml,
+  articles,
+  discover,
+  users,
+  newsletters,
+  codex,
+  catalog
+);
 
 export const ApiClient = BaseApiClient as typeof CoreApiClient &
   typeof feeds &
@@ -39,6 +53,7 @@ export const ApiClient = BaseApiClient as typeof CoreApiClient &
   typeof discover &
   typeof users &
   typeof newsletters &
-  typeof codex;
+  typeof codex &
+  typeof catalog;
 
 export type ApiClient = InstanceType<typeof CoreApiClient>;

@@ -11,6 +11,7 @@ import {
   type InfiniteData,
 } from '@tanstack/react-query';
 import { ApiClient } from '../client';
+import type { LaymanSummary, LaymanSummaryInput } from '../types/layman';
 import {
   ARTICLE_ENHANCEMENT_QUERY_KEYS,
   RSS_QUERY_KEYS,
@@ -822,6 +823,62 @@ export function useSummarizeArticleMutation(
 /**
  * Mutation hook for generating AI Highlights (skim mode)
  */
+/**
+ * Query hook for a stored layman summary. A 404 (not generated yet) is expected, so retries
+ * are disabled and callers treat `isError` as "absent".
+ */
+export function useLaymanSummaryQuery(
+  articleId: string | null | undefined,
+  params?: { articleType?: string; enabled?: boolean }
+) {
+  return useQuery({
+    queryKey: queryKeys.laymanSummary(articleId ?? ''),
+    queryFn: () => ApiClient.getLaymanSummary(articleId as string, params?.articleType),
+    enabled: (params?.enabled ?? true) && !!articleId,
+    retry: false,
+    staleTime: 30 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
+  });
+}
+
+/** Persist a summary produced on-device (WebLLM) or by a local Ollama endpoint. */
+export function useCacheLaymanSummaryMutation(
+  options?: UseMutationOptions<
+    LaymanSummary,
+    unknown,
+    { articleId: string; input: LaymanSummaryInput; articleType?: string }
+  >
+) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ articleId, input, articleType }) =>
+      ApiClient.cacheLaymanSummary(articleId, input, articleType),
+    onSettled: (_data, _error, variables) => {
+      return Promise.all([
+        queryClient.invalidateQueries({ queryKey: queryKeys.laymanSummary(variables.articleId) }),
+      ]);
+    },
+    ...options,
+  });
+}
+
+/** Server-side fallback generation for clients without WebGPU / a local model. */
+export function useGenerateLaymanSummaryMutation(
+  options?: UseMutationOptions<LaymanSummary, unknown, { articleId: string; articleType?: string }>
+) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ articleId, articleType }) =>
+      ApiClient.generateLaymanSummary(articleId, articleType),
+    onSettled: (_data, _error, variables) => {
+      return Promise.all([
+        queryClient.invalidateQueries({ queryKey: queryKeys.laymanSummary(variables.articleId) }),
+      ]);
+    },
+    ...options,
+  });
+}
+
 export function useGenerateHighlightsMutation(
   options?: UseMutationOptions<
     HighlightResponse,

@@ -24,6 +24,12 @@ export const ARTICLE_ENHANCEMENT_QUERY_KEYS = {
   SUMMARY: 'article-summary',
   TRANSLATION: 'article-translation',
   HIGHLIGHTS: 'article-highlights',
+  LAYMAN_SUMMARY: 'article-layman-summary',
+} as const;
+
+export const CATALOG_QUERY_KEYS = {
+  ENTITIES: 'catalog-entities',
+  FEEDS: 'catalog-feeds',
 } as const;
 
 export const USER_QUERY_KEYS = {
@@ -35,7 +41,8 @@ export type QueryKey =
   | (typeof RSS_QUERY_KEYS)[keyof typeof RSS_QUERY_KEYS]
   | (typeof ARTICLE_ENHANCEMENT_QUERY_KEYS)[keyof typeof ARTICLE_ENHANCEMENT_QUERY_KEYS]
   | (typeof USER_QUERY_KEYS)[keyof typeof USER_QUERY_KEYS]
-  | (typeof CODEX_QUERY_KEYS)[keyof typeof CODEX_QUERY_KEYS];
+  | (typeof CODEX_QUERY_KEYS)[keyof typeof CODEX_QUERY_KEYS]
+  | (typeof CATALOG_QUERY_KEYS)[keyof typeof CATALOG_QUERY_KEYS];
 
 /**
  * Helper functions to create consistent query keys
@@ -89,6 +96,8 @@ export const queryKeys = {
     [ARTICLE_ENHANCEMENT_QUERY_KEYS.TRANSLATION, articleId, targetLanguage, contentHash] as const,
   highlights: (articleId: string, languageKey: string) =>
     [ARTICLE_ENHANCEMENT_QUERY_KEYS.HIGHLIGHTS, articleId, languageKey] as const,
+  laymanSummary: (articleId: string) =>
+    [ARTICLE_ENHANCEMENT_QUERY_KEYS.LAYMAN_SUMMARY, articleId] as const,
 
   // OPML
   opmlImportStatus: (taskId: string | null) => [RSS_QUERY_KEYS.OPML_IMPORT_STATUS, taskId] as const,
@@ -102,6 +111,10 @@ export const queryKeys = {
   // Codex
   codexToday: () => [CODEX_QUERY_KEYS.TODAY] as const,
   codexPreferences: () => [CODEX_QUERY_KEYS.PREFERENCES] as const,
+
+  // Primary-source catalog
+  catalogEntities: () => [CATALOG_QUERY_KEYS.ENTITIES] as const,
+  catalogFeeds: (entityId: string | null) => [CATALOG_QUERY_KEYS.FEEDS, entityId] as const,
 } as const;
 
 export const MUTATION_KEYS = {
