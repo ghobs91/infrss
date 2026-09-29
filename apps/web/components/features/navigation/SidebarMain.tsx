@@ -12,6 +12,7 @@ import {
     Compass,
     Diamond,
     FolderPlus,
+    Landmark,
     Search,
     Settings2,
     Sparkles,
@@ -188,6 +189,7 @@ export function SidebarMain() {
         { title: "Daily Digest", icon: Sparkles, url: "/codex" },
         { title: "Today", icon: Diamond, url: "/today" },
         { title: "Follow Sources", icon: Compass, url: "/discover" },
+        { title: "Primary Sources", icon: Landmark, url: "/catalog" },
         { title: "Read Later", icon: BookmarkIcon, url: "/read-later" },
     ]
 

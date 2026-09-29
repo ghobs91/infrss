@@ -3,6 +3,7 @@ import { formatDistanceToNow, parseISO } from "date-fns"
 import { FeedIcon } from "@/components/features/feeds/FeedIcon"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
+import { PrimarySourceBadge } from "./PrimarySourceBadge"
 import Link from "next/link"
 
 interface ArticleHeaderProps {
@@ -95,6 +96,12 @@ export function ArticleHeader({
                             ))}
                         </div>
                     )}
+                </div>
+            )}
+
+            {article.feed_is_primary && (
+                <div className="flex items-center gap-2">
+                    <PrimarySourceBadge />
                 </div>
             )}
 

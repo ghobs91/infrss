@@ -20,6 +20,7 @@
         "@dnd-kit/utilities": "^3.2.2",
         "@hookform/resolvers": "^5.2.2",
         "@meilisearch/instant-meilisearch": "^0.29.0",
+        "@mlc-ai/web-llm": "^0.2.85",
         "@polar-sh/nextjs": "^0.9.6",
         "@polar-sh/sdk": "^0.47.1",
         "@radix-ui/primitive": "^1.1.1",

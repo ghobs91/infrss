@@ -4,6 +4,7 @@ import type { Article } from "@infrss/shared"
 import { AiSummaryCard } from "./AiSummaryCard"
 import { AnimatedContent } from "./AnimatedContent"
 import { ArticleHeader } from "./ArticleHeader"
+import { LaymanSummaryCard } from "./LaymanSummaryCard"
 import { ProseContainer } from "./ProseContainer"
 import { Skeleton } from "@/components/ui/skeleton"
 import { sanitizeArticleHtml } from "@/lib/sanitize-article-html"
@@ -284,6 +285,8 @@ export function ArticleReaderBody({
                     onDismiss={onDismissAiSummary ?? (() => {})}
                 />
             )}
+
+            <LaymanSummaryCard article={article} className="mt-4" />
 
             {isBusy || (!canSanitize && !!displayContent) ? (
                 <div className="space-y-4 mt-8">
