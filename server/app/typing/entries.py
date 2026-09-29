@@ -43,6 +43,8 @@ class FeedContextFields(BaseModel):
     feed_title: str | None = None
     feed_icon: str | None = None
     published_at: datetime | None = None
+    # True when the article's feed was promoted from the primary-source catalog.
+    feed_is_primary: bool = False
 
     @field_validator("feed_icon", mode="before")
     @classmethod

@@ -106,6 +106,7 @@ class ArticleTransformer:
             created_at=feed_article.created_at,
             article_type="feed",
             tags=content.tags,
+            feed_is_primary=bool(feed.primary_entity_id) if feed else False,
         )
 
     def to_entry_detail(
@@ -151,6 +152,7 @@ class ArticleTransformer:
             created_at=feed_article.created_at,
             article_type="feed",
             tags=content.tags,
+            feed_is_primary=bool(feed.primary_entity_id) if feed else False,
         )
 
     def clipped_to_entry_list_item(

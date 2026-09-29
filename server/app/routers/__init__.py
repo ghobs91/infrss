@@ -11,8 +11,14 @@ from app.routers.articles.articles_counts import router as articles_counts_route
 from app.routers.articles.articles_enhancements import (
     router as articles_enhancements_router,
 )
+from app.routers.articles.articles_layman import router as articles_layman_router
 from app.routers.articles.articles_views import router as articles_views_router
 from app.routers.codex import router as codex_router
+
+# Primary-source catalog: the synthetic-feed endpoint is deliberately ungated (the feed fetcher
+# reads it without auth); browsing and subscribe-to-promote are gated like other content routes.
+from app.routers.catalog import public_router as catalog_public_router
+from app.routers.catalog import router as catalog_router
 
 # Top-level routers (already have prefixes)
 from app.routers.discover import router as discover_router
@@ -41,6 +47,8 @@ plan_gate = [Depends(require_plan_compliance)]
 
 # Include top-level routers (already have prefixes)
 api_router.include_router(discover_router, dependencies=plan_gate)
+api_router.include_router(catalog_public_router)
+api_router.include_router(catalog_router, dependencies=plan_gate)
 api_router.include_router(folders_router)
 api_router.include_router(users_router)
 api_router.include_router(info_router)
@@ -52,6 +60,7 @@ api_router.include_router(articles_views_router, prefix="/articles", tags=["Arti
 api_router.include_router(articles_counts_router, prefix="/articles", tags=["Articles"], dependencies=plan_gate)
 api_router.include_router(articles_clipped_router, prefix="/articles", tags=["Articles"], dependencies=plan_gate)
 api_router.include_router(articles_enhancements_router, prefix="/articles", tags=["Articles"], dependencies=plan_gate)
+api_router.include_router(articles_layman_router, prefix="/articles", tags=["Articles"], dependencies=plan_gate)
 api_router.include_router(articles_router, prefix="/articles", tags=["Articles"], dependencies=plan_gate)
 
 # Include feed routers with prefix

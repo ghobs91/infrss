@@ -78,3 +78,30 @@ class CodexDigestPhase(str, Enum):
     TRIAGING = "triaging"  # Phase 1 - the clustering/ranking LLM call
     READING = "reading"  # Phase 1.5 - fetching full article text for the chosen few
     SYNTHESIZING = "synthesizing"  # Phase 2 - the writing LLM call
+
+
+class EntityType(str, Enum):
+    """Kind of authoritative organisation behind a primary-source feed."""
+
+    GOV_FEDERAL = "GOV_FEDERAL"
+    GOV_STATE = "GOV_STATE"
+    CORP_PUBLIC = "CORP_PUBLIC"
+    CORP_PRIVATE = "CORP_PRIVATE"
+    RESEARCH_ACADEMIC = "RESEARCH_ACADEMIC"
+
+
+class CatalogFeedType(str, Enum):
+    """How a catalog feed's stream is produced."""
+
+    NATIVE_RSS = "NATIVE_RSS"
+    NATIVE_ATOM = "NATIVE_ATOM"
+    SYNTHETIC_HTML = "SYNTHETIC_HTML"
+
+
+class VerificationStatus(str, Enum):
+    """Gatekeeper verdict for a catalog feed."""
+
+    VERIFIED_PRIMARY = "VERIFIED_PRIMARY"
+    PENDING = "PENDING"
+    REJECTED_AGGREGATOR = "REJECTED_AGGREGATOR"
+    QUARANTINED = "QUARANTINED"

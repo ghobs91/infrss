@@ -10,7 +10,7 @@ from sqlalchemy import (
     UniqueConstraint,
 )
 from sqlalchemy import Enum as SQLEnum
-from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.dialects.postgresql import UUID as SQLUUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -45,6 +45,9 @@ class ArticleContent(Base):
     # Relationships
     feed_articles = relationship("FeedArticle", back_populates="content", cascade="all, delete-orphan")
     user_entries = relationship("UserEntry", back_populates="content", cascade="all, delete-orphan")
+    layman_summary = relationship(
+        "ArticleLaymanSummary", back_populates="content", uselist=False, cascade="all, delete-orphan"
+    )
 
 
 class FeedArticle(Base):
@@ -121,3 +124,31 @@ class UserEntry(Base):
     feed_article = relationship("FeedArticle", back_populates="user_entries")
 
     __table_args__ = (UniqueConstraint("user_id", "content_id", name="uq_user_entry_content"),)
+
+
+class ArticleLaymanSummary(Base):
+    """Plain-language translation of a primary-source document, shared across users.
+
+    Keyed by ``content_id`` (the shared ``article_contents`` row) so one generated summary serves
+    every user who reads the same document.
+    """
+
+    __tablename__ = "article_layman_summaries"
+
+    id = Column(SQLUUID(as_uuid=True), primary_key=True, server_default=func.gen_random_uuid())
+    content_id = Column(
+        SQLUUID(as_uuid=True),
+        ForeignKey("article_contents.id", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,
+        index=True,
+    )
+    headline = Column(Text, nullable=False)
+    what_happened = Column(JSONB, nullable=False)
+    key_impact = Column(Text, nullable=False)
+    model_identifier = Column(Text, nullable=False)
+    generated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())
+
+    content = relationship("ArticleContent", back_populates="layman_summary")

@@ -46,6 +46,15 @@ class Settings(BaseSettings):
     # SSRF protection: set true only if self-hosters need feeds from private/intranet hosts
     ALLOW_PRIVATE_FEED_URLS: bool = False
 
+    # Primary-source catalog
+    # SEC EDGAR requires a descriptive User-Agent with contact info (fair-access policy).
+    SEC_USER_AGENT: str = "infrss-primary-catalog admin@example.com"
+    SEC_RATE_LIMIT_RPS: float = 10.0  # SEC fair-access limit: 10 requests/second
+    # Base URL the backend serves synthetic feeds from; used to build promoted feeds.url values.
+    SYNTHETIC_FEED_BASE_URL: str = "http://localhost:8008"
+    # Render JS-only newsrooms with Playwright. Off by default: Playwright is an optional extra.
+    SYNTHETIC_USE_BROWSER: bool = False
+
     # Meilisearch Configuration
     MEILISEARCH_URL: str = "http://localhost:7700"
     MEILISEARCH_MASTER_KEY: SecretStr
@@ -96,6 +105,14 @@ class Settings(BaseSettings):
         """Validate RSShub URL format."""
         if not v.startswith(("http://", "https://")):
             raise ValueError(f"RSSHUB_URL must be a valid HTTP URL: {v}")
+        return v
+
+    @field_validator("SYNTHETIC_FEED_BASE_URL")
+    @classmethod
+    def validate_synthetic_feed_base_url(cls, v: str) -> str:
+        """Validate the base URL synthetic feeds are served from."""
+        if not v.startswith(("http://", "https://")):
+            raise ValueError(f"SYNTHETIC_FEED_BASE_URL must be a valid HTTP URL: {v}")
         return v
 
     @property

@@ -46,6 +46,49 @@ DEFAULT_REFRESH_INTERVAL_MINUTES = 35
 MAX_REFRESH_INTERVAL_MINUTES = 24 * 60  # 1 day
 MAX_ERROR_BACKOFF_MINUTES = 12 * 60
 
+# Primary-Source Catalog (app/services/catalog/)
+# A candidate feed is rejected once more than this fraction of its items link off the entity's
+# own domain - the signal that it curates/aggregates third-party reporting rather than publishing
+# primary material.
+CATALOG_OUTBOUND_THIRD_PARTY_RATIO = 0.05
+# Newsroom-style pages scanned, in order, for <link rel="alternate"> feed declarations.
+CATALOG_AUTODISCOVERY_PATHS = ("/newsroom", "/press", "/investors", "/media", "/news")
+# Well-known feed endpoints probed when a page advertises no feed of its own.
+CATALOG_PROBE_PATHS = (
+    "/feed",
+    "/rss",
+    "/atom",
+    "/rss.xml",
+    "/atom.xml",
+    "/feed.xml",
+    "/newsroom/rss",
+    "/press-releases.xml",
+)
+# Feed-hosting CDNs whose host may serve an entity's own feed without breaking domain alignment.
+CATALOG_ALLOWED_FEED_HOSTS = ("feedburner.com", "feedpress.me")
+
+# Catalog verification polling + circuit breakers
+CATALOG_VERIFY_INTERVAL_MINUTES = 120  # Healthy candidate re-check cadence
+CATALOG_VERIFY_BACKOFF_MINUTES = 30  # Base for exponential backoff after a fetch error
+CATALOG_MAX_FAILURES = 5  # Consecutive failures before a feed is QUARANTINED
+CATALOG_QUARANTINE_RECHECK_HOURS = 24 * 7  # Quarantined feeds are retried this rarely
+CATALOG_VERIFY_BATCH_SIZE = 100  # Feeds dispatched per scheduling pass
+
+# Synthetic newsroom feeds
+CATALOG_SYNTHETIC_FEED_PATH = "/api/catalog/synthetic/{feed_id}.atom"
+CATALOG_SYNTHETIC_CACHE_TTL_SECONDS = 1800  # Served Atom is cached briefly to avoid re-scraping
+CATALOG_SYNTHETIC_MIN_ITEMS = 3  # Below this the DOM parse is treated as failed (browser fallback)
+CATALOG_SYNTHETIC_MAX_ITEMS = 50  # Cap entries per generated feed
+
+# Catalog connectors (app/services/catalog/connectors/)
+CATALOG_CONNECTOR_TIMEOUT = 30  # Seconds per connector HTTP request
+SEC_COMPANY_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
+SEC_ATOM_URL_TEMPLATE = (
+    "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik}&type={filing_type}&count=40&output=atom"
+)
+FEDERAL_REGISTER_AGENCIES_URL = "https://www.federalregister.gov/api/v1/agencies.json"
+WIKIDATA_SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
+
 # Database Pagination
 MAX_PAGE_SIZE = 100  # Maximum items to return in a single page for list endpoints
 MAX_FEEDS_BATCH_SIZE = 1000  # Maximum feeds to process in a single batch
@@ -138,6 +181,12 @@ MAX_AI_INPUT_CHARS = 15000  # Maximum characters for AI input
 # Article Summarization ("The Gist")
 SUMMARY_TEMPERATURE = 0.2  # Lower than the generic default; extraction wants determinism
 SUMMARY_MAX_OUTPUT_TOKENS = 4000  # Headroom for long features / CJK; not the bottleneck
+
+# Layman Summaries (primary-source plain-language translation)
+LAYMAN_SUMMARY_MAX_INPUT_TOKENS = 3000  # Hard prompt ceiling for dense primary-source documents
+LAYMAN_SUMMARY_MAX_OUTPUT_TOKENS = 800  # JSON with a headline, a few bullets and an impact note
+LAYMAN_SUMMARY_TEMPERATURE = 0.2  # Accurate translation, not creative writing
+LAYMAN_SUMMARY_CHARS_PER_TOKEN = 4  # Rough English approximation used for truncation
 
 
 # Codex Digest

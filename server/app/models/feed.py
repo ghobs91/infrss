@@ -64,6 +64,15 @@ class Feed(Base):
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
     last_updated_at = Column(DateTime(timezone=True), nullable=True)
 
+    # Provenance for feeds promoted from the primary-source catalog. Set on subscribe; a non-null
+    # value is what marks a feed as a verified primary source for the reader badge.
+    primary_entity_id = Column(
+        SQLUUID(as_uuid=True),
+        ForeignKey("primary_entities.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+
     # Relationships
     articles = relationship("FeedArticle", back_populates="feed", cascade="all, delete-orphan")
     subscriptions = relationship("FeedSubscription", back_populates="feed", cascade="all, delete-orphan")
