@@ -46,8 +46,11 @@ ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
     NEXT_PUBLIC_MEILISEARCH_URL=$NEXT_PUBLIC_MEILISEARCH_URL \
     NEXT_PUBLIC_MEILISEARCH_SEARCH_KEY=$NEXT_PUBLIC_MEILISEARCH_SEARCH_KEY
 
-# Build Next.js (standalone output)
-RUN turbo run build
+# Build Next.js (standalone output). Drop .next/cache in the SAME layer: deleting it in a later
+# layer would not reclaim its ~1.5 GB (image layers are additive), and the subsequent
+# `chown -R .next` would duplicate that whole tree into yet another ~1.5 GB layer.
+RUN turbo run build \
+  && rm -rf /app/apps/web/.next/cache
 
 # Create non-root user
 # Note: addgroup/adduser (the Debian `adduser` package) aren't installed in oven/bun's
