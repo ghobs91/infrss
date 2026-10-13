@@ -50,6 +50,8 @@ class Settings(BaseSettings):
     # SEC EDGAR requires a descriptive User-Agent with contact info (fair-access policy).
     SEC_USER_AGENT: str = "infrss-primary-catalog admin@example.com"
     SEC_RATE_LIMIT_RPS: float = 10.0  # SEC fair-access limit: 10 requests/second
+    # Wikidata Query Service also requires a descriptive User-Agent with contact info.
+    WIKIDATA_USER_AGENT: str = "infrss-primary-catalog/1.0 (https://github.com/ghobs91/infrss; admin@example.com)"
     # Base URL the backend serves synthetic feeds from; used to build promoted feeds.url values.
     SYNTHETIC_FEED_BASE_URL: str = "http://localhost:8008"
     # Render JS-only newsrooms with Playwright. Off by default: Playwright is an optional extra.

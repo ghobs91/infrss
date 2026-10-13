@@ -9,6 +9,7 @@ from typing import Any
 import structlog
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import get_settings
 from app.core.constants import WIKIDATA_SPARQL_ENDPOINT
 from app.crud.catalog import entities as entity_crud
 from app.models.enums import EntityType
@@ -72,9 +73,15 @@ def parse_entities(payload: Any) -> list[EntitySeed]:
 
 async def fetch_entities(limit: int = DEFAULT_SPARQL_LIMIT) -> Any:
     """Run the SPARQL query against Wikidata and return the raw results document."""
+    settings = get_settings()
     return await fetch_json(
         WIKIDATA_SPARQL_ENDPOINT,
-        headers={"Accept": "application/sparql-results+json"},
+        headers={
+            "Accept": "application/sparql-results+json",
+            # Wikimedia rejects generic/bot User-Agents; a descriptive one with contact info is required.
+            "User-Agent": settings.WIKIDATA_USER_AGENT,
+        },
+        params={"query": build_sparql_query(limit), "format": "json"},
     )
 
 

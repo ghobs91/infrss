@@ -15,21 +15,30 @@ from app.typing.catalog import PrimaryEntityCreate
 logger = structlog.get_logger(__name__)
 
 
+def _agency_rows(payload: Any) -> list[dict[str, Any]]:
+    """Return the agency objects from either a bare list or a ``{"results": [...]}`` envelope."""
+    if isinstance(payload, dict):
+        rows = payload.get("results", [])
+    elif isinstance(payload, list):
+        rows = payload
+    else:
+        return []
+    return [row for row in rows if isinstance(row, dict)]
+
+
 def parse_agencies(payload: Any) -> list[EntitySeed]:
     """Parse the Federal Register agencies payload into entity seeds.
 
     Only agencies exposing a usable website become entities, since ``canonical_domain`` is
-    required by the catalog.
+    required by the catalog. The agency's own site is ``agency_url``; the ``url`` field points
+    at the agency's page on federalregister.gov and must not be treated as the canonical domain.
     """
-    results = payload.get("results", []) if isinstance(payload, dict) else []
     seeds: list[EntitySeed] = []
     seen: set[str] = set()
-    for agency in results:
-        if not isinstance(agency, dict):
-            continue
+    for agency in _agency_rows(payload):
         name = agency.get("name")
-        domain = canonical_domain_from_url(agency.get("url") or agency.get("website") or "")
-        if not name or not domain or domain in seen:
+        domain = canonical_domain_from_url(agency.get("agency_url") or "")
+        if not name or not domain or domain == "federalregister.gov" or domain in seen:
             continue
         seen.add(domain)
         seeds.append(

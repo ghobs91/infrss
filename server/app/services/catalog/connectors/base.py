@@ -53,6 +53,7 @@ async def fetch_json(
     url: str,
     *,
     headers: dict[str, str] | None = None,
+    params: dict[str, str] | None = None,
     timeout: int = CATALOG_CONNECTOR_TIMEOUT,
 ) -> Any:
     """GET and decode a JSON document from a trusted connector endpoint."""
@@ -62,6 +63,6 @@ async def fetch_json(
 
     timeout_config = aiohttp.ClientTimeout(total=timeout)
     async with aiohttp.ClientSession(timeout=timeout_config) as session:
-        async with session.get(url, headers=merged) as response:
+        async with session.get(url, headers=merged, params=params) as response:
             response.raise_for_status()
             return await response.json(content_type=None)
