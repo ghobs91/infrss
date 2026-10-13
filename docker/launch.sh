@@ -63,6 +63,11 @@ fi
 # Add RSSHub profile if using local instance
 if [ "$RSSHUB_MODE" = "local" ]; then
     PROFILES+=("rsshub")
+    # browserless (JS-rendered feeds) is a separate ~4.6GB image with its own profile. It is only
+    # started when setup.sh recorded that the user opted in.
+    if [ "$RSSHUB_BROWSERLESS" = "true" ]; then
+        PROFILES+=("rsshub-browserless")
+    fi
 fi
 
 # Build profile flags

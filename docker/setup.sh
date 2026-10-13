@@ -211,9 +211,12 @@ fi
 
 # --- RSSHub Configuration ---
 if [ "$ACCESS_TYPE" = "dev" ]; then
-    # Dev mode: always use local RSSHub
+    # Dev mode: always use local RSSHub. browserless is off by default; opt in by setting
+    # RSSHUB_BROWSERLESS=true in docker/.env and re-running launch.sh.
     RSSHUB_URL="http://localhost:1200"
     RSSHUB_MODE="local"
+    RSSHUB_BROWSERLESS="false"
+    RSSHUB_BROWSERLESS_WS=""
     echo ""
     echo "📡 RSSHub: Using local instance at ${RSSHUB_URL}"
 else
@@ -233,8 +236,26 @@ else
         # "http://localhost:1200" would resolve to the calling container itself.
         RSSHUB_URL="http://rsshub:1200"
         echo "✅ Local RSSHub instance will be used at ${RSSHUB_URL}"
+
+        echo ""
+        echo "RSSHub can render JavaScript-heavy sites with a bundled headless browser."
+        echo "That pulls the browserless/chrome image (~4.6GB) and runs an extra container."
+        echo "Without it, only non-JavaScript RSSHub routes work."
+        read -p "Enable JS-rendered feeds (browserless)? [y/N]: " USE_BROWSERLESS_INPUT
+        USE_BROWSERLESS_INPUT=${USE_BROWSERLESS_INPUT:-"N"}
+        if [[ "$USE_BROWSERLESS_INPUT" =~ ^[Yy]$ ]]; then
+            RSSHUB_BROWSERLESS="true"
+            RSSHUB_BROWSERLESS_WS="ws://browserless:3000"
+            echo "✅ browserless enabled for JS-rendered feeds."
+        else
+            RSSHUB_BROWSERLESS="false"
+            RSSHUB_BROWSERLESS_WS=""
+            echo "✅ browserless disabled (JS-only RSSHub routes unavailable)."
+        fi
     else
         RSSHUB_MODE="external"
+        RSSHUB_BROWSERLESS="false"
+        RSSHUB_BROWSERLESS_WS=""
         echo ""
         read -p "Enter your external RSSHub URL [https://rsshub.app]: " EXTERNAL_RSSHUB_URL
         RSSHUB_URL=${EXTERNAL_RSSHUB_URL:-"https://rsshub.app"}
@@ -313,6 +334,8 @@ set_env_var "$DOCKER_ENV" "WEB_URL" "$WEB_URL"
 set_env_var "$DOCKER_ENV" "SUPABASE_PUBLIC_URL" "$SUPABASE_PUBLIC_URL"
 set_env_var "$DOCKER_ENV" "MEILISEARCH_PUBLIC_URL" "$MEILISEARCH_PUBLIC_URL"
 set_env_var "$DOCKER_ENV" "RSSHUB_MODE" "$RSSHUB_MODE"
+set_env_var "$DOCKER_ENV" "RSSHUB_BROWSERLESS" "$RSSHUB_BROWSERLESS"
+set_env_var "$DOCKER_ENV" "RSSHUB_BROWSERLESS_WS" "$RSSHUB_BROWSERLESS_WS"
 echo "✅ Meilisearch master key, webhook secret, and deployment URLs saved to docker/.env."
 
 # Validate that initial config was written correctly

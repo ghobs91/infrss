@@ -205,10 +205,10 @@ services:
     environment:
       <<: *server-env
 
-  # RSSHub for generating RSS feeds from sites that don't provide them
-  # Enable with: docker compose ... --profile rsshub up
+  # Optional headless browser for RSSHub's JavaScript-rendered routes. Opt-in (setup.sh) because
+  # the image is ~4.6GB; enable with: docker compose ... --profile rsshub-browserless up
   browserless:
-    profiles: ["rsshub"]
+    profiles: ["rsshub-browserless"]
     image: browserless/chrome
     container_name: infrss_browserless
     restart: always
@@ -222,6 +222,8 @@ services:
       timeout: 10s
       retries: 3
 
+  # RSSHub for generating RSS feeds from sites that don't provide them
+  # Enable with: docker compose ... --profile rsshub up
   rsshub:
     profiles: ["rsshub"]
     image: diygod/rsshub
@@ -232,8 +234,6 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-      browserless:
-        condition: service_healthy
     environment:
       NODE_ENV: production
       CACHE_TYPE: redis
@@ -241,7 +241,9 @@ services:
       CACHE_EXPIRE: 3600
       CACHE_CONTENT_EXPIRE: 86400
       MEMORY_MAX: 1024
-      PUPPETEER_WS_ENDPOINT: "ws://browserless:3000"
+      # Empty unless setup.sh opted into the browserless profile; RSSHub treats an empty endpoint
+      # as "no browser" and still serves every non-JavaScript route.
+      PUPPETEER_WS_ENDPOINT: ${RSSHUB_BROWSERLESS_WS:-}
       ALLOW_ORIGIN: "*"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:1200/healthz"]
