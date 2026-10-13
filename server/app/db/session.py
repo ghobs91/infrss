@@ -20,7 +20,7 @@ def _create_engine():
     - Each API request borrows a connection for ~50ms, then returns it to the pool
 
     Supavisor Configuration:
-    - Max client connections: 200 (total connections Supavisor accepts)
+    - Max client connections: 100 (POOLER_MAX_CLIENT_CONN; simultaneous Supavisor clients)
     - Pool size: 15 (actual Postgres connections Supavisor maintains)
     - API reserves: 10 connections (leaving 5 for workers + other services)
 

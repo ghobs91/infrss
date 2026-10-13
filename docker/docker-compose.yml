@@ -162,7 +162,12 @@ services:
     pull_policy: never
     container_name: infrss_worker
     restart: unless-stopped
-    command: taskiq worker app.core.taskiq_app:broker app.workers.registry --max-async-tasks 200
+    # --max-async-tasks bounds simultaneous worker tasks, and therefore the worker's Supavisor
+    # client connections (each task uses short-lived NullPool sessions). Keep it well under
+    # POOLER_MAX_CLIENT_CONN (100) so the API's session-mode pool still fits: a large OPML import
+    # fans out one task per feed, and 200 let a 140-feed import exhaust the pooler
+    # ("Max client connections reached").
+    command: taskiq worker app.core.taskiq_app:broker app.workers.registry --max-async-tasks 50
     depends_on:
       redis:
         condition: service_healthy
