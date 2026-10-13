@@ -57,75 +57,85 @@ export function CatalogBrowser() {
     }
 
     return (
-        <div className="mx-auto w-full max-w-6xl px-4 py-8">
-            <header className="mb-6 space-y-1">
-                <h1 className="text-2xl font-bold tracking-tight">
-                    Primary source catalog
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                    Verified government, corporate and research sources.
-                    Subscribing adds a feed to your library.
-                </p>
-            </header>
+        // SidebarInset is a fixed-height, overflow-hidden shell at md+ (variant="inset"), so every
+        // route owns its own scroll container. Without one the entity list is clipped at the fold
+        // and nothing past it is reachable.
+        <div className="h-full overflow-y-auto">
+            <div className="mx-auto w-full max-w-6xl px-4 py-8">
+                <header className="mb-6 space-y-1">
+                    <h1 className="text-2xl font-bold tracking-tight">
+                        Primary source catalog
+                    </h1>
+                    <p className="text-sm text-muted-foreground">
+                        Verified government, corporate and research sources.
+                        Subscribing adds a feed to your library.
+                    </p>
+                </header>
 
-            <div className="grid gap-6 md:grid-cols-[280px_1fr]">
-                <aside className="space-y-1">
-                    {entitiesQuery.isLoading ? (
-                        <div className="space-y-2">
-                            {Array.from({ length: 6 }).map((_, index) => (
-                                <Skeleton key={index} className="h-10 w-full" />
-                            ))}
-                        </div>
-                    ) : entities.length === 0 ? (
-                        <p className="text-sm text-muted-foreground">
-                            No entities catalogued yet.
-                        </p>
-                    ) : (
-                        entities.map((entity) => (
-                            <button
-                                key={entity.id}
-                                type="button"
-                                onClick={() => setSelectedId(entity.id)}
-                                className={cn(
-                                    "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors",
-                                    entity.id === activeId
-                                        ? "bg-accent font-medium text-foreground"
-                                        : "text-muted-foreground hover:bg-muted"
-                                )}
-                            >
-                                <Landmark className="h-4 w-4 shrink-0" />
-                                <span className="truncate">{entity.name}</span>
-                            </button>
-                        ))
-                    )}
-                </aside>
+                <div className="grid gap-6 md:grid-cols-[280px_1fr]">
+                    <aside className="space-y-1">
+                        {entitiesQuery.isLoading ? (
+                            <div className="space-y-2">
+                                {Array.from({ length: 6 }).map((_, index) => (
+                                    <Skeleton
+                                        key={index}
+                                        className="h-10 w-full"
+                                    />
+                                ))}
+                            </div>
+                        ) : entities.length === 0 ? (
+                            <p className="text-sm text-muted-foreground">
+                                No entities catalogued yet.
+                            </p>
+                        ) : (
+                            entities.map((entity) => (
+                                <button
+                                    key={entity.id}
+                                    type="button"
+                                    onClick={() => setSelectedId(entity.id)}
+                                    className={cn(
+                                        "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors",
+                                        entity.id === activeId
+                                            ? "bg-accent font-medium text-foreground"
+                                            : "text-muted-foreground hover:bg-muted"
+                                    )}
+                                >
+                                    <Landmark className="h-4 w-4 shrink-0" />
+                                    <span className="truncate">
+                                        {entity.name}
+                                    </span>
+                                </button>
+                            ))
+                        )}
+                    </aside>
 
-                <section className="space-y-3">
-                    {feedsQuery.isLoading && activeId ? (
-                        Array.from({ length: 3 }).map((_, index) => (
-                            <Skeleton key={index} className="h-24 w-full" />
-                        ))
-                    ) : feeds.length === 0 ? (
-                        <p className="text-sm text-muted-foreground">
-                            {activeId
-                                ? "No feeds catalogued for this entity yet."
-                                : "Select an entity to see its feeds."}
-                        </p>
-                    ) : (
-                        feeds.map((feed) => (
-                            <CatalogFeedRow
-                                key={feed.id}
-                                feed={feed}
-                                onSubscribe={handleSubscribe}
-                                isSubscribing={
-                                    subscribeMutation.isPending &&
-                                    subscribeMutation.variables?.feedId ===
-                                        feed.id
-                                }
-                            />
-                        ))
-                    )}
-                </section>
+                    <section className="space-y-3">
+                        {feedsQuery.isLoading && activeId ? (
+                            Array.from({ length: 3 }).map((_, index) => (
+                                <Skeleton key={index} className="h-24 w-full" />
+                            ))
+                        ) : feeds.length === 0 ? (
+                            <p className="text-sm text-muted-foreground">
+                                {activeId
+                                    ? "No feeds catalogued for this entity yet."
+                                    : "Select an entity to see its feeds."}
+                            </p>
+                        ) : (
+                            feeds.map((feed) => (
+                                <CatalogFeedRow
+                                    key={feed.id}
+                                    feed={feed}
+                                    onSubscribe={handleSubscribe}
+                                    isSubscribing={
+                                        subscribeMutation.isPending &&
+                                        subscribeMutation.variables?.feedId ===
+                                            feed.id
+                                    }
+                                />
+                            ))
+                        )}
+                    </section>
+                </div>
             </div>
         </div>
     )
