@@ -88,6 +88,43 @@ async def trigger_codex_generate(user_id: str) -> None:
     print(f"\nSuccess: Codex digest generated - digest_id={digest_id}")
 
 
+async def trigger_catalog_sync() -> None:
+    """Fetch primary entities from the Federal Register, Wikidata, and SEC connectors.
+
+    Each connector is independent, so one failing (e.g. Wikidata's endpoint returning 502) does
+    not abort the others.
+    """
+    from app.workers.catalog.sync import (
+        sync_federal_register_agencies,
+        sync_sec_ciks,
+        sync_wikidata_entities,
+    )
+
+    logger.info("Triggering: catalog connector sync")
+    connectors = (
+        ("federal_register", sync_federal_register_agencies),
+        ("wikidata", sync_wikidata_entities),
+        ("sec", sync_sec_ciks),
+    )
+    results: dict[str, object] = {}
+    for name, sync in connectors:
+        try:
+            results[name] = await sync()
+        except Exception as exc:  # noqa: BLE001 - report the failure, keep going
+            logger.warning("Catalog connector sync failed", connector=name, error=str(exc))
+            results[name] = {"error": str(exc)}
+    print(f"\nCatalog sync: {results}")
+
+
+async def trigger_catalog_discover() -> None:
+    """Discover and persist candidate catalog feeds for entities that have none."""
+    from app.workers.catalog.discover import discover_catalog_feeds_worker
+
+    logger.info("Triggering: catalog feed discovery")
+    result = await discover_catalog_feeds_worker()
+    print(f"\nCatalog discovery: created={result['created']} feeds")
+
+
 async def trigger_reset_failed() -> None:
     """Reset all feeds that were marked as failed enrichment."""
     logger.info("Triggering: Reset failed enrichment feeds")
@@ -138,6 +175,8 @@ TASKS = {
     "reset-failed": trigger_reset_failed,
     "codex-generate": trigger_codex_generate,
     "backfill-favicons": trigger_backfill_favicons,
+    "catalog-sync": trigger_catalog_sync,
+    "catalog-discover": trigger_catalog_discover,
 }
 
 # Tasks that take a positional argument beyond the task name (e.g. a user_id).
@@ -155,6 +194,8 @@ def print_usage() -> None:
     print("  reset-failed            - Reset all feeds marked as 'failed-enrichment'")
     print("  codex-generate <user_id> - Generate a Codex digest for a user")
     print("  backfill-favicons [orphans] [N] - Favicons -> PNG (WRITES), or delete orphaned favicon objects")
+    print("  catalog-sync            - Sync primary entities from Federal Register, Wikidata and SEC")
+    print("  catalog-discover        - Discover candidate catalog feeds for entities that have none")
     print("\nExample:")
     print("  python scripts/trigger_task.py refresh-all")
     print("  python scripts/trigger_task.py codex-generate 3fa85f64-5717-4562-b3fc-2c963f66afa6")

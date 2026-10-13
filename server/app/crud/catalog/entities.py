@@ -3,10 +3,10 @@
 from uuid import UUID
 
 import structlog
-from sqlalchemy import select
+from sqlalchemy import exists, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.catalog import PrimaryEntity
+from app.models.catalog import CatalogFeed, PrimaryEntity
 from app.typing.catalog import PrimaryEntityCreate
 
 logger = structlog.get_logger(__name__)
@@ -42,6 +42,26 @@ async def get_entities_missing_cik(db: AsyncSession, *, limit: int = 5000) -> li
 async def list_entities(db: AsyncSession, *, limit: int = 100, offset: int = 0) -> list[PrimaryEntity]:
     """List entities for catalog browsing, newest first."""
     result = await db.execute(select(PrimaryEntity).order_by(PrimaryEntity.name.asc()).limit(limit).offset(offset))
+    return list(result.scalars().all())
+
+
+async def get_entities_without_catalog_feeds(
+    db: AsyncSession, *, limit: int = 1000, offset: int = 0
+) -> list[PrimaryEntity]:
+    """List entities that have no candidate feeds yet, oldest first.
+
+    Discovery targets these so each entity is scanned once; entities that yielded feeds drop out
+    of this set, while feedless ones are retried on later runs (autodiscovery has no negative
+    cache, so a domain that publishes no feed is simply re-probed).
+    """
+    stmt = (
+        select(PrimaryEntity)
+        .where(~exists().where(CatalogFeed.entity_id == PrimaryEntity.id))
+        .order_by(PrimaryEntity.created_at.asc())
+        .limit(limit)
+        .offset(offset)
+    )
+    result = await db.execute(stmt)
     return list(result.scalars().all())
 
 
