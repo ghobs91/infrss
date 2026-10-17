@@ -92,14 +92,19 @@ async def list_catalog_feeds(
 )
 async def subscribe_catalog_feed(
     feed_id: UUID,
-    db: Annotated[AsyncSession, Depends(get_db)],
     db_factory: Annotated[Any, Depends(get_db_factory)],
     current_user: Annotated[TokenData, Depends(get_current_user)],
     folder_id: UUID | str | None = Query(None),
 ) -> SubscriptionResponse:
     """Promote a catalog feed into the global feed table and subscribe the user."""
     user_uuid = UUID(current_user.sub)
-    resolved_folder = await resolve_target_folder(db, user_uuid, folder_id)
+    # Resolve (and, if needed, create) the target folder in a session that commits before
+    # ``subscribe_to_catalog_feed`` runs. That call, via ``add_feed``, opens its own sessions and
+    # must see the folder: resolving on the request ``get_db`` session would leave a freshly
+    # created "My Feeds" folder uncommitted until after the handler returns, so ``add_feed`` would
+    # 404 with "Folder not found" for any user who had no default folder yet.
+    async with db_factory() as db:
+        resolved_folder = await resolve_target_folder(db, user_uuid, folder_id)
     subscription, _ = await subscribe_to_catalog_feed(
         db_factory,
         user_id=user_uuid,
