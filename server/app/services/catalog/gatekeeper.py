@@ -51,18 +51,28 @@ def is_domain_aligned(
     return any(host == allowed or host.endswith(f".{allowed}") for allowed in allowed_hosts)
 
 
-def outbound_third_party_ratio(item_links: Sequence[str], canonical_domain: str) -> float:
+def outbound_third_party_ratio(
+    item_links: Sequence[str],
+    canonical_domain: str,
+    allowed_hosts: Sequence[str] = ALLOWED_FEED_HOSTS,
+) -> float:
     """Fraction of item links that leave the entity's own domain (0.0 when there are none)."""
     links = [link for link in item_links if link]
     if not links:
         return 0.0
-    off_domain = sum(1 for link in links if not is_domain_aligned(domain_from_url(link), canonical_domain))
+    off_domain = sum(
+        1 for link in links if not is_domain_aligned(domain_from_url(link), canonical_domain, allowed_hosts)
+    )
     return off_domain / len(links)
 
 
-def redirect_chain_is_authorized(redirect_urls: Sequence[str], canonical_domain: str) -> bool:
+def redirect_chain_is_authorized(
+    redirect_urls: Sequence[str],
+    canonical_domain: str,
+    allowed_hosts: Sequence[str] = ALLOWED_FEED_HOSTS,
+) -> bool:
     """True when every redirect hop stays on the entity's own (or an allowed) domain."""
-    return all(is_domain_aligned(domain_from_url(url), canonical_domain) for url in redirect_urls)
+    return all(is_domain_aligned(domain_from_url(url), canonical_domain, allowed_hosts) for url in redirect_urls)
 
 
 def evaluate_feed(
@@ -71,6 +81,7 @@ def evaluate_feed(
     feed_url: str,
     item_links: Sequence[str],
     redirect_urls: Sequence[str] = (),
+    extra_allowed_hosts: Sequence[str] = (),
 ) -> GatekeeperResult:
     """Apply every gate and return the resulting :class:`GatekeeperResult`.
 
@@ -79,21 +90,25 @@ def evaluate_feed(
         feed_url: The candidate feed's URL.
         item_links: Item ``<link>``/``<guid>`` targets from a sample of the feed.
         redirect_urls: Every hop the fetch followed, in order (excluding the origin).
+        extra_allowed_hosts: Entity-specific hosts treated as the entity's own (company-owned
+            alternate domains), combined with the global CDN allowlist.
     """
+    allowed_hosts = tuple(ALLOWED_FEED_HOSTS) + tuple(extra_allowed_hosts)
+
     feed_host = domain_from_url(feed_url)
-    if not is_domain_aligned(feed_host, canonical_domain):
+    if not is_domain_aligned(feed_host, canonical_domain, allowed_hosts):
         return GatekeeperResult(
             status=VerificationStatus.REJECTED_AGGREGATOR,
             reason=f"feed host {feed_host!r} is not aligned with {canonical_domain!r}",
         )
 
-    if redirect_urls and not redirect_chain_is_authorized(redirect_urls, canonical_domain):
+    if redirect_urls and not redirect_chain_is_authorized(redirect_urls, canonical_domain, allowed_hosts):
         return GatekeeperResult(
             status=VerificationStatus.REJECTED_AGGREGATOR,
             reason="feed redirects through a third-party origin",
         )
 
-    ratio = outbound_third_party_ratio(item_links, canonical_domain)
+    ratio = outbound_third_party_ratio(item_links, canonical_domain, allowed_hosts)
     if ratio > CATALOG_OUTBOUND_THIRD_PARTY_RATIO:
         return GatekeeperResult(
             status=VerificationStatus.REJECTED_AGGREGATOR,

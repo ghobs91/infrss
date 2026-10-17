@@ -17,11 +17,12 @@ from app.core.custom_exceptions import NotFoundError
 from app.crud.catalog import entities as entity_crud
 from app.crud.catalog import feeds as catalog_feed_crud
 from app.db.session import get_db, get_db_factory
+from app.models.enums import FeedCategory
 from app.routers.feeds.feeds_subscription import resolve_target_folder
 from app.services.catalog import synthetic
 from app.services.catalog.promotion import subscribe_to_catalog_feed
 from app.services.user.auth import get_current_user
-from app.typing.catalog import CatalogFeedRead, PrimaryEntityRead
+from app.typing.catalog import CatalogFeedRead, CatalogSourceRead, PrimaryEntityRead
 from app.typing.subscriptions import SubscriptionResponse
 from app.typing.user import TokenData
 
@@ -82,6 +83,38 @@ async def list_catalog_feeds(
     """List catalog feeds and their verification state."""
     feeds = await catalog_feed_crud.list_catalog_feeds(db, entity_id=entity_id, limit=limit, offset=offset)
     return [CatalogFeedRead.model_validate(feed, from_attributes=True) for feed in feeds]
+
+
+@router.get(
+    "/sources",
+    response_model=list[CatalogSourceRead],
+    summary="Browse primary sources with their verified feeds",
+)
+async def list_sources(
+    db: Annotated[AsyncSession, Depends(get_db)],
+    current_user: Annotated[TokenData, Depends(get_current_user)],
+    category: FeedCategory | None = Query(None, description="Restrict to one category"),
+    limit: int = Query(MAX_PAGE_SIZE, ge=1, le=MAX_PAGE_SIZE),
+    offset: int = Query(0, ge=0),
+) -> list[CatalogSourceRead]:
+    """List every catalogued source that has at least one verified feed.
+
+    Powers the discover-style catalog view: one request returns each organisation with its
+    verified feeds, and the client groups the rows by ``category``.
+    """
+    rows = await entity_crud.list_sources_with_verified_feeds(db, category=category, limit=limit, offset=offset)
+    return [
+        CatalogSourceRead(
+            id=entity.id,
+            name=entity.name,
+            entity_type=entity.entity_type,
+            canonical_domain=entity.canonical_domain,
+            category=entity.category,
+            jurisdiction=entity.jurisdiction,
+            feeds=[CatalogFeedRead.model_validate(feed, from_attributes=True) for feed in feeds],
+        )
+        for entity, feeds in rows
+    ]
 
 
 @router.post(

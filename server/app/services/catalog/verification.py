@@ -59,14 +59,15 @@ async def verify_catalog_feed(session_factory: SessionFactory, catalog_feed_id: 
         feed_url = str(feed.feed_url)
         feed_type = feed.feed_type
         canonical_domain = entity.canonical_domain
+        feed_hosts = tuple(entity.feed_hosts or ())
         etag = feed.etag_header
         last_modified = feed.last_modified_header
 
     # Network work happens with no session held.
     if feed_type is CatalogFeedType.SYNTHETIC_HTML:
-        outcome = await _evaluate_synthetic(feed_url, canonical_domain)
+        outcome = await _evaluate_synthetic(feed_url, canonical_domain, feed_hosts)
     else:
-        outcome = await _evaluate_native(feed_url, canonical_domain, etag, last_modified)
+        outcome = await _evaluate_native(feed_url, canonical_domain, etag, last_modified, feed_hosts)
 
     async with session_factory() as db:
         feed = await feed_crud.get_catalog_feed_by_id(db, feed_id=catalog_feed_id)
@@ -85,7 +86,11 @@ async def verify_catalog_feed(session_factory: SessionFactory, catalog_feed_id: 
 
 
 async def _evaluate_native(
-    feed_url: str, canonical_domain: str, etag: str | None, last_modified: str | None
+    feed_url: str,
+    canonical_domain: str,
+    etag: str | None,
+    last_modified: str | None,
+    feed_hosts: tuple[str, ...] = (),
 ) -> VerificationOutcome:
     """Fetch/parse a native feed and gate it on host alignment and item link-out ratio."""
     fetch_result = await fetching.fetch_feed_content(feed_url, etag=etag, last_modified=last_modified)
@@ -105,6 +110,7 @@ async def _evaluate_native(
         feed_url=final_url,
         item_links=[article.link for article in parsed.articles if article.link],
         redirect_urls=[final_url] if final_url != feed_url else [],
+        extra_allowed_hosts=feed_hosts,
     )
     return VerificationOutcome(
         result=result,
@@ -113,7 +119,11 @@ async def _evaluate_native(
     )
 
 
-async def _evaluate_synthetic(feed_url: str, canonical_domain: str) -> VerificationOutcome:
+async def _evaluate_synthetic(
+    feed_url: str,
+    canonical_domain: str,
+    feed_hosts: tuple[str, ...] = (),
+) -> VerificationOutcome:
     """Extract a newsroom page and gate it on host alignment and item link-out ratio."""
     html = await fetching.fetch_page_html(feed_url)
     if not html:
@@ -126,6 +136,7 @@ async def _evaluate_synthetic(feed_url: str, canonical_domain: str) -> Verificat
         canonical_domain=canonical_domain,
         feed_url=feed_url,
         item_links=[item.url for item in items],
+        extra_allowed_hosts=feed_hosts,
     )
     return VerificationOutcome(result=result)
 

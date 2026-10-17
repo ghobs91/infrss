@@ -41,3 +41,29 @@ async def test_create_entity_is_idempotent_by_domain(db_session):
 
     assert first.id == second.id
     assert first.cik == "0000320193"
+
+
+@pytest.mark.asyncio
+async def test_create_entity_persists_and_backfills_feed_hosts(db_session):
+    first = await entities.create_entity(
+        db_session,
+        data=PrimaryEntityCreate(
+            name="GitHub",
+            entity_type=EntityType.CORP_PUBLIC,
+            canonical_domain="github.com",
+        ),
+    )
+    assert first.feed_hosts is None
+
+    again = await entities.create_entity(
+        db_session,
+        data=PrimaryEntityCreate(
+            name="GitHub",
+            entity_type=EntityType.CORP_PUBLIC,
+            canonical_domain="github.com",
+            feed_hosts=["github.blog"],
+        ),
+    )
+
+    assert again.id == first.id
+    assert again.feed_hosts == ["github.blog"]

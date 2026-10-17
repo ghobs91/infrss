@@ -13,7 +13,7 @@ import aiohttp
 import structlog
 
 from app.core.constants import BROWSER_USER_AGENT, CATALOG_CONNECTOR_TIMEOUT
-from app.models.enums import EntityType
+from app.models.enums import EntityType, FeedCategory
 
 logger = structlog.get_logger(__name__)
 
@@ -28,6 +28,12 @@ class EntitySeed:
     cik: str | None = None
     jurisdiction: str | None = None
     newsroom_url: str | None = None
+    category: FeedCategory | None = None
+    # Known-good feed URLs for this entity. Curated connectors use these to seed catalog feeds
+    # directly, because autodiscovery misses feeds served from newsroom subdomains/paths.
+    feeds: tuple[str, ...] = ()
+    # Company-owned alternate hosts the gatekeeper should treat as this entity's own.
+    feed_hosts: tuple[str, ...] = ()
 
 
 class RateLimiter:

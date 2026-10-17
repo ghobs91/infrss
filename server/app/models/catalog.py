@@ -10,6 +10,7 @@ Two tables back the catalog engine:
 """
 
 from sqlalchemy import (
+    ARRAY,
     Column,
     DateTime,
     Float,
@@ -24,7 +25,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from app.db.base_class import Base
-from app.models.enums import CatalogFeedType, EntityType, VerificationStatus
+from app.models.enums import CatalogFeedType, EntityType, FeedCategory, VerificationStatus
 
 
 class PrimaryEntity(Base):
@@ -41,6 +42,21 @@ class PrimaryEntity(Base):
     canonical_domain = Column(Text, nullable=False, unique=True, index=True)
     cik = Column(String(10), nullable=True)  # Zero-padded 10-digit SEC CIK for filers
     jurisdiction = Column(String(10), nullable=True)  # ISO 3166-1 / 3166-2 code
+    # Industry/topic bucket used to group sources in the catalog browse view. Reuses the feeds'
+    # `feedcategory` enum (create_type=False) so both share one taxonomy; null until classified.
+    category = Column(
+        SQLEnum(
+            FeedCategory,
+            name="feedcategory",
+            values_callable=lambda x: [e.value for e in x],
+            create_type=False,
+        ),
+        nullable=True,
+    )
+    # Additional hosts the gatekeeper treats as this entity's own, for feeds and newsrooms that
+    # legitimately live on a company-owned alternate domain (e.g. github.blog, shopify.engineering,
+    # engineering.fb.com). Complements the global CATALOG_ALLOWED_FEED_HOSTS CDN list.
+    feed_hosts = Column(ARRAY(Text), nullable=True)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
 
     catalog_feeds = relationship("CatalogFeed", back_populates="entity", cascade="all, delete-orphan")

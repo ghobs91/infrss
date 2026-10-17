@@ -104,3 +104,23 @@ def test_evaluate_feed_rejects_third_party_redirect():
     )
     assert result.status is VerificationStatus.REJECTED_AGGREGATOR
     assert result.reason is not None and "redirect" in result.reason
+
+
+@pytest.mark.unit
+def test_evaluate_feed_accepts_entity_alternate_hosts():
+    # github.blog is not a subdomain of github.com, but is an entity-level first-party host.
+    without = evaluate_feed(
+        canonical_domain="github.com",
+        feed_url="https://github.blog/feed/",
+        item_links=["https://github.blog/post"],
+    )
+    assert without.status is VerificationStatus.REJECTED_AGGREGATOR
+
+    with_hosts = evaluate_feed(
+        canonical_domain="github.com",
+        feed_url="https://github.blog/feed/",
+        item_links=["https://github.blog/post"],
+        extra_allowed_hosts=("github.blog",),
+    )
+    assert with_hosts.status is VerificationStatus.VERIFIED_PRIMARY
+    assert with_hosts.outbound_third_party_ratio == 0.0

@@ -4,9 +4,9 @@ from dataclasses import dataclass
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-from app.models.enums import CatalogFeedType, EntityType, VerificationStatus
+from app.models.enums import CatalogFeedType, EntityType, FeedCategory, VerificationStatus
 from app.typing.common import response_config
 
 
@@ -18,6 +18,9 @@ class PrimaryEntityCreate(BaseModel):
     canonical_domain: str
     cik: str | None = None
     jurisdiction: str | None = None
+    category: FeedCategory | None = None
+    # Extra hosts the gatekeeper treats as this entity's own (company-owned alternate domains).
+    feed_hosts: list[str] = Field(default_factory=list)
 
 
 class PrimaryEntityRead(PrimaryEntityCreate):
@@ -50,6 +53,24 @@ class CatalogFeedRead(CatalogFeedCreate):
     last_polled_at: datetime | None = None
     next_poll_at: datetime | None = None
     created_at: datetime
+
+
+class CatalogSourceRead(BaseModel):
+    """A browsable primary source: an entity together with its verified feeds.
+
+    This is the discover-style view of the catalog - one row per organisation, grouped
+    client-side by ``category``, so a single request renders the whole source list.
+    """
+
+    model_config = response_config
+
+    id: UUID
+    name: str
+    entity_type: EntityType
+    canonical_domain: str
+    category: FeedCategory | None = None
+    jurisdiction: str | None = None
+    feeds: list[CatalogFeedRead] = []
 
 
 @dataclass(frozen=True)

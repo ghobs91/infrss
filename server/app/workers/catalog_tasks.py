@@ -6,6 +6,7 @@ from uuid import UUID
 from app.core.taskiq_app import broker
 from app.workers.catalog.discover import discover_catalog_feeds_worker
 from app.workers.catalog.sync import (
+    sync_company_entities,
     sync_federal_register_agencies,
     sync_sec_ciks,
     sync_wikidata_entities,
@@ -57,6 +58,19 @@ async def sync_federal_register_task() -> dict[str, Any]:
 async def sync_wikidata_task() -> dict[str, Any]:
     """Cron: refresh Wikidata entities weekly."""
     return await sync_wikidata_entities()
+
+
+@broker.task(
+    task_name="catalog_tasks.sync_companies",
+    schedule=[{"cron": "30 6 * * 1"}],
+)
+async def sync_company_entities_task() -> dict[str, Any]:
+    """Cron: upsert the curated company registry weekly.
+
+    Runs before the daily discovery sweep (08:00) so newly added automotive/technology
+    companies get a candidate-feed pass on the same day.
+    """
+    return await sync_company_entities()
 
 
 @broker.task(

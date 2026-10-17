@@ -3,7 +3,7 @@
 import structlog
 
 from app.core.config import get_settings
-from app.services.catalog.connectors import federal_register, sec, wikidata
+from app.services.catalog.connectors import company_registry, federal_register, sec, wikidata
 from app.services.catalog.connectors.base import RateLimiter
 from app.workers.common import worker_db_factory
 
@@ -35,3 +35,10 @@ async def sync_wikidata_entities() -> dict[str, int]:
     async with worker_db_factory() as db:
         parsed = await wikidata.upsert_entities(db, payload)
     return {"parsed": parsed}
+
+
+async def sync_company_entities() -> dict[str, int]:
+    """Upsert the curated company registry (automotive, technology, etc.) and its known feeds."""
+    async with worker_db_factory() as db:
+        counts = await company_registry.upsert_companies(db)
+    return counts

@@ -64,7 +64,9 @@ CATALOG_PROBE_PATHS = (
     "/newsroom/rss",
     "/press-releases.xml",
 )
-# Feed-hosting CDNs whose host may serve an entity's own feed without breaking domain alignment.
+# Feed-hosting CDNs whose host may serve any entity's own feed without breaking domain
+# alignment. Company-owned alternate newsroom/blog domains belong on the entity itself
+# (primary_entities.feed_hosts), not here.
 CATALOG_ALLOWED_FEED_HOSTS = ("feedburner.com", "feedpress.me")
 
 # Catalog verification polling + circuit breakers
