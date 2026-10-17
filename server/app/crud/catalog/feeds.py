@@ -1,6 +1,7 @@
 """CRUD operations for catalog feeds."""
 
 from datetime import datetime, timezone
+from urllib.parse import urlparse, urlunparse
 from uuid import UUID
 
 import structlog
@@ -15,9 +16,29 @@ from app.utils.urls import normalize_feed_url
 logger = structlog.get_logger(__name__)
 
 
+def url_host_variants(url: str) -> list[str]:
+    """Return ``url`` plus its ``www.``/apex host variant.
+
+    ``normalize_feed_url`` does not treat ``www.audi.com`` and ``audi.com`` as the same feed,
+    so without this a feed discovered on the apex host and the same feed seeded on ``www.``
+    (or vice-versa) would be catalogued twice. The variants let the dedup lookup catch both.
+    """
+    variants = {url}
+    parsed = urlparse(url)
+    host = parsed.netloc
+    if parsed.scheme not in ("http", "https") or not host:
+        return list(variants)
+    if host.startswith("www."):
+        variants.add(urlunparse(parsed._replace(netloc=host[4:])))
+    else:
+        variants.add(urlunparse(parsed._replace(netloc=f"www.{host}")))
+    return list(variants)
+
+
 async def get_catalog_feed_by_url(db: AsyncSession, *, url: str) -> CatalogFeed | None:
-    """Get a catalog feed by its normalized feed URL."""
-    result = await db.execute(select(CatalogFeed).where(CatalogFeed.feed_url == normalize_feed_url(url)))
+    """Get a catalog feed by URL, treating ``www.``/apex host variants as the same feed."""
+    variants = url_host_variants(normalize_feed_url(url))
+    result = await db.execute(select(CatalogFeed).where(CatalogFeed.feed_url.in_(variants)))
     return result.scalars().first()
 
 
