@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useRouter, usePathname } from "next/navigation"
+import { useDroppable } from "@dnd-kit/core"
 import { motion } from "framer-motion"
 import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { SidebarMenuItem, SidebarMenuSub } from "@/components/ui/sidebar"
@@ -72,17 +73,24 @@ function useFeedNavigation(
 interface FeedItemRootProps {
     children: React.ReactNode
     isActive: boolean
+    /** dnd drop target ref for the folder row. */
+    dropRef?: (node: HTMLElement | null) => void
+    /** True while a feed is dragged over this folder. */
+    isOver?: boolean
 }
 
-function FeedItemRoot({ children, isActive }: FeedItemRootProps) {
+function FeedItemRoot({ children, isActive, dropRef, isOver }: FeedItemRootProps) {
     return (
         <SidebarMenuItem>
             <div
+                ref={dropRef}
                 className={cn(
                     "relative flex items-center w-full group/item h-8 rounded-md text-sm transition-colors duration-150 px-1",
                     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                     isActive &&
-                        "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                        "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
+                    isOver &&
+                        "ring-1 ring-primary/70 bg-sidebar-accent text-sidebar-accent-foreground"
                 )}
             >
                 {children}
@@ -159,10 +167,14 @@ export function CollapsibleFeedItem({
     )
     const pathname = usePathname()
     const isActive = pathname === `/folders/${feed.id}/articles`
+    const { setNodeRef: setDropRef, isOver } = useDroppable({
+        id: `folder:${feed.id}`,
+        data: { folderId: feed.id },
+    })
 
     return (
         <Collapsible open={isOpen} onOpenChange={toggle}>
-            <FeedItemRoot isActive={isActive}>
+            <FeedItemRoot isActive={isActive} dropRef={setDropRef} isOver={isOver}>
                 <FeedItemToggle isOpen={isOpen} title={feed.title} />
                 <FeedItemButton onClick={handleNavigate} title={feed.title}>
                     {feed.icon &&
@@ -201,6 +213,8 @@ export function CollapsibleFeedItem({
                                 item={item}
                                 index={0}
                                 disableAnimation={true}
+                                draggable
+                                folderId={feed.id}
                             />
                         ))}
                     </SidebarMenuSub>

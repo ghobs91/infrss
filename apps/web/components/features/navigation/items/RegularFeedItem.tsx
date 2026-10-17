@@ -1,7 +1,9 @@
 import * as React from "react"
 import Link from "next/link"
+import { useDraggable } from "@dnd-kit/core"
 import { SidebarMenuItem } from "@/components/ui/sidebar"
 import { FeedDropdownMenu } from "../menus/FeedContextMenu"
+import type { FeedDragData } from "../hooks/use-feed-drag"
 import { Inbox, Star } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -27,25 +29,51 @@ interface RegularFeedItemData {
 interface RegularFeedItemProps {
     /** Feed data object */
     feed: RegularFeedItemData
+    /** When true the row can be dragged onto a folder to move the feed. */
+    draggable?: boolean
+    /** Unique dnd id. */
+    dragId?: string
+    /** Folder the feed currently lives in (null for unfiled feeds). */
+    folderId?: string | null
 }
 
 /**
  * Regular feed item component for displaying individual feeds outside of folders.
  * Supports special handling for the "All" feed and standard feed operations.
  */
-export function RegularFeedItem({ feed }: RegularFeedItemProps) {
+export function RegularFeedItem({
+    feed,
+    draggable = false,
+    dragId,
+    folderId = null,
+}: RegularFeedItemProps) {
     const isAll = feed.id === "all"
+
+    const dragData: FeedDragData = {
+        feedId: feed.id,
+        title: feed.title,
+        folderId,
+    }
+    const { listeners, setNodeRef, isDragging } = useDraggable({
+        id: dragId ?? `feed:${feed.id}`,
+        disabled: !draggable || isAll,
+        data: dragData,
+    })
 
     return (
         <SidebarMenuItem>
             <div
+                ref={setNodeRef}
                 className={cn(
                     "relative flex items-center w-full group/item h-8 rounded-md text-sm transition-colors duration-150 px-1",
                     isAll ? "pl-2" : "pl-[28px]",
                     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                     feed.isActive &&
-                        "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                        "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
+                    draggable && !isAll && "cursor-grab active:cursor-grabbing",
+                    isDragging && "opacity-40"
                 )}
+                {...(draggable && !isAll ? listeners : {})}
             >
                 <Link
                     href={feed.url}

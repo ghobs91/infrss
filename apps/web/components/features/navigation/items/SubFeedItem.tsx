@@ -1,9 +1,11 @@
 import { memo } from "react"
 import Link from "next/link"
+import { useDraggable } from "@dnd-kit/core"
 import { FeedIcon } from "@/components/features/feeds/FeedIcon"
 import { motion } from "framer-motion"
 import { SidebarMenuSubItem } from "@/components/ui/sidebar"
 import { FeedDropdownMenu } from "../menus/FeedContextMenu"
+import type { FeedDragData } from "../hooks/use-feed-drag"
 import { Star } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -33,6 +35,12 @@ interface SubFeedItemProps {
     index: number
     /** Disable animation for large lists */
     disableAnimation?: boolean
+    /** When true the row can be dragged onto a folder to move the feed. */
+    draggable?: boolean
+    /** Unique dnd id — pinned copies of a feed must differ from their folder row. */
+    dragId?: string
+    /** Folder the feed currently lives in (used to ignore drops on its own folder). */
+    folderId?: string | null
 }
 
 /**
@@ -43,16 +51,35 @@ const SubFeedItemComponent = ({
     item,
     index,
     disableAnimation = false,
+    draggable = false,
+    dragId,
+    folderId = null,
 }: SubFeedItemProps) => {
+    const dragData: FeedDragData = {
+        feedId: item.id,
+        title: item.title,
+        image: item.image,
+        folderId,
+    }
+    const { listeners, setNodeRef, isDragging } = useDraggable({
+        id: dragId ?? `feed:${item.id}`,
+        disabled: !draggable,
+        data: dragData,
+    })
+
     const content = (
         <SidebarMenuSubItem>
             <div
+                ref={setNodeRef}
                 className={cn(
                     "relative flex items-center w-full group/item h-8 rounded-md text-sm transition-colors duration-150 px-1 pl-2",
                     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                     item.isActive &&
-                        "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                        "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
+                    draggable && "cursor-grab active:cursor-grabbing",
+                    isDragging && "opacity-40"
                 )}
+                {...(draggable ? listeners : {})}
             >
                 <Link
                     href={item.url}
