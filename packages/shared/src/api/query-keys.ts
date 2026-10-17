@@ -30,6 +30,7 @@ export const ARTICLE_ENHANCEMENT_QUERY_KEYS = {
 export const CATALOG_QUERY_KEYS = {
   ENTITIES: 'catalog-entities',
   FEEDS: 'catalog-feeds',
+  SOURCES: 'catalog-sources',
 } as const;
 
 export const USER_QUERY_KEYS = {
@@ -115,6 +116,7 @@ export const queryKeys = {
   // Primary-source catalog
   catalogEntities: () => [CATALOG_QUERY_KEYS.ENTITIES] as const,
   catalogFeeds: (entityId: string | null) => [CATALOG_QUERY_KEYS.FEEDS, entityId] as const,
+  catalogSources: (category?: string | null) => [CATALOG_QUERY_KEYS.SOURCES, category ?? null] as const,
 } as const;
 
 export const MUTATION_KEYS = {

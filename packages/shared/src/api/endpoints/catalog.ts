@@ -1,6 +1,6 @@
 import { ApiClient } from '../core';
-import type { CatalogFeed, PrimaryEntity } from '../types/catalog';
-import type { Subscription } from '../types/feeds';
+import type { CatalogFeed, CatalogSource, PrimaryEntity } from '../types/catalog';
+import type { FeedCategory, Subscription } from '../types/feeds';
 
 export const catalog = {
   listCatalogEntities: (params?: { limit?: number; offset?: number }) => {
@@ -21,6 +21,17 @@ export const catalog = {
     const queryString = queryParams.toString();
     return ApiClient.get<CatalogFeed[]>(
       `/api/catalog/feeds${queryString ? `?${queryString}` : ''}`
+    );
+  },
+
+  listCatalogSources: (params?: { category?: FeedCategory; limit?: number; offset?: number }) => {
+    const queryParams = new URLSearchParams();
+    if (params?.category) queryParams.append('category', params.category);
+    if (params?.limit) queryParams.append('limit', String(params.limit));
+    if (params?.offset) queryParams.append('offset', String(params.offset));
+    const queryString = queryParams.toString();
+    return ApiClient.get<CatalogSource[]>(
+      `/api/catalog/sources${queryString ? `?${queryString}` : ''}`
     );
   },
 

@@ -3,6 +3,8 @@
  * candidate feeds under verification that are only promoted into the user's library on subscribe.
  */
 
+import type { FeedCategory } from './feeds';
+
 export type EntityType =
   | 'GOV_FEDERAL'
   | 'GOV_STATE'
@@ -25,6 +27,7 @@ export interface PrimaryEntity {
   canonical_domain: string;
   cik: string | null;
   jurisdiction: string | null;
+  category: FeedCategory | null;
   created_at: string;
 }
 
@@ -40,4 +43,18 @@ export interface CatalogFeed {
   last_polled_at: string | null;
   next_poll_at: string | null;
   created_at: string;
+}
+
+/**
+ * A browsable primary source: an organisation together with its verified feeds. The catalog
+ * browse view groups these rows by `category`.
+ */
+export interface CatalogSource {
+  id: string;
+  name: string;
+  entity_type: EntityType;
+  canonical_domain: string;
+  category: FeedCategory | null;
+  jurisdiction: string | null;
+  feeds: CatalogFeed[];
 }
