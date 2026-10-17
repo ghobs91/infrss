@@ -1,18 +1,16 @@
 import { useState } from "react"
-import NextImage from "next/image"
 import { Configure } from "react-instantsearch"
 
 import { getDiscoverSearchParameters } from "./lib/discover-search-parameters"
 
 import { AiSearchToggle } from "./AiSearchToggle"
-import { CategoryGrid } from "./CategoryGrid"
 import { ContentTypeFilter } from "./ContentTypeFilter"
 import { CustomSearchBox } from "./CustomSearchBox"
 import { DiscoverLayout } from "./DiscoverLayout"
 import { LanguageMenu } from "./LanguageMenu"
 import { SearchResults } from "./SearchResults"
-import { NewsletterSection } from "./NewsletterSection"
 import { useDiscoverController } from "@/components/features/discover/hooks/use-discover-controller"
+import { PrimarySourcesCatalog } from "@/components/features/catalog/PrimarySourcesCatalog"
 import { CATEGORY_CONFIG } from "@/lib/categories"
 import { cn } from "@/lib/utils"
 import { FeedCategory } from "@infrss/shared"
@@ -46,7 +44,6 @@ export function DiscoverContent({
         setDisplayLanguage,
         isLanguageInitialized,
         languageFilter,
-        handleCategoryClick,
         clearSearch,
         resetFilters,
     } = useDiscoverController()
@@ -68,13 +65,13 @@ export function DiscoverContent({
                 />
             )}
 
-            <DiscoverLayout centerVertically={!hasActiveSearch}>
+            <DiscoverLayout>
                 <div
                     className={cn(
                         "w-full mx-auto",
                         hasActiveSearch
                             ? "max-w-3xl pt-3 md:pt-6 pb-20"
-                            : "max-w-full md:max-w-4xl pb-0"
+                            : "max-w-full md:max-w-6xl pb-0"
                     )}
                 >
                     {/* Header */}
@@ -88,22 +85,14 @@ export function DiscoverContent({
                                     : "Search feeds"}
                             </h1>
                         ) : (
-                            <div className="flex items-center gap-4 mb-6 md:mb-8">
-                                <NextImage
-                                    src="/infrss.svg"
-                                    alt="infrss"
-                                    width={64}
-                                    height={64}
-                                    className="w-12 h-12 md:w-16 md:h-16 rounded"
-                                />
-                                <h1
-                                    className="text-3xl md:text-5xl font-semibold text-foreground dark:text-foreground tracking-tight"
-                                    style={{
-                                        fontFamily: "Figtree, sans-serif",
-                                    }}
-                                >
-                                    infrss
+                            <div className="mb-6 md:mb-8 flex flex-col items-center gap-1 text-center">
+                                <h1 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight">
+                                    Discover Feeds
                                 </h1>
+                                <p className="text-sm text-muted-foreground">
+                                    Search the feed index, or browse verified
+                                    primary sources below.
+                                </p>
                             </div>
                         )}
                     </div>
@@ -157,13 +146,8 @@ export function DiscoverContent({
                             />
                         </div>
                     ) : (
-                        /* Show category grid when no search */
-                        <div className="space-y-6 flex flex-col items-center">
-                            <CategoryGrid
-                                onCategoryClick={handleCategoryClick}
-                            />
-                            <NewsletterSection />
-                        </div>
+                        /* No active search: browse the verified primary-source catalog. */
+                        <PrimarySourcesCatalog />
                     )}
                 </div>
             </DiscoverLayout>
