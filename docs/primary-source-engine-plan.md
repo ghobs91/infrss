@@ -92,9 +92,11 @@ A candidate is `VERIFIED_PRIMARY` iff all hold:
   break web typecheck where the web toolchain isn't installed.
 - **Phase 4 (UI + WebLLM, done):** `LaymanSummaryCard`, `PrimarySourceBadge`, `WebLlmStatusIndicator`;
   `@mlc-ai/web-llm` worker + `use-layman-summary` hook + IndexedDB cache + Ollama fallback; wired
-  into the reader above the article body and the header badge. Catalog browse page
-  (`/catalog`, `CatalogBrowser`) with entity list, feed list and subscribe-to-promote, plus a
-  sidebar entry.
+  into the reader above the article body and the header badge. Discover-style catalog page
+  (`/catalog`, `CatalogBrowser`) listing every source that has verified feeds, grouped by category
+  and continuously refreshed, with subscribe-to-promote, plus a sidebar entry. Corporate primary
+  sources are seeded by a curated company registry (`connectors/company_registry.py`: automotive
+  and technology newsrooms).
 
 ### Phase 1 file map
 - `server/app/models/enums.py` — `EntityType`, `CatalogFeedType`, `VerificationStatus`
