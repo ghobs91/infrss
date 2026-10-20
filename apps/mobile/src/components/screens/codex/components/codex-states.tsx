@@ -130,7 +130,7 @@ export function CodexFailedState({ onGenerate, isGenerating }: ActionProps) {
 /**
  * Not-entitled 202 — branches on `errorCode`: `CODEX_PRO_RATE_LIMITED` (past the digest pace)
  * and `AI_DISABLED` (a self-hosted instance with no model provider) are plain informational
- * stops. The paywall has been removed, so none of these offer an upgrade.
+ * stops.
  */
 export function CodexNotEntitledState({
   reason,

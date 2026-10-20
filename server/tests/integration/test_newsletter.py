@@ -32,7 +32,7 @@ class TestNewsletterFeature:
         data = response.json()
         assert "token" in data
         assert "email" in data
-        assert data["email"].endswith(f".{data['token']}@newsletters.readspace.ai")
+        assert data["email"].endswith(f".{data['token']}@newsletters.infrss.ai")
 
         # Verify it was saved to DB
         await db_session.refresh(test_user)

@@ -1,8 +1,4 @@
-import {
-    isPaywallError,
-    useUpdateArticle,
-    type Article,
-} from "@infrss/shared"
+import { useUpdateArticle, type Article } from "@infrss/shared"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 
@@ -76,10 +72,7 @@ export function useArticleInteractions({
                 articleType: article.article_type,
             },
             {
-                onError: (error: any) => {
-                    if (isPaywallError(error)) {
-                        return
-                    }
+                onError: () => {
                     toast.error("Failed to update read later status")
                 },
             }

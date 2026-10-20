@@ -139,7 +139,7 @@ export function CodexFailedState({
 
 /**
  * Not-entitled 202 — branches on `errorCode`: AI turned off on a self-hosted instance, or a
- * defensive metered fallback. The paywall has been removed, so none of these offer an upgrade.
+ * defensive metered fallback.
  */
 export function CodexNotEntitledState({
     reason,
@@ -173,8 +173,8 @@ export function CodexNotEntitledState({
         )
     }
 
-    // CODEX_LIMIT_EXCEEDED / anything else metered. No longer expected now that the paywall is
-    // removed, but kept as a plain informational stop with no upsell.
+    // CODEX_LIMIT_EXCEEDED / anything else metered: a plain informational stop with no
+    // upsell.
     return (
         <Shell
             tone="neutral"

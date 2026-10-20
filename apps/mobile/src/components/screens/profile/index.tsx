@@ -16,21 +16,17 @@ import {
 // import { ToastTester } from '@components/screens/profile/ui/toast-tester';
 import { UserProfile } from '@components/screens/profile/ui/user-profile';
 import { Chip } from '@components/ui/chip';
-import { useNativeConfirm } from '@components/ui/confirm-dialog';
-import { Text } from '@components/ui/text';
 import { toast } from '@components/ui/toast';
 import { useSession } from '@contexts/auth-context';
-import { useRevenueCat } from '@contexts/revenuecat-context';
 import { useIconColor } from '@hooks/useIconColor';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { BOTTOM_TABBAR_BASE_HEIGHT } from '@lib/constants/app';
 import { COLORS } from '@lib/constants/colors';
-import { CLOUD_CONFIG } from '@lib/constants/config';
 import { openStoreReview } from '@lib/review';
 import { exportFeedsToOPML } from '@lib/utils/opml';
 import { getUserAvatarSeed, getUserDisplayName } from '@lib/utils/user';
 import { useFeeds } from '@infrss/shared';
-import { CloudIcon, CrownIcon, ServerIcon, ShieldCheckIcon } from '@solar-icons/react-native/bold';
+import { CloudIcon, ServerIcon } from '@solar-icons/react-native/bold';
 import {
   ArchiveUpMinimalisticIcon,
   DownloadIcon,
@@ -60,8 +56,6 @@ const THEME_OPTIONS: SettingsPickerOption[] = [
 export function ProfileScreen() {
   const router = useRouter(); // Still needed for Reading History button
   const { signOut, user } = useSession();
-  const { isPro, isRcPro, presentCustomerCenter } = useRevenueCat();
-  const { confirm, dialog: confirmDialog } = useNativeConfirm();
   const isDark = useIsDarkMode();
   const colors = COLORS[isDark ? 'dark' : 'light'];
   const iconColor = useIconColor();
@@ -124,7 +118,7 @@ export function ProfileScreen() {
   };
 
   const handleWebsitePress = () => {
-    const url = 'https://readspace.ai/contact';
+    const url = 'https://infrss.ai/contact';
     Linking.openURL(url).catch(() => {
       toast.error('Cannot open website link');
     });
@@ -150,44 +144,10 @@ export function ProfileScreen() {
     }
   }, [feeds, folders]);
 
-  const handleManageSubscription = () => {
-    if (isRcPro) {
-      presentCustomerCenter();
-      return;
-    }
-    confirm({
-      title: 'Manage Subscription',
-      message:
-        'This subscription was purchased on the web. Please manage your billing via the web version of Infrss.',
-      confirmLabel: 'Open Web',
-      onConfirm: () => Linking.openURL(CLOUD_CONFIG.INFRSS_APP_URL),
-    });
-  };
-
   const githubColor = isDark ? '#ffffff' : '#161614';
   const discordColor = '#5865F2';
 
-  // Only subscribers have a subscription to manage; there is no upgrade row now that the
-  // paywall has been removed.
-  const subscriptionSection: SettingsSection | null = isPro
-    ? {
-        key: 'subscription',
-        rows: [
-          {
-            type: 'action',
-            kind: 'button',
-            key: 'manage-subscription',
-            label: 'Manage Subscription',
-            icon: <ShieldCheckIcon size={22} color={colors.secondary} />,
-            systemImage: 'checkmark.shield',
-            onPress: handleManageSubscription,
-          },
-        ],
-      }
-    : null;
-
   const sections: SettingsSection[] = [
-    ...(subscriptionSection ? [subscriptionSection] : []),
     {
       key: 'preferences',
       title: 'Preferences',
@@ -350,27 +310,6 @@ export function ProfileScreen() {
                 avatarSeed={getUserAvatarSeed(displayUser)}
                 className="mr-3 flex-1"
               />
-              {isPro ? (
-                <View
-                  className="flex-row items-center gap-1.5 rounded-full px-3 py-1.5"
-                  style={{ backgroundColor: '#F59E0B' }}>
-                  <CrownIcon size={14} color="#FFFFFF" />
-                  <Text size="sm" fontFamily="geist-bold" className="text-white">
-                    Pro
-                  </Text>
-                </View>
-              ) : (
-                <View
-                  className="rounded-full px-3 py-1.5"
-                  style={{ backgroundColor: isDark ? 'rgb(46, 46, 46)' : colors.grey6 }}>
-                  <Text
-                    size="sm"
-                    fontFamily="geist-medium"
-                    style={{ color: isDark ? colors.grey2 : colors.grey }}>
-                    Basic
-                  </Text>
-                </View>
-              )}
             </View>
           ) : null
         }
@@ -379,7 +318,6 @@ export function ProfileScreen() {
 
       <CodexSettingsBottomSheet ref={codexSettingsSheetRef} />
       <DeleteAccountModal ref={deleteAccountSheetRef} />
-      {confirmDialog}
     </View>
   );
 }

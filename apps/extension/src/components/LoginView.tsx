@@ -40,7 +40,7 @@ export function LoginView({ currentView, onViewChange }: LoginViewProps) {
               New to Infrss?{' '}
               <button
                 onClick={() =>
-                  window.open('https://app.readspace.ai/signup', '_blank')
+                  window.open('https://app.infrss.ai/signup', '_blank')
                 }
                 className="text-primary hover:underline font-medium cursor-pointer"
               >

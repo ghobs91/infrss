@@ -235,14 +235,14 @@ export function SignupForm({
                                                     By clicking continue, you
                                                     agree to our{" "}
                                                     <a
-                                                        href="https://readspace.ai/terms"
+                                                        href="https://infrss.ai/terms"
                                                         className="underline underline-offset-4 hover:text-primary transition-colors"
                                                     >
                                                         Terms of Service
                                                     </a>{" "}
                                                     and{" "}
                                                     <a
-                                                        href="https://readspace.ai/privacy"
+                                                        href="https://infrss.ai/privacy"
                                                         className="underline underline-offset-4 hover:text-primary transition-colors"
                                                     >
                                                         Privacy Policy

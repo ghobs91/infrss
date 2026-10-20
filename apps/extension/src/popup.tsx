@@ -37,8 +37,8 @@ function PopupContent() {
   const openInfrss = () => {
     // Use the app URL, not the API URL
     const appUrl =
-      settings.infrss_url === 'https://api.readspace.ai'
-        ? 'https://app.readspace.ai'
+      settings.infrss_url === 'https://api.infrss.ai'
+        ? 'https://app.infrss.ai'
         : settings.infrss_url.replace('/api', '') // For self-hosted, remove /api if present
     chrome.tabs.create({ url: appUrl })
   }

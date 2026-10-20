@@ -14,7 +14,7 @@ import "./globals.css"
 import { PosthogProvider } from "@/components/providers/PosthogProvider"
 import { cn } from "@/lib/utils"
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://app.readspace.ai"
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://app.infrss.ai"
 
 export const metadata: Metadata = {
     title: "Infrss | A calm inbox for your reading",

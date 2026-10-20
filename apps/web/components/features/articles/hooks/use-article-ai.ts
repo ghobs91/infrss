@@ -1,6 +1,5 @@
 import {
     ContentView,
-    isPaywallError,
     useExtractFullTextMutation,
     useGenerateHighlightsMutation,
     useSummarizeArticleMutation,
@@ -138,10 +137,8 @@ export function useArticleAI({
                     articleUrl: article.link,
                     articleType: article.article_type,
                 })
-            } catch (error) {
+            } catch {
                 setContentView(ContentView.Original)
-                // The paywall is removed; skip a limit toast if one ever comes back.
-                if (isPaywallError(error)) return
                 toast.error("Failed to extract article content", {
                     id: "extract-error",
                 })
@@ -209,15 +206,10 @@ export function useArticleAI({
                     forView: contentView,
                 })
                 setHighlightsEnabled(true)
-            } catch (error) {
-                // The paywall is removed; drop the spinner without an error toast.
-                if (isPaywallError(error)) {
-                    toast.dismiss(toastId)
-                } else {
-                    toast.error("Failed to generate highlights", {
-                        id: toastId,
-                    })
-                }
+            } catch {
+                toast.error("Failed to generate highlights", {
+                    id: toastId,
+                })
             }
         },
     }

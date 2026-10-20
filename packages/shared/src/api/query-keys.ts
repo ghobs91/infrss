@@ -35,7 +35,6 @@ export const CATALOG_QUERY_KEYS = {
 
 export const USER_QUERY_KEYS = {
   PROFILE: 'user-profile',
-  LIMITS: 'user-limits',
 } as const;
 
 export type QueryKey =
@@ -107,7 +106,6 @@ export const queryKeys = {
 
   // User
   userProfile: () => [USER_QUERY_KEYS.PROFILE] as const,
-  userLimits: () => [USER_QUERY_KEYS.LIMITS] as const,
 
   // Codex
   codexToday: () => [CODEX_QUERY_KEYS.TODAY] as const,

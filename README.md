@@ -1,6 +1,6 @@
 <div align="center">
 
-<a href="https://readspace.ai">
+<a href="https://infrss.ai">
   <img src="./apps/web/public/wordmark.png" alt="Infrss" width="300" />
 </a>
 
@@ -12,19 +12,19 @@
 </p>
 
 <p>
-  <a href="https://app.readspace.ai"><img alt="Open the web app" src="https://img.shields.io/badge/Open_the_web_app-386641?style=for-the-badge&logoColor=white" height="28" /></a>
+  <a href="https://app.infrss.ai"><img alt="Open the web app" src="https://img.shields.io/badge/Open_the_web_app-386641?style=for-the-badge&logoColor=white" height="28" /></a>
   &nbsp;
   <a href="#self-hosting"><img alt="Self-host with Docker" src="https://img.shields.io/badge/Self--host_with_Docker-1f2328?style=for-the-badge&logo=docker&logoColor=white" height="28" /></a>
 </p>
 
 <p>
-  <a href="https://apps.apple.com/us/app/readspace-rss-news-reader/id6790224641"><img alt="Download on the App Store" src="./.github/assets/badges/app-store.png" height="44" /></a>
+  <a href="https://apps.apple.com/us/app/infrss-rss-news-reader/id6790224641"><img alt="Download on the App Store" src="./.github/assets/badges/app-store.png" height="44" /></a>
   &nbsp;
-  <a href="https://play.google.com/store/apps/details?id=com.readspace.rss"><img alt="Get it on Google Play" src="./.github/assets/badges/google-play.png" height="44" /></a>
+  <a href="https://play.google.com/store/apps/details?id=com.infrss.rss"><img alt="Get it on Google Play" src="./.github/assets/badges/google-play.png" height="44" /></a>
   &nbsp;
-  <a href="https://chromewebstore.google.com/detail/readspace/ppadpdoicnolpjnflfladjllhmkonedi"><img alt="Available in the Chrome Web Store" src="./.github/assets/badges/chrome-web-store.png" height="44" /></a>
+  <a href="https://chromewebstore.google.com/detail/infrss/ppadpdoicnolpjnflfladjllhmkonedi"><img alt="Available in the Chrome Web Store" src="./.github/assets/badges/chrome-web-store.png" height="44" /></a>
   &nbsp;
-  <a href="https://addons.mozilla.org/en-us/firefox/addon/readspace/"><img alt="Get the Firefox add-on" src="./.github/assets/badges/firefox-add-ons.png" height="46" /></a>
+  <a href="https://addons.mozilla.org/en-us/firefox/addon/infrss/"><img alt="Get the Firefox add-on" src="./.github/assets/badges/firefox-add-ons.png" height="46" /></a>
 </p>
 
 <p>
@@ -74,7 +74,7 @@ Read [the manifesto](./MANIFESTO.md) for the longer version.
 - Paste a feed URL or a plain website, or let the browser extension find a site's feed as you browse
 - Follow sites without native feeds through RSSHub using `rsshub://` routes
 - Import and export subscriptions with OPML
-- **Newsletters go in the same feed.** Hosted accounts get a private `@readspace.ai` address. Point your Substack and TLDR subscriptions at it and they show up next to everything else.
+- **Newsletters go in the same feed.** Hosted accounts get a private `@infrss.ai` address. Point your Substack and TLDR subscriptions at it and they show up next to everything else.
 
 ### Reading
 
@@ -100,7 +100,7 @@ Read [the manifesto](./MANIFESTO.md) for the longer version.
 
 Both run the same codebase. The hosted service adds the infrastructure that is impractical to ship in a Compose file.
 
-|                                                  | Hosted (`app.readspace.ai`) |                Self-hosted                |
+|                                                  | Hosted (`app.infrss.ai`) |                Self-hosted                |
 | ------------------------------------------------ | :-------------------------: | :---------------------------------------: |
 | Feeds, folders, timeline, read state             |             ✅              |                    ✅                     |
 | Web, iOS, Android, Chrome, Firefox clients       |             ✅              |                    ✅                     |

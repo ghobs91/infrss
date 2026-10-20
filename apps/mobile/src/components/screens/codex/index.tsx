@@ -1,7 +1,6 @@
 import { Header } from '@components/navigation/header';
 import { toast } from '@components/ui/toast';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
-import { useLimitChecker } from '@hooks/useLimitChecker';
 import { COLORS } from '@lib/constants/colors';
 import { recordReviewActivity } from '@lib/review';
 import {
@@ -35,7 +34,6 @@ export function CodexScreen() {
   const { data: digest, isLoading, error } = useCodexToday();
   const isFocused = useIsFocused();
   const generate = useGenerateCodexDigest();
-  const { checkAccess } = useLimitChecker();
   const [notEntitled, setNotEntitled] = useState<{ reason: string; errorCode: string } | null>(
     null
   );
@@ -64,9 +62,6 @@ export function CodexScreen() {
   }, []);
 
   const handleGenerate = useCallback(() => {
-    // Local gate — shows the Pro upsell instead of a wasted request for out-of-quota Basic.
-    if (!checkAccess('codex')) return;
-
     generate.mutate(undefined, {
       onSuccess: (result) => {
         if (isCodexNotEntitled(result)) {
@@ -77,7 +72,7 @@ export function CodexScreen() {
         toast.error("Couldn't start your Daily Digest. Please try again.");
       },
     });
-  }, [checkAccess, generate]);
+  }, [generate]);
 
   // Once the digest is done, CodexView carries its own "Daily Digest · date" masthead
   // (mirroring the web layout) — the generic top header would just repeat that name. The

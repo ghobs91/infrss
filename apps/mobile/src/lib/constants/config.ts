@@ -24,15 +24,15 @@ export const CLOUD_CONFIG = {
   INFRSS_URL:
     process.env.EXPO_PUBLIC_API_URL ||
     process.env.EXPO_PUBLIC_CLOUD_API_URL ||
-    'https://api.readspace.ai',
+    'https://api.infrss.ai',
   INFRSS_APP_URL:
     process.env.EXPO_PUBLIC_APP_URL ||
     process.env.EXPO_PUBLIC_CLOUD_APP_URL ||
-    'https://app.readspace.ai',
+    'https://app.infrss.ai',
   SUPABASE_URL:
     process.env.EXPO_PUBLIC_SUPABASE_URL ||
     process.env.EXPO_PUBLIC_CLOUD_SUPABASE_URL ||
-    'https://supabase.readspace.ai',
+    'https://supabase.infrss.ai',
   SUPABASE_ANON_KEY:
     process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ||
     process.env.EXPO_PUBLIC_CLOUD_SUPABASE_ANON_KEY ||
@@ -40,7 +40,7 @@ export const CLOUD_CONFIG = {
   MEILISEARCH_URL:
     process.env.EXPO_PUBLIC_MEILISEARCH_URL ||
     process.env.EXPO_PUBLIC_CLOUD_MEILISEARCH_URL ||
-    'https://search.readspace.ai',
+    'https://search.infrss.ai',
   MEILISEARCH_SEARCH_KEY:
     process.env.EXPO_PUBLIC_MEILISEARCH_SEARCH_KEY ||
     process.env.EXPO_PUBLIC_CLOUD_MEILISEARCH_SEARCH_KEY ||

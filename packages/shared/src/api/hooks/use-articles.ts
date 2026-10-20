@@ -751,7 +751,7 @@ export function useExtractFullTextMutation(
         retry: 0,
       });
       // A quota-skipped background extraction must not be cached, or a later explicit
-      // "Full Text" tap would be served the empty result instead of reaching the paywall
+      // "Full Text" tap would be served the empty result instead of extracting.
       if (!result.content) {
         queryClient.removeQueries({ queryKey, exact: true });
       }

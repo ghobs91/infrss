@@ -1,24 +1,7 @@
-import { QueryClient, QueryCache, MutationCache } from "@tanstack/react-query"
-import { isDowngradeRequiredError, queryKeys } from "@infrss/shared"
+import { QueryClient } from "@tanstack/react-query"
 
 function makeQueryClient() {
-    const handleGlobalError = (error: unknown) => {
-        // The user was downgraded while holding more than their plan allows. Refetch limits so
-        // the protected layout swaps in the downgrade flow (limits may have been cached as fine).
-        if (isDowngradeRequiredError(error)) {
-            // `client` is declared below; this only runs after it's constructed.
-            client.invalidateQueries({ queryKey: queryKeys.userLimits() })
-            return
-        }
-    }
-
-    const client = new QueryClient({
-        queryCache: new QueryCache({
-            onError: handleGlobalError,
-        }),
-        mutationCache: new MutationCache({
-            onError: handleGlobalError,
-        }),
+    return new QueryClient({
         defaultOptions: {
             queries: {
                 retry: 1,
@@ -34,7 +17,6 @@ function makeQueryClient() {
             },
         },
     })
-    return client
 }
 
 let browserQueryClient: QueryClient | undefined = undefined

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Infrss is an open-source, privacy-first reading hub that brings RSS feeds, newsletters, saved articles, Twitter threads, Reddit posts, and books into one clean, distraction-free inbox. It's a full-stack application with a Python FastAPI backend, a Next.js web app, an Expo (iOS/Android) mobile app, and a Chrome/Firefox extension. The hosted product is `app.readspace.ai`; the project is designed for self-hosting via Docker.
+Infrss is an open-source, privacy-first reading hub that brings RSS feeds, newsletters, saved articles, Twitter threads, Reddit posts, and books into one clean, distraction-free inbox. It's a full-stack application with a Python FastAPI backend, a Next.js web app, an Expo (iOS/Android) mobile app, and a Chrome/Firefox extension. The hosted product is `app.infrss.ai`; the project is designed for self-hosting via Docker.
 
 ## Architecture
 
@@ -63,7 +63,7 @@ Key service patterns:
 - **Expo / React Native** with **Expo Router** (routes under `src/app/`)
 - **Biome** for lint + format (`bun run lint`, `bun run format`, `bun run check`) — not ESLint/Prettier like the rest of the monorepo (a legacy `lint:eslint` script exists but Biome is primary)
 - **`uniwind`** (Tailwind-for-RN) + `clsx` + `cva` for styling; `@legendapp/list` for long lists
-- **RevenueCat** (`react-native-purchases`) for subscriptions/paywall; **Sentry** for error tracking
+- **Sentry** for error tracking
 - Build variants via `APP_VARIANT` env (`development` / `preview` / production); EAS config in `eas.json`
 - Reuses `@infrss/shared` hooks — do not add new fetch hooks in the app
 
@@ -238,11 +238,6 @@ bun run deploy            # wrangler deploy
 - Inbound newsletters arrive via the `apps/inbound` Cloudflare Worker → `POST /api/intake/webhook`
 - Feed discovery/search is served by **Meilisearch**; clients query it directly with `@meilisearch/instant-meilisearch` (web/mobile)
 - The browser extension detects feeds and saves articles through the backend API
-
-### Payments
-
-- **Web**: Polar (`@polar-sh/nextjs`, `@polar-sh/sdk`)
-- **Mobile**: RevenueCat (`react-native-purchases`)
 
 ### Database Schema
 

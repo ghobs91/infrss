@@ -8,7 +8,7 @@ export function isCloudProd(hostname?: string) {
         (typeof window === "undefined"
             ? safeHostname(process.env.NEXT_PUBLIC_APP_URL)
             : window.location.hostname)
-    return host === "app.readspace.ai"
+    return host === "app.infrss.ai"
 }
 
 function safeHostname(url: string | undefined) {

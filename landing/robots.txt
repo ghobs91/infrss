@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://readspace.ai/sitemap.xml
+Sitemap: https://infrss.ai/sitemap.xml

@@ -20,7 +20,7 @@
 	 * set via: `wrangler secret put WEBHOOK_SECRET`
 	 */
 	"vars": {
-		"BACKEND_URL": "https://api.readspace.ai"
+		"BACKEND_URL": "https://api.infrss.ai"
 	}
 	/**
 	 * Smart Placement

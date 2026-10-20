@@ -12,7 +12,6 @@ import { LanguagePicker } from '@components/screens/discover/ui/language-picker.
 import type { SheetRef } from '@components/ui/bottom-sheet';
 import { Text } from '@components/ui/text';
 import { toast } from '@components/ui/toast';
-import { useLimitChecker } from '@hooks/useLimitChecker';
 import { useReaderTheme } from '@hooks/useReaderTheme';
 import { READ_LATER_READER_MODE } from '@lib/constants/app';
 import { SUPPORTED_LANGUAGES } from '@lib/constants/languages';
@@ -20,7 +19,6 @@ import { recordReviewActivity } from '@lib/review';
 import { getAdjacentArticle } from '@lib/utils/article';
 import {
   getCachedArticleState,
-  isPaywallError,
   queryKeys,
   useArticle,
   useExtractFullTextMutation,
@@ -121,8 +119,6 @@ export function ArticleScreen({
     }
   );
 
-  const { checkAccess } = useLimitChecker();
-
   // Bottom sheet refs
   const summaryBottomSheetRef = useRef<SheetRef>(null);
   const languagePickerRef = useRef<SheetRef>(null);
@@ -199,8 +195,8 @@ export function ArticleScreen({
       ? translateData.translated_content
       : currentContent;
 
-  // User-initiated extraction only (tapping "Full Text"), so a spent quota surfaces the
-  // paywall rather than failing quietly. Extraction on open is the server's job.
+  // User-initiated extraction only (tapping "Full Text"). Extraction on open is the
+  // server's job.
   const extractFullText = useCallback(async () => {
     return extractMutation.mutateAsync({
       articleId: articleId || '',
@@ -322,9 +318,7 @@ export function ArticleScreen({
             toast.success('Article removed from read later');
           }
         },
-        onError: (error) => {
-          // The paywall is removed, so saves are never limit-blocked; skip any limit toast.
-          if (isPaywallError(error)) return;
+        onError: () => {
           toast.error(
             newValue ? 'Failed to save article' : 'Failed to remove article from read later'
           );
@@ -439,9 +433,6 @@ export function ArticleScreen({
   const handleGenerateSummary = useCallback(() => {
     if (!article) return;
 
-    // The paywall is removed, so this always allows the request.
-    if (!checkAccess('ai')) return;
-
     // Open bottom sheet immediately
     summaryBottomSheetRef.current?.present();
 
@@ -453,16 +444,12 @@ export function ArticleScreen({
       .catch((error) => {
         console.error('Failed to generate summary:', error);
         summaryBottomSheetRef.current?.dismiss();
-        // The paywall is removed; skip any limit toast if one ever comes back.
-        if (isPaywallError(error)) return;
         toast.error('Failed to generate summary');
       });
-  }, [article, generateSummary, checkAccess]);
+  }, [article, generateSummary]);
 
   const handleRegenerateSummary = useCallback(() => {
     if (!article) return;
-
-    if (!checkAccess('ai')) return;
 
     generateSummary()
       .then(() => {
@@ -470,10 +457,9 @@ export function ArticleScreen({
       })
       .catch((error) => {
         console.error('Failed to regenerate summary:', error);
-        if (isPaywallError(error)) return;
         toast.error('Failed to regenerate summary');
       });
-  }, [article, generateSummary, checkAccess]);
+  }, [article, generateSummary]);
 
   const handleTranslateSelect = useCallback(
     (language: string) => {
@@ -496,7 +482,6 @@ export function ArticleScreen({
         })
         .catch((error) => {
           console.error('Failed to translate:', error);
-          if (isPaywallError(error)) return;
           toast.error('Failed to translate article');
         });
     },
@@ -520,8 +505,6 @@ export function ArticleScreen({
       return;
     }
 
-    if (!checkAccess('ai')) return;
-
     toast.info('Generating highlights...');
 
     highlightMutation
@@ -538,7 +521,6 @@ export function ArticleScreen({
       })
       .catch((error) => {
         console.error('Failed to generate highlights:', error);
-        if (isPaywallError(error)) return;
         toast.error('Failed to generate highlights');
       });
   }, [
@@ -548,7 +530,6 @@ export function ArticleScreen({
     currentContent,
     hasHighlightsForView,
     highlightMutation,
-    checkAccess,
   ]);
 
   const handleSelectView = useCallback(
@@ -569,7 +550,6 @@ export function ArticleScreen({
               toast.success('Full text extracted!');
             })
             .catch((error) => {
-              if (isPaywallError(error)) return;
               toast.error('Failed to extract text');
             });
         } else {

@@ -11,9 +11,6 @@ export const env = createEnv({
             .enum(["development", "test", "production"])
             .default("development"),
         SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
-        POLAR_ACCESS_TOKEN: z.string().optional(),
-        POLAR_WEBHOOK_SECRET: z.string().optional(),
-        REVENUECAT_WEBHOOK_SECRET: z.string().optional(),
     },
 
     /**
@@ -34,8 +31,6 @@ export const env = createEnv({
             .url()
             .default("http://localhost:7700"),
         NEXT_PUBLIC_MEILISEARCH_SEARCH_KEY: z.string().optional(),
-        NEXT_PUBLIC_POLAR_MONTHLY_CHECKOUT_URL: z.string().url().optional(),
-        NEXT_PUBLIC_POLAR_YEARLY_CHECKOUT_URL: z.string().url().optional(),
         NEXT_PUBLIC_APPLE_SERVICES_ID: z.string().optional(),
     },
 
@@ -58,10 +53,6 @@ export const env = createEnv({
         NEXT_PUBLIC_MEILISEARCH_URL: process.env.NEXT_PUBLIC_MEILISEARCH_URL,
         NEXT_PUBLIC_MEILISEARCH_SEARCH_KEY:
             process.env.NEXT_PUBLIC_MEILISEARCH_SEARCH_KEY,
-        NEXT_PUBLIC_POLAR_MONTHLY_CHECKOUT_URL:
-            process.env.NEXT_PUBLIC_POLAR_MONTHLY_CHECKOUT_URL,
-        NEXT_PUBLIC_POLAR_YEARLY_CHECKOUT_URL:
-            process.env.NEXT_PUBLIC_POLAR_YEARLY_CHECKOUT_URL,
         NEXT_PUBLIC_APPLE_SERVICES_ID:
             process.env.NEXT_PUBLIC_APPLE_SERVICES_ID,
     },

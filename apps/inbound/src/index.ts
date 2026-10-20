@@ -17,7 +17,7 @@ function extractHttpsUrl(headerValue: string): string {
 export default {
 	// We use the 'email' method instead of 'fetch' to intercept incoming mail traffic
 	async email(message: any, env: Env, ctx: any): Promise<void> {
-		// 1. Grab the "To" address (e.g., kamui.f83k9a@newsletters.readspace.ai)
+		// 1. Grab the "To" address (e.g., kamui.f83k9a@newsletters.infrss.ai)
 		const toAddress = message.to;
 
 		// 2. Safely parse out the custom routing token
@@ -54,7 +54,7 @@ export default {
 		};
 
 		// 6. Fire a POST request straight to your FastAPI/Dokploy VPS backend
-		const backendUrl = env.BACKEND_URL || 'https://api.readspace.ai';
+		const backendUrl = env.BACKEND_URL || 'https://api.infrss.ai';
 		const backendResponse = await fetch(`${backendUrl}/api/intake/webhook`, {
 			method: 'POST',
 			headers: {
@@ -63,16 +63,6 @@ export default {
 			},
 			body: JSON.stringify(payload),
 		});
-
-		if (backendResponse.status === 429) {
-			// Recipient hit their newsletter cap: a permanent, accurate rejection (no retry)
-			return message.setReject('Recipient has reached their newsletter limit.');
-		}
-
-		if (backendResponse.status === 403) {
-			// Recipient's plan no longer includes newsletters (e.g. downgraded from Pro): permanent rejection
-			return message.setReject("Recipient's plan doesn't include newsletter delivery.");
-		}
 
 		if (!backendResponse.ok) {
 			// If your main server crashes or drops the connection, bounce the mail back to sender
@@ -98,7 +88,7 @@ export default {
 
 		try {
 			const body: any = await request.json();
-			const toAddress = body.to || 'user.token@newsletters.readspace.ai';
+			const toAddress = body.to || 'user.token@newsletters.infrss.ai';
 			const fromAddress = body.from || 'newsletter@substack.com';
 			const subject = body.subject || 'E2E Test Email';
 			const html = body.html || '<h1>Test</h1>';

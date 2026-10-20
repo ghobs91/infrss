@@ -8,7 +8,6 @@ import { Spinner } from '@components/ui/spinner';
 import { Text } from '@components/ui/text';
 import { toast } from '@components/ui/toast';
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
-import { useLimitChecker } from '@hooks/useLimitChecker';
 import { COLORS } from '@lib/constants/colors';
 import { useCreateFeed, useDeleteFeed, useFeeds } from '@infrss/shared';
 import { cva, type VariantProps } from 'class-variance-authority';
@@ -104,7 +103,6 @@ export function FollowButton({
   const createFeed = useCreateFeed();
   const deleteFeed = useDeleteFeed();
   const { data: userFeeds } = useFeeds();
-  const { checkAccess } = useLimitChecker();
 
   // Track optimistic state
   const [optimisticFollowing, setOptimisticFollowing] = useState<boolean | null>(null);
@@ -127,9 +125,6 @@ export function FollowButton({
   const handleFolderSelect = (folderId: string | null) => {
     if (!feedUrl) {
       toast.error('Cannot subscribe: Missing Feed URL');
-      return;
-    }
-    if (!checkAccess('feed')) {
       return;
     }
     setOptimisticFollowing(true);
@@ -179,9 +174,6 @@ export function FollowButton({
       }
     } else {
       // Follow
-      if (!checkAccess('feed')) {
-        return;
-      }
       if (!showFolderPicker && onFollowRequest && feedUrl) {
         // Onboarding flow: use custom follow handler
         setOptimisticFollowing(true);

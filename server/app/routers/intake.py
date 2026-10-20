@@ -274,11 +274,11 @@ async def get_or_generate_token(
         await db.refresh(profile)
 
     # Construct clean email alias
-    # E.g., user.token@newsletters.readspace.ai
+    # E.g., user.token@newsletters.infrss.ai
     username = profile.email.split("@")[0]
     # Replace non-alphanumeric chars in username to keep email structure safe
     clean_username = "".join(c for c in username if c.isalnum() or c in (".", "_", "-")).lower()
-    inbound_email = f"{clean_username}.{profile.newsletter_token}@newsletters.readspace.ai"
+    inbound_email = f"{clean_username}.{profile.newsletter_token}@newsletters.infrss.ai"
 
     return TokenResponse(token=profile.newsletter_token, email=inbound_email)
 

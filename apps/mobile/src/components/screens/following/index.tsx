@@ -17,7 +17,6 @@ import { COLORS } from '@lib/constants/colors';
 import { FOLLOWING_TAB } from '@lib/constants/tabs';
 import { createListItems, type ListItem, processArticles } from '@lib/utils/article';
 import {
-  isPaywallError,
   useCreateFeed,
   useFeed,
   useFeeds,
@@ -204,9 +203,7 @@ export function FollowingScreen({
           articleType,
         },
         {
-          onError: (error) => {
-            // The paywall is removed; skip any limit toast if one ever comes back.
-            if (isPaywallError(error)) return;
+          onError: () => {
             toast.error('Failed to update bookmark');
           },
         }

@@ -20,7 +20,7 @@ export default async function LoginPage() {
 
     const headerList = await headers()
     const host = headerList.get("host") || ""
-    const isProd = host === "app.readspace.ai"
+    const isProd = host === "app.infrss.ai"
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">

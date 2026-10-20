@@ -19,8 +19,6 @@ import { SidebarMain } from "./SidebarMain"
 import { SidebarSecondary } from "./SidebarSecondary"
 import { Logo } from "@/components/ui/logo"
 import { SidebarUser } from "./SidebarUser"
-import { useUserLimits, UserRole } from "@infrss/shared"
-import { Sparkles } from "lucide-react"
 
 const data = {
     navSecondary: [
@@ -73,7 +71,6 @@ export function AppSidebar({
 }: React.ComponentProps<typeof SidebarLeft>) {
     const { user, isLoading: isLoadingUser } = useCurrentUser()
     const supabase = createClient()
-    const { data: limitData } = useUserLimits()
 
     const handleSignOut = async () => {
         await supabase.auth.signOut({ scope: "local" })
@@ -113,19 +110,6 @@ export function AppSidebar({
                                         iconSize={30}
                                         textSize="text-xl pb-[2px]"
                                     />
-                                    {limitData?.role === UserRole.PRO && (
-                                        <div className="inline-flex items-center gap-1 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 dark:border-orange-500/30 rounded-md px-1.5 py-0.5 text-[9px] font-bold tracking-wider uppercase select-none shadow-xs">
-                                            <Sparkles className="size-2.5 text-amber-500 dark:text-amber-400" />
-                                            <span className="bg-gradient-to-r from-amber-600 to-orange-600 dark:from-amber-400 dark:to-orange-300 bg-clip-text text-transparent">
-                                                Pro
-                                            </span>
-                                        </div>
-                                    )}
-                                    {limitData?.role === UserRole.ADMIN && (
-                                        <div className="inline-flex items-center bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 font-bold tracking-wider uppercase rounded-md px-1.5 py-0.5 text-[9px] select-none">
-                                            Admin
-                                        </div>
-                                    )}
                                 </Link>
                             </SidebarLeftMenuButton>
                         </SidebarMenuItem>

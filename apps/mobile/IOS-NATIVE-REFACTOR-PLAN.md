@@ -45,7 +45,7 @@ Legend: ✅ done · 🟡 code-done, **needs device test** · 🚧 in progress ·
 1. **Platform split pattern** (already proven by `reader-corner-menu.ios.tsx`): `foo/index.tsx` (Android/default, current implementation) + `foo/foo.ios.tsx` (SwiftUI) + `foo/foo.types.ts` (shared props contract). Callers never branch on `Platform`.
 2. **One `Host` per surface, never per atom.** Every `Host` is a native view with its own layout pass. Use `Host matchContents` for a single control (menu, toggle, back button); use one `Host` around a whole `Form`/`List` for settings screens. Do **not** wrap each list row / divider in its own Host.
 3. **`Host colorScheme` must follow the app (or the reader theme), not the system** (see reader-corner-menu comment: sepia/dark reader in light-mode phone).
-4. **Custom RN content inside SwiftUI** goes through `RNHostView` (avatars, OPML status card, RevenueCat widgets).
+4. **Custom RN content inside SwiftUI** goes through `RNHostView` (avatars, OPML status card).
 5. **iOS 26 glass:** gate `buttonStyle('glass')` on `Platform.Version >= 26`, fall back to `bordered` (same constant as the reader menu; extract to `@lib/constants/platform.ts`).
 6. **SF Symbols on iOS surfaces** replace Solar icons *inside SwiftUI trees only*. Solar stays everywhere else. (Approved, see §6.)
 7. **"Makes sense" filter:** if the native version is worse (perf in lists, keyboard focus, custom brand visuals), keep the RN version and record why in the table below.
@@ -137,7 +137,7 @@ Legend — **Do**: migrate; **Partial**: migrate only where noted; **Keep**: no 
 
 ### 3.9 Section (settings) — **Do, biggest UI win**
 - **Today:** `profile/ui/settings-group.tsx` (title + rounded container) + custom `Button variant="button"` rows in `profile/index.tsx`; similar grouped layout in `codex-settings` and `self-hosted-settings` sheets.
-- **Plan:** `profile/ui/settings-list.ios.tsx`: one `Host` → `Form` (`listStyle('insetGrouped')`) → `Section(header)` → `LabeledContent` / `Label` / `Toggle` / `Picker` / `Button` rows, with `RNHostView` for the OPML status card, avatar/account header, RevenueCat customer-center trigger. Android keeps `SettingsGroup`.
+- **Plan:** `profile/ui/settings-list.ios.tsx`: one `Host` → `Form` (`listStyle('insetGrouped')`) → `Section(header)` → `LabeledContent` / `Label` / `Toggle` / `Picker` / `Button` rows, with `RNHostView` for the OPML status card, avatar/account header. Android keeps `SettingsGroup`.
 - Do `codex-settings` and `self-hosted-settings` sheet bodies the same way (SwiftUI `Form` inside the True Sheet, `scrollable`).
 - `Picker` also replaces the reader-settings segmented rows (`segmented.row`, `navigation/segmented-control`) → `pickerStyle('segmented')`, and `navigation/stepper` → SwiftUI `Stepper` (font size). Verify against reader chrome behavior first.
 - **Risk:** medium — dark mode/theme colors must map (SwiftUI `Form` background vs `COLORS.background`); test sepia/dark.

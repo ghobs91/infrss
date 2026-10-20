@@ -6,7 +6,6 @@ import { AppearanceSettings } from "./AppearanceSettings"
 import { DataSettings } from "./DataSettings"
 import { DigestSettings } from "./DigestSettings"
 import { NewsletterSettings } from "./NewsletterSettings"
-import { PlanSettings } from "./PlanSettings"
 
 export function SettingsView() {
     return (
@@ -26,7 +25,6 @@ export function SettingsView() {
                     </header>
 
                     <AppearanceSettings />
-                    <PlanSettings />
                     <DigestSettings />
                     <NewsletterSettings />
                     <DataSettings />

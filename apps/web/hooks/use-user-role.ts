@@ -13,10 +13,7 @@ export function useUserRole() {
 
     return {
         profile,
-        role: profile?.role || "BASIC",
         isAdmin: profile?.role === "ADMIN",
-        isPro: profile?.role === "PRO",
-        isBasic: profile?.role === "BASIC" || !profile?.role,
         isLoading,
         error,
     }

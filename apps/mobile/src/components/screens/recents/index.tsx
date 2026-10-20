@@ -15,7 +15,6 @@ import { USES_NATIVE_HEADER } from '@lib/constants/platform';
 import { createListItems, type ListItem } from '@lib/utils/article';
 import type { Article } from '@infrss/shared';
 import {
-  isPaywallError,
   useInfiniteRecentlyReadArticles,
   useUpdateArticle,
 } from '@infrss/shared';
@@ -92,9 +91,7 @@ export function RecentsScreen() {
       updateArticle.mutate(
         { articleId, data: { is_saved: newValue }, articleType },
         {
-          onError: (error) => {
-            // The paywall is removed; skip any limit toast if one ever comes back.
-            if (isPaywallError(error)) return;
+          onError: () => {
             toast.error('Failed to update bookmark');
           },
         }

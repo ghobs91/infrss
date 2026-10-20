@@ -1,7 +1,7 @@
 export const PRODUCTION_DEFAULTS = {
-  infrss_url: 'https://api.readspace.ai',
-  infrss_app_url: 'https://app.readspace.ai',
-  supabase_url: 'https://supabase.readspace.ai',
+  infrss_url: 'https://api.infrss.ai',
+  infrss_app_url: 'https://app.infrss.ai',
+  supabase_url: 'https://supabase.infrss.ai',
   supabase_anon_key:
     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzY0MDM0MzQ2LAogICJleHAiOiAxOTIxNzE0MzQ2Cn0.s0f50HbzrOO5boLjTmCYXImtCqZrw0vjYwPXtyIZKyE',
   google_client_id:

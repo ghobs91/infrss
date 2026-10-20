@@ -7,7 +7,7 @@
 adaptive
 
 <!-- Infrss ships three design surfaces from one monorepo: a Next.js web app (apps/web,
-     the primary hosted product at app.readspace.ai), an Expo iOS + Android app (apps/mobile),
+     the primary hosted product at app.infrss.ai), an Expo iOS + Android app (apps/mobile),
      and a Manifest V3 Chrome/Firefox extension (apps/extension). Web and extension share the
      same shadcn/ui + Tailwind v4 token system from packages/design-tokens; mobile re-implements
      the same palette natively via uniwind. They hold to one shared standard of craft and one
@@ -111,8 +111,7 @@ Confirmed functionality across surfaces:
 
 Constraints:
 
-- **Payments differ by platform:** web uses Polar, mobile uses RevenueCat. Tier names in
-  product copy: Basic (free), Pro (paid), Admin.
+- **No paid tiers:** every feature is available to every account, without usage limits.
 - **`url` vs `link`:** for a feed, `url` is the RSS XML endpoint; `link` is the human-readable
   website. This distinction is load-bearing in schemas and UI copy — never conflate them.
 - Self-host builds must degrade gracefully with AI providers unset (no broken UI, features
@@ -125,7 +124,7 @@ for the digest feature — code, routes, component names — but never appears i
 
 ## Brand Commitments
 
-- **Name:** Infrss. Hosted at `app.readspace.ai`. Open-source (repo `ghobs91/infrss`).
+- **Name:** Infrss. Hosted at `app.infrss.ai`. Open-source (repo `ghobs91/infrss`).
 - **Wordmark & logo:** `apps/web/public/wordmark.png` is a fixed identity asset; `--font-logo`
   is the reserved logo typeface. Do not substitute or restyle the wordmark.
 - **Palette & tokens are locked.** `packages/design-tokens` (shadcn/ui-style CSS variables,
@@ -170,8 +169,8 @@ for the digest feature — code, routes, component names — but never appears i
 4. **One identity, three surfaces, native manners.** Web, mobile, and extension share palette,
    voice, and craft standard, but each respects its platform's conventions rather than
    cloning another's layout.
-5. **Self-hostable and honest about it.** Features that depend on external AI or paid tiers
-   degrade cleanly; the open-source build is a real product, not a teaser.
+5. **Self-hostable and honest about it.** Features that depend on external AI degrade
+   cleanly; the open-source build is a real product, not a teaser.
 
 ## Accessibility & Inclusion
 

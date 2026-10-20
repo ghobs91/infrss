@@ -64,7 +64,7 @@ User data transmitted by the extension is sent over secure HTTPS connections. Au
 
 ## User Choices and Data Removal
 
-Users can disable or uninstall the extension at any time. Uninstalling removes extension-local data according to browser behavior. Users can manage or delete server-stored articles and feeds through their Infrss account. For requests concerning account data, contact admin@readspace.ai.
+Users can disable or uninstall the extension at any time. Uninstalling removes extension-local data according to browser behavior. Users can manage or delete server-stored articles and feeds through their Infrss account. For requests concerning account data, contact admin@infrss.ai.
 
 ## Changes
 

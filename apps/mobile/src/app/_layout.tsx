@@ -1,6 +1,5 @@
 import '../../global.css';
 import { SessionProvider, useSession } from '@contexts/auth-context';
-import { RevenueCatProvider } from '@contexts/revenuecat-context';
 import { ThemeProvider } from '@contexts/theme-provider';
 import { ToastProvider } from '@contexts/toast-provider';
 import {
@@ -36,11 +35,10 @@ import {
 import { useIsDarkMode } from '@hooks/useIsDarkMode';
 import { COLORS } from '@lib/constants/colors';
 import { NAVIGATION_THEME } from '@lib/constants/navigation-theme';
-import { isDowngradeRequiredError, queryKeys } from '@infrss/shared';
 import * as Sentry from '@sentry/react-native';
 import { useHasSettingsHydrated, useSettingsStore } from '@stores/settings';
 import { useThemeStore } from '@stores/theme';
-import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import clsx from 'clsx';
 import Constants from 'expo-constants';
 import * as Font from 'expo-font';
@@ -85,23 +83,8 @@ function configureSentry(enabled: boolean) {
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
-const handleGlobalError = (error: unknown) => {
-  // Downgraded while holding more than the plan allows: refetch limits (possibly cached as fine)
-  // so the protected layout swaps in the plan-change flow. `queryClient` is declared below.
-  if (isDowngradeRequiredError(error)) {
-    queryClient.invalidateQueries({ queryKey: queryKeys.userLimits() });
-    return;
-  }
-};
-
 // Create QueryClient instance
 const queryClient = new QueryClient({
-  queryCache: new QueryCache({
-    onError: handleGlobalError,
-  }),
-  mutationCache: new MutationCache({
-    onError: handleGlobalError,
-  }),
   defaultOptions: {
     queries: {
       retry: 2,
@@ -131,9 +114,7 @@ function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <SessionProvider>
-            <RevenueCatProvider>
-              <RootNavigator />
-            </RevenueCatProvider>
+            <RootNavigator />
           </SessionProvider>
         </ThemeProvider>
       </QueryClientProvider>

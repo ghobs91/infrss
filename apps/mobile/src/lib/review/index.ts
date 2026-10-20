@@ -74,7 +74,7 @@ export async function openStoreReview() {
   const url =
     Platform.OS === 'ios'
       ? 'https://apps.apple.com/app/id6790224641?action=write-review'
-      : 'https://play.google.com/store/apps/details?id=com.readspace.rss';
+      : 'https://play.google.com/store/apps/details?id=com.infrss.rss';
   await Linking.openURL(url);
   await updateHistory((history) => {
     history.lastRequestedAt = Date.now();

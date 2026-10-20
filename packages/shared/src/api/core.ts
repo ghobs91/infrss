@@ -15,37 +15,12 @@ export class ApiError extends Error {
   constructor(
     public status: number,
     message: string,
-    /** Machine-readable backend error code (e.g. "DOWNGRADE_ACTION_REQUIRED"), when provided. */
+    /** Machine-readable backend error code, when provided. */
     public errorCode?: string
   ) {
     super(message);
     this.name = 'ApiError';
   }
-}
-
-/** Backend error code: the user's holdings exceed their plan and they must pick what to keep. */
-export const DOWNGRADE_ACTION_REQUIRED = 'DOWNGRADE_ACTION_REQUIRED';
-
-/**
- * True when the API refused a request because the user was downgraded and still holds more than
- * their plan allows. Clients refetch user limits so the full-screen downgrade flow takes over.
- */
-export function isDowngradeRequiredError(error: unknown): boolean {
-  return (
-    error instanceof ApiError &&
-    error.status === 403 &&
-    error.errorCode === DOWNGRADE_ACTION_REQUIRED
-  );
-}
-
-/**
- * True when the API refused a request because of a plan limit (HTTP 429).
- *
- * The paywall has been removed, so the server no longer meters features; this is kept for
- * callers that still want to special-case a limit response.
- */
-export function isPaywallError(error: unknown): boolean {
-  return error instanceof ApiError && error.status === 429;
 }
 
 /**
