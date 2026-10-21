@@ -45,7 +45,7 @@ export type FollowingStore = FollowingState & FollowingActions;
 const initialState: FollowingState = {
   activeTab: FOLLOWING_TAB.TODAY,
   previousTab: null,
-  filter: 'all',
+  filter: 'unread',
   loadingStates: {
     all: false,
     today: false,
@@ -117,21 +117,28 @@ export const useFollowingStore = create<FollowingStore>()(
       name: 'infrss-following',
       storage: createJSONStorage(() => AsyncStorage),
       // v1 moved Today to the front of the tab row (was All, Today, Saved).
+      // v2 makes the unread-only filter the default.
       // Without this, everyone with a persisted tab index would silently land
       // on the neighbouring tab after updating.
-      version: 1,
+      version: 2,
       migrate: (persisted, version) => {
         const state = persisted as Partial<FollowingState> | undefined;
-        if (!state || version >= 1) return state as FollowingState;
+        if (!state) return state as unknown as FollowingState;
 
-        const V0_TO_V1_TAB: Record<number, number> = {
-          0: FOLLOWING_TAB.ALL, // v0 "All" was index 0
-          1: FOLLOWING_TAB.TODAY, // v0 "Today" was index 1
-        };
-        return {
-          ...state,
-          activeTab: V0_TO_V1_TAB[state.activeTab ?? 0] ?? state.activeTab,
-        } as FollowingState;
+        const next = { ...state };
+        if (version < 1) {
+          const V0_TO_V1_TAB: Record<number, number> = {
+            0: FOLLOWING_TAB.ALL, // v0 "All" was index 0
+            1: FOLLOWING_TAB.TODAY, // v0 "Today" was index 1
+          };
+          next.activeTab = V0_TO_V1_TAB[state.activeTab ?? 0] ?? state.activeTab;
+        }
+        // The old default was "all"; treat it as the default rather than an explicit
+        // choice so existing installs switch to unread-only too.
+        if (version < 2 && next.filter === 'all') {
+          next.filter = 'unread';
+        }
+        return next as FollowingState;
       },
       partialize: (state) => ({
         // Persist the active tab and filter, not loading states or counts

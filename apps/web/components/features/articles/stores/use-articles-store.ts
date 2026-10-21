@@ -18,7 +18,7 @@ interface ArticlesState {
 export const useArticlesStore = create<ArticlesState>((set) => ({
     viewMode: "list",
     selectedArticleId: null,
-    showUnreadOnly: false,
+    showUnreadOnly: true,
     sidebarOpen: true,
 
     setViewMode: (mode) => set({ viewMode: mode }),
@@ -35,7 +35,7 @@ export const useArticlesStore = create<ArticlesState>((set) => ({
         set({
             viewMode: "list",
             selectedArticleId: null,
-            showUnreadOnly: false,
+            showUnreadOnly: true,
             sidebarOpen: true,
         }),
 }))
