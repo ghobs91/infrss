@@ -15,10 +15,10 @@ interface ArticlesHeaderProps {
     isReadLaterMode: boolean
     feedId?: string
     folderId?: string
-    isDeepRefreshing: boolean
+    isRefreshing: boolean
     isMarkingAllRead: boolean
     toggleShowUnreadOnly: () => void
-    handleDeepRefresh: () => void
+    handleRefresh: () => void
     handleMarkAllAsRead: () => void
     isPreviewMode?: boolean
 }
@@ -30,15 +30,15 @@ export function ArticlesHeader({
     isReadLaterMode,
     feedId,
     folderId,
-    isDeepRefreshing,
+    isRefreshing,
     isMarkingAllRead,
     toggleShowUnreadOnly,
-    handleDeepRefresh,
+    handleRefresh,
     handleMarkAllAsRead,
     isPreviewMode = false,
 }: ArticlesHeaderProps) {
     return (
-        <div className="flex-shrink-0 flex items-center justify-between border-b px-4 py-3 h-[60px]">
+        <div className="flex-shrink-0 flex items-center justify-between border-b px-3 py-3 gap-2 min-h-[60px] pt-[calc(0.75rem+env(safe-area-inset-top,0px))] md:px-4">
             <div className="flex items-center gap-2 flex-1 min-w-0">
                 <SidebarLeftTrigger className="flex-shrink-0" />
                 <h1 className="text-lg font-semibold truncate">
@@ -54,7 +54,7 @@ export function ArticlesHeader({
                 )}
             </div>
             {!isPreviewMode && (
-                <div className="flex items-center gap-1 flex-shrink-0">
+                <div className="flex items-center gap-1.5 flex-shrink-0">
                     {!isReadLaterMode && (
                         <TooltipProvider>
                             <Tooltip>
@@ -63,7 +63,7 @@ export function ArticlesHeader({
                                         variant="ghost"
                                         size="icon"
                                         aria-pressed={showUnreadOnly}
-                                        className={`h-8 w-8 ${showUnreadOnly ? "bg-secondary/15 text-secondary hover:bg-secondary/25 hover:text-secondary" : ""}`}
+                                        className={`h-8 w-8 max-md:h-9 max-md:w-9 max-md:glass-control max-md:rounded-full ${showUnreadOnly ? "bg-secondary/15 text-secondary hover:bg-secondary/25 hover:text-secondary" : ""}`}
                                         onClick={toggleShowUnreadOnly}
                                     >
                                         {showUnreadOnly ? (
@@ -81,32 +81,26 @@ export function ArticlesHeader({
                             </Tooltip>
                         </TooltipProvider>
                     )}
-                    {feedId && (
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="h-8 w-8"
-                                        onClick={handleDeepRefresh}
-                                        disabled={isDeepRefreshing}
-                                    >
-                                        <RefreshCw
-                                            className={`h-4 w-4 ${
-                                                isDeepRefreshing
-                                                    ? "animate-spin"
-                                                    : ""
-                                            }`}
-                                        />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    Check for new articles
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                    )}
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="hidden h-8 w-8 md:inline-flex"
+                                    onClick={handleRefresh}
+                                    disabled={isRefreshing}
+                                >
+                                    <RefreshCw
+                                        className={`h-4 w-4 ${
+                                            isRefreshing ? "animate-spin" : ""
+                                        }`}
+                                    />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Refresh feeds</TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                     {(feedId || folderId) && (
                         <TooltipProvider>
                             <Tooltip>
@@ -114,7 +108,7 @@ export function ArticlesHeader({
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-8 w-8"
+                                        className="h-8 w-8 max-md:h-9 max-md:w-9 max-md:glass-control max-md:rounded-full"
                                         onClick={handleMarkAllAsRead}
                                         disabled={isMarkingAllRead}
                                     >

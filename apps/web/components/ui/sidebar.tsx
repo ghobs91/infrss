@@ -28,7 +28,6 @@ const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_LEFT_WIDTH = "17rem"
 const SIDEBAR_RIGHT_WIDTH = "23rem"
-const SIDEBAR_WIDTH_MOBILE = "18rem"
 const SIDEBAR_WIDTH_ICON = "3rem"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
@@ -303,22 +302,22 @@ const Sidebar = React.forwardRef<
                     {...props}
                 >
                     <SheetContent
-                        className="bg-sidebar text-sidebar-foreground w-[var(--width-var)] p-0 [&>button]:hidden z-[1000]"
+                        glass
+                        className={`w-[min(86vw,20rem)] max-w-none overflow-hidden p-0 [&>button]:hidden z-[1000] ${side === "left" ? "rounded-r-[28px]" : "rounded-l-[28px]"}`}
                         data-mobile="true"
                         data-sidebar="sidebar"
                         side={side}
-                        style={
-                            {
-                                "--width-var": SIDEBAR_WIDTH_MOBILE,
-                            } as React.CSSProperties
-                        }
                     >
+                        <div
+                            aria-hidden="true"
+                            className={`glass-surface pointer-events-none absolute inset-0 ${side === "left" ? "rounded-r-[28px]" : "rounded-l-[28px]"}`}
+                        />
                         <SheetHeader>
                             <SheetTitle className="sr-only">
                                 Navigation Menu
                             </SheetTitle>
                         </SheetHeader>
-                        <div className="flex h-full w-full flex-col">
+                        <div className="relative flex h-full w-full flex-col text-sidebar-foreground pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)]">
                             {children}
                         </div>
                     </SheetContent>
@@ -438,7 +437,10 @@ function SidebarTrigger({
 }) {
     return (
         <Button
-            className={cn("h-7 w-7", className)}
+            className={cn(
+                "h-7 w-7 max-md:h-9 max-md:w-9 max-md:glass-control max-md:rounded-full",
+                className
+            )}
             data-sidebar="trigger"
             onClick={(event) => {
                 onClick?.(event)

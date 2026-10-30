@@ -125,6 +125,24 @@ async def trigger_catalog_discover() -> None:
     print(f"\nCatalog discovery: created={result['created']} feeds")
 
 
+async def trigger_catalog_sync_companies() -> None:
+    """Upsert the hand-curated company/institution registry and its known-good feeds."""
+    from app.workers.catalog.sync import sync_company_entities
+
+    logger.info("Triggering: curated company registry sync")
+    result = await sync_company_entities()
+    print(f"\nCurated registry sync: entities={result.get('entities')} feeds={result.get('feeds')}")
+
+
+async def trigger_catalog_verify() -> None:
+    """Dispatch verification for catalog feeds whose next poll is due."""
+    from app.workers.catalog.verify import schedule_catalog_verifications
+
+    logger.info("Triggering: catalog feed verification sweep")
+    await schedule_catalog_verifications()
+    print("\nCatalog verification sweep dispatched")
+
+
 async def trigger_reset_failed() -> None:
     """Reset all feeds that were marked as failed enrichment."""
     logger.info("Triggering: Reset failed enrichment feeds")
@@ -176,7 +194,9 @@ TASKS = {
     "codex-generate": trigger_codex_generate,
     "backfill-favicons": trigger_backfill_favicons,
     "catalog-sync": trigger_catalog_sync,
+    "catalog-sync-companies": trigger_catalog_sync_companies,
     "catalog-discover": trigger_catalog_discover,
+    "catalog-verify": trigger_catalog_verify,
 }
 
 # Tasks that take a positional argument beyond the task name (e.g. a user_id).
@@ -195,7 +215,9 @@ def print_usage() -> None:
     print("  codex-generate <user_id> - Generate a Codex digest for a user")
     print("  backfill-favicons [orphans] [N] - Favicons -> PNG (WRITES), or delete orphaned favicon objects")
     print("  catalog-sync            - Sync primary entities from Federal Register, Wikidata and SEC")
+    print("  catalog-sync-companies  - Upsert the curated company/institution registry and its feeds")
     print("  catalog-discover        - Discover candidate catalog feeds for entities that have none")
+    print("  catalog-verify          - Dispatch verification for catalog feeds that are due")
     print("\nExample:")
     print("  python scripts/trigger_task.py refresh-all")
     print("  python scripts/trigger_task.py codex-generate 3fa85f64-5717-4562-b3fc-2c963f66afa6")

@@ -32,6 +32,7 @@ SUBSCRIPTION_FEED_COLUMNS = [
     Feed.author,
     Feed.content_type,
     Feed.tags_native,
+    Feed.catalog_feed_id,
 ]
 
 

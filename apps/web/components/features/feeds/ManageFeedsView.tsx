@@ -39,7 +39,7 @@ export default function ManageFeedsView() {
                     ]}
                 />
                 <main className="flex-1 p-4 md:p-8 overflow-hidden">
-                    <div className="h-full space-y-6 overflow-y-auto">
+                    <div className="h-full space-y-6 overflow-y-auto pb-[var(--mobile-dock-clearance)] md:pb-0">
                         {/* Header */}
                         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div>

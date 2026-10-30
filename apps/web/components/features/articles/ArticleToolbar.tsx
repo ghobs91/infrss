@@ -4,6 +4,11 @@ import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -25,6 +30,7 @@ import {
     Globe,
     Languages,
     Loader2,
+    MoreHorizontal,
     Sparkles,
     TextSelection,
 } from "lucide-react"
@@ -118,7 +124,7 @@ export function ArticleToolbar({
 
     return (
         <div
-            className={`flex items-center ${isMobile && onBack ? "justify-between" : "justify-end"} ${hideBackground ? "gap-1" : "px-4 py-3 bg-background/95 backdrop-blur-sm border-b"}`}
+            className={`flex items-center gap-1 ${isMobile && onBack ? "justify-between" : "justify-end"} ${hideBackground ? "gap-1" : "px-4 py-3 bg-background/95 backdrop-blur-sm border-b"}`}
         >
             {/* Mobile back button - shown when onBack is provided */}
             {isMobile && onBack && (
@@ -129,11 +135,11 @@ export function ArticleToolbar({
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="h-9 w-9 p-0 transition-all duration-200 hover:scale-110 hover:bg-muted/60"
+                                    className="glass-control h-9 w-9 rounded-full p-0"
                                     onClick={onBack}
                                     title="Back to articles"
                                 >
-                                    <ArrowLeft className="h-4 w-4 transition-transform duration-200 hover:-translate-x-1" />
+                                    <ArrowLeft className="h-4 w-4" />
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>Back to articles</TooltipContent>
@@ -142,7 +148,7 @@ export function ArticleToolbar({
                 </div>
             )}
             <div
-                className={`flex items-center ${isMobile ? "gap-1" : "gap-1"}`}
+                className={`flex items-center ${isMobile ? "gap-1 flex-1 min-w-0 justify-end" : "gap-1"}`}
             >
                 {/* Content Source Tabs - Show when link is available and not a newsletter */}
                 {article.link &&
@@ -150,7 +156,9 @@ export function ArticleToolbar({
                     setContentView &&
                     (article.article_type !== "clipped" ||
                         hasTranslatedContent) && (
-                        <div className="mr-2">
+                        <div
+                            className={`${isMobile ? "mr-0 flex-1 min-w-0" : "mr-2"}`}
+                        >
                             <Tabs
                                 value={contentView}
                                 onValueChange={(value) => {
@@ -169,13 +177,13 @@ export function ArticleToolbar({
                                     // Otherwise switch immediately
                                     setContentView(newView)
                                 }}
-                                className="w-auto inline-block"
+                                className={`${isMobile ? "w-full" : "w-auto inline-block"}`}
                             >
-                                <TabsList className="h-8">
+                                <TabsList className="h-8 max-md:h-9 max-md:w-full max-md:rounded-full max-md:border max-md:border-white/50 max-md:bg-white/35 max-md:backdrop-blur-xl dark:max-md:border-white/10 dark:max-md:bg-white/10">
                                     <TabsTrigger
                                         value={ContentView.Original}
                                         title="Original RSS content"
-                                        className="h-7 px-2"
+                                        className="h-7 px-2 max-md:h-7 max-md:flex-1"
                                     >
                                         <FileText className="h-4 w-4" />
                                     </TabsTrigger>
@@ -183,7 +191,7 @@ export function ArticleToolbar({
                                         <TabsTrigger
                                             value={ContentView.Extracted}
                                             title="Full article content"
-                                            className="h-7 px-2"
+                                            className="h-7 px-2 max-md:h-7 max-md:flex-1"
                                         >
                                             {isExtracting ? (
                                                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -196,7 +204,7 @@ export function ArticleToolbar({
                                         <TabsTrigger
                                             value={ContentView.Translated}
                                             title={`Translated content${translatedLanguage ? ` (${translatedLanguage})` : ""}`}
-                                            className="h-7 px-2"
+                                            className="h-7 px-2 max-md:h-7 max-md:flex-1"
                                         >
                                             <Languages className="h-4 w-4" />
                                         </TabsTrigger>
@@ -211,7 +219,7 @@ export function ArticleToolbar({
                             <TooltipTrigger asChild>
                                 <button
                                     type="button"
-                                    className={`${isMobile ? "h-9 w-9" : "h-8 w-8"} flex items-center justify-center p-0 transition-transform duration-200 hover:scale-110 focus:outline-none`}
+                                    className={`${isMobile ? "h-9 w-9 glass-control rounded-full" : "h-8 w-8"} flex items-center justify-center p-0 transition-transform duration-200 hover:scale-110 focus:outline-none`}
                                     onClick={
                                         isReadLaterMode
                                             ? handleMarkAsRead
@@ -255,48 +263,52 @@ export function ArticleToolbar({
                     )}
 
                     {/* Open Original */}
-                    {!article.link?.startsWith("newsletter://") && (
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className={`${isMobile ? "h-9 w-9" : "h-8 w-8"} p-0 transition-all duration-200 hover:scale-110 hover:bg-muted/60`}
-                                    onClick={handleOpenOriginal}
-                                    disabled={!article.link}
-                                >
-                                    <ExternalLink className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                {article.link
-                                    ? "Open Original Article"
-                                    : "No original URL available"}
-                            </TooltipContent>
-                        </Tooltip>
-                    )}
+                    {!isMobile &&
+                        !article.link?.startsWith("newsletter://") && (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className={`${isMobile ? "h-9 w-9" : "h-8 w-8"} p-0 transition-all duration-200 hover:scale-110 hover:bg-muted/60`}
+                                        onClick={handleOpenOriginal}
+                                        disabled={!article.link}
+                                    >
+                                        <ExternalLink className="h-4 w-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    {article.link
+                                        ? "Open Original Article"
+                                        : "No original URL available"}
+                                </TooltipContent>
+                            </Tooltip>
+                        )}
 
                     {/* Copy URL */}
-                    {!article.link?.startsWith("newsletter://") && (
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className={`${isMobile ? "h-9 w-9" : "h-8 w-8"} p-0 transition-all duration-200 hover:scale-110 hover:bg-muted/60`}
-                                    onClick={handleCopyUrl}
-                                    disabled={!article.link}
-                                >
-                                    <Copy className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                {article.link ? "Copy URL" : "No URL to copy"}
-                            </TooltipContent>
-                        </Tooltip>
-                    )}
+                    {!isMobile &&
+                        !article.link?.startsWith("newsletter://") && (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className={`${isMobile ? "h-9 w-9" : "h-8 w-8"} p-0 transition-all duration-200 hover:scale-110 hover:bg-muted/60`}
+                                        onClick={handleCopyUrl}
+                                        disabled={!article.link}
+                                    >
+                                        <Copy className="h-4 w-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    {article.link
+                                        ? "Copy URL"
+                                        : "No URL to copy"}
+                                </TooltipContent>
+                            </Tooltip>
+                        )}
 
-                    {!isPreviewMode && (
+                    {!isMobile && !isPreviewMode && (
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button
@@ -319,7 +331,8 @@ export function ArticleToolbar({
                         </Tooltip>
                     )}
 
-                    {!isPreviewMode &&
+                    {!isMobile &&
+                        !isPreviewMode &&
                         !article.link?.startsWith("newsletter://") && (
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -355,7 +368,8 @@ export function ArticleToolbar({
                             </Tooltip>
                         )}
 
-                    {!isPreviewMode &&
+                    {!isMobile &&
+                        !isPreviewMode &&
                         !article.link?.startsWith("newsletter://") && (
                             <DropdownMenu
                                 open={showLanguageSelector}
@@ -395,6 +409,107 @@ export function ArticleToolbar({
                             </DropdownMenu>
                         )}
                 </TooltipProvider>
+
+                {/* Mobile: keep the bar to back / source tabs / save / more */}
+                {isMobile && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                aria-label="More article actions"
+                                className="glass-control h-9 w-9 rounded-full p-0"
+                            >
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                            align="end"
+                            sideOffset={8}
+                            className="w-56 rounded-2xl border-border/60 bg-popover/95 p-1.5 shadow-xl backdrop-blur-xl"
+                        >
+                            {!article.link?.startsWith("newsletter://") && (
+                                <DropdownMenuItem
+                                    disabled={!article.link}
+                                    onClick={handleOpenOriginal}
+                                    className="gap-2 py-2.5"
+                                >
+                                    <ExternalLink className="h-4 w-4" />
+                                    Open original
+                                </DropdownMenuItem>
+                            )}
+                            {!article.link?.startsWith("newsletter://") && (
+                                <DropdownMenuItem
+                                    disabled={!article.link}
+                                    onClick={handleCopyUrl}
+                                    className="gap-2 py-2.5"
+                                >
+                                    <Copy className="h-4 w-4" />
+                                    Copy link
+                                </DropdownMenuItem>
+                            )}
+                            {!isPreviewMode && (
+                                <>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem
+                                        disabled={isSummarizing}
+                                        onClick={handleSummarize}
+                                        className="gap-2 py-2.5"
+                                    >
+                                        {isSummarizing ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            <Sparkles className="h-4 w-4" />
+                                        )}
+                                        The Gist
+                                    </DropdownMenuItem>
+                                </>
+                            )}
+                            {!isPreviewMode &&
+                                !article.link?.startsWith("newsletter://") && (
+                                    <DropdownMenuItem
+                                        disabled={isHighlighting}
+                                        onClick={handleToggleHighlights}
+                                        className="gap-2 py-2.5"
+                                    >
+                                        {isHighlighting ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            <TextSelection className="h-4 w-4" />
+                                        )}
+                                        {highlightsEnabled
+                                            ? "Hide AI highlights"
+                                            : "AI highlights"}
+                                    </DropdownMenuItem>
+                                )}
+                            {!isPreviewMode &&
+                                !article.link?.startsWith("newsletter://") && (
+                                    <DropdownMenuSub>
+                                        <DropdownMenuSubTrigger
+                                            disabled={isTranslating}
+                                            className="gap-2 py-2.5"
+                                        >
+                                            {isTranslating ? (
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                            ) : (
+                                                <Languages className="h-4 w-4" />
+                                            )}
+                                            Translate
+                                        </DropdownMenuSubTrigger>
+                                        <DropdownMenuSubContent className="max-h-[60vh] w-56 overflow-y-auto rounded-2xl">
+                                            <LanguageSelector
+                                                onSelect={handleTranslateClick}
+                                                selectedLanguage={
+                                                    translatedLanguage ??
+                                                    undefined
+                                                }
+                                            />
+                                        </DropdownMenuSubContent>
+                                    </DropdownMenuSub>
+                                )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
             </div>
         </div>
     )

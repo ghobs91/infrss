@@ -205,6 +205,16 @@ async def fetch_feed_content(
     try:
         try:
             async with session.get(url, headers=headers, allow_redirects=True, timeout=timeout_config) as response:
+                if response.status == 403:
+                    # Some government sites (notably several NY State domains) reject the
+                    # full Chrome UA but accept a minimal one. Retry once before recording a
+                    # poll failure.
+                    retry_headers = {**headers, "User-Agent": "Mozilla/5.0"}
+                    logger.info("Feed fetch 403; retrying with minimal User-Agent", url=url)
+                    async with session.get(
+                        url, headers=retry_headers, allow_redirects=True, timeout=timeout_config
+                    ) as retry_response:
+                        return await _process_response(retry_response, cache_key)
                 return await _process_response(response, cache_key)
         except aiohttp.ClientSSLError as ssl_err:
             logger.warning(

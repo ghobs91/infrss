@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { toast } from "react-hot-toast"
 
 import { ArticlesEmptyState } from "./ArticlesEmptyState"
@@ -12,7 +12,7 @@ import { ArticlesLayout } from "./ArticlesLayout"
 import { ArticlesSidebar } from "./ArticlesSidebar"
 import { ArticlesDetail } from "./ArticlesDetail"
 import { useArticlesStore } from "./stores/use-articles-store"
-import { useDeepRefresh } from "./hooks/use-deep-refresh"
+import { useRefreshFeeds } from "./hooks/use-refresh-feeds"
 import { useIsMobile } from "@/hooks/use-mobile"
 import {
     getArticleListDate,
@@ -65,9 +65,11 @@ export function ArticlesView({
         viewMode,
         selectedArticleId,
         showUnreadOnly,
+        autoReadIds,
         setViewMode,
         selectArticle,
         toggleUnreadFilter,
+        clearAutoReadIds,
     } = useArticlesStore()
 
     // Local State
@@ -89,7 +91,8 @@ export function ArticlesView({
         // We only want to reset selection/view mode when the "context" (feed/folder/mode) changes
         selectArticle(null)
         setViewMode("list")
-    }, [feedId, folderId, mode, selectArticle, setViewMode])
+        clearAutoReadIds()
+    }, [feedId, folderId, mode, selectArticle, setViewMode, clearAutoReadIds])
 
     // Data Hooks
 
@@ -103,8 +106,7 @@ export function ArticlesView({
 
     // Mutations
     const updateArticle = useUpdateArticle()
-    const { handleDeepRefresh, isRefreshing: isDeepRefreshing } =
-        useDeepRefresh()
+    const { refreshFeeds, isRefreshing } = useRefreshFeeds()
 
     // Derived State
     const isRecentlyReadMode = mode === ArticleFilterMode.RecentlyRead
@@ -113,10 +115,10 @@ export function ArticlesView({
 
     const filteredArticles = useMemo(() => {
         if (showUnreadOnly && !isReadLaterMode) {
-            return articles.filter((a) => !a.is_read)
+            return articles.filter((a) => !a.is_read || autoReadIds[a.id])
         }
         return articles
-    }, [articles, showUnreadOnly, isReadLaterMode])
+    }, [articles, showUnreadOnly, isReadLaterMode, autoReadIds])
 
     const selectedArticle = useMemo(
         () => articles.find((a) => a.id === selectedArticleId),
@@ -232,9 +234,10 @@ export function ArticlesView({
         }
     }
 
-    const onDeepRefresh = async () => {
-        await handleDeepRefresh(feedId)
-    }
+    const handleRefresh = useCallback(
+        () => refreshFeeds(shouldShowPreviewBanner ? undefined : feedId),
+        [refreshFeeds, shouldShowPreviewBanner, feedId]
+    )
 
     const handleMarkAsRead = () => {
         if (!selectedArticle) return
@@ -376,8 +379,8 @@ export function ArticlesView({
                         hasNextPage={query.hasNextPage}
                         feedData={feedData}
                         fetchNextPage={query.fetchNextPage}
-                        handleDeepRefresh={onDeepRefresh}
-                        isDeepRefreshing={isDeepRefreshing}
+                        handleRefresh={handleRefresh}
+                        isRefreshing={isRefreshing}
                         setIsSubscriptionModalOpen={setIsSubscriptionModalOpen}
                     />
                 }

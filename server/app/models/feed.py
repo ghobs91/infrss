@@ -72,6 +72,15 @@ class Feed(Base):
         nullable=True,
         index=True,
     )
+    # The catalog feed this global feed was promoted from. The stored ``url`` is the
+    # redirect-resolved URL and can differ from the catalog feed's URL, so the catalog matches on
+    # this id (falling back to a www-tolerant URL comparison for feeds promoted before it existed).
+    catalog_feed_id = Column(
+        SQLUUID(as_uuid=True),
+        ForeignKey("catalog_feeds.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
 
     # Relationships
     articles = relationship("FeedArticle", back_populates="feed", cascade="all, delete-orphan")

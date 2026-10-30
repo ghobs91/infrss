@@ -95,6 +95,7 @@ async def test_subscribe_promotes_feed_and_stamps_entity(db_session, test_user, 
     global_feed = (await db_session.execute(select(Feed).where(Feed.id == subscription.feed_id))).scalars().first()
     assert global_feed is not None
     assert global_feed.primary_entity_id == entity.id
+    assert global_feed.catalog_feed_id == catalog_feed.id
 
     sub = (
         (await db_session.execute(select(FeedSubscription).where(FeedSubscription.feed_id == subscription.feed_id)))

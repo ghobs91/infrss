@@ -2,6 +2,7 @@
 
 import ClientLayout from "@/components/layout/ClientLayout"
 import { AppSidebar } from "@/components/features/navigation/AppSidebar"
+import { MobileDock } from "@/components/features/navigation/MobileDock"
 import { SidebarInset } from "@/components/ui/sidebar"
 import { useUserRole } from "@/hooks/use-user-role"
 import { isCloudProd } from "@/lib/is-cloud-prod"
@@ -45,6 +46,7 @@ export default function ProtectedLayout({
         <ClientLayout>
             <AppSidebar />
             <SidebarInset>{children}</SidebarInset>
+            <MobileDock />
         </ClientLayout>
     )
 }

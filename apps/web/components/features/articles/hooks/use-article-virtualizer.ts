@@ -55,8 +55,10 @@ export function useArticleVirtualizer({
         estimateSize: (index) => {
             const item = allRows[index]
             if (!item) return 80 // Loading indicator (reduced size)
-            if ("type" in item && item.type === "header") return 36 // Reasonable header height
-            return 120 // Article item height
+            if ("type" in item && item.type === "header") return 40 // Date header height
+            // Rows are measured after mount; this estimate just keeps the initial window from
+            // under-allocating space for the larger type scale.
+            return 160
         },
         overscan: 5,
         rangeExtractor: useCallback(

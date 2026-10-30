@@ -164,11 +164,11 @@ function ReaderInner({
             </div>
 
             {/* Slim top bar */}
-            <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border/60 bg-background/95 px-3 py-2.5 backdrop-blur-sm md:px-4">
+            <div className="flex shrink-0 items-center justify-between gap-2 border-b border-white/40 bg-background/80 px-3 pb-2.5 pt-[calc(0.625rem+env(safe-area-inset-top,0px))] backdrop-blur-2xl dark:border-white/10 md:px-4">
                 <Button
                     variant="ghost"
                     size="sm"
-                    className="h-9 gap-1.5 px-2 text-muted-foreground hover:text-foreground"
+                    className="glass-control h-9 gap-1.5 rounded-full px-3 text-muted-foreground hover:text-foreground"
                     onClick={onBack}
                 >
                     <ArrowLeft className="h-4 w-4" />
@@ -184,7 +184,7 @@ function ReaderInner({
                 onClick={reader.handleContentClickMarkAsRead}
                 onScroll={onScroll}
             >
-                <div className="mx-auto w-full max-w-[46rem] px-4 pb-16 pt-6 md:px-8 md:pb-24 lg:max-w-[52rem]">
+                <div className="mx-auto w-full max-w-[46rem] px-4 pb-[calc(4rem+env(safe-area-inset-bottom,0px))] pt-6 md:px-8 md:pb-24 lg:max-w-[52rem]">
                     <ArticleReaderBody
                         article={reader.displayArticle}
                         isDark={isDark}

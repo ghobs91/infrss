@@ -21,16 +21,56 @@ def test_curated_companies_cover_automotive_and_tech():
     by_domain = {seed.canonical_domain: seed for seed in company_registry.build_entity_seeds()}
     assert by_domain["tesla.com"].category is FeedCategory.AUTOMOTIVE_TRANSPORT
     assert by_domain["kia.com"].category is FeedCategory.AUTOMOTIVE_TRANSPORT
+    assert by_domain["lexus.com"].category is FeedCategory.AUTOMOTIVE_TRANSPORT
+    assert by_domain["polestar.com"].category is FeedCategory.AUTOMOTIVE_TRANSPORT
     assert by_domain["apple.com"].category is FeedCategory.CONSUMER_TECH_DIGITAL
     assert by_domain["cloudflare.com"].category is FeedCategory.SOFTWARE_ENGINEERING
+
+
+@pytest.mark.unit
+def test_curated_institutions_cover_finance_and_science():
+    by_domain = {seed.canonical_domain: seed for seed in company_registry.build_entity_seeds()}
+    assert by_domain["sec.gov"].category is FeedCategory.BUSINESS_FINANCE
+    assert by_domain["sec.gov"].entity_type is EntityType.GOV_FEDERAL
+    assert by_domain["nasa.gov"].category is FeedCategory.SCIENCE_NATURE
+    assert by_domain["mit.edu"].entity_type is EntityType.RESEARCH_ACADEMIC
+
+
+@pytest.mark.unit
+def test_curated_gaming_covers_developers_and_publishers():
+    by_domain = {seed.canonical_domain: seed for seed in company_registry.build_entity_seeds()}
+    for domain in ("playstation.com", "xbox.com", "take2games.com", "team17.com", "ncsoft.com", "segasammy.co.jp"):
+        assert by_domain[domain].category is FeedCategory.GAMING
+        assert by_domain[domain].feeds
+
+
+@pytest.mark.unit
+def test_curated_registry_covers_the_browse_categories_users_asked_for():
+    categories = {seed.category for seed in company_registry.build_entity_seeds()}
+    assert {
+        FeedCategory.BUSINESS_FINANCE,
+        FeedCategory.GAMING,
+        FeedCategory.HOME_HOBBIES,
+        FeedCategory.INDUSTRY_PROFESSIONS,
+        FeedCategory.STYLE_SHOPPING,
+        FeedCategory.SCIENCE_NATURE,
+    }.issubset(categories)
 
 
 @pytest.mark.unit
 def test_every_seed_is_named_and_categorized():
     for seed in company_registry.build_entity_seeds():
         assert seed.name
-        assert seed.category is not None
-        assert seed.entity_type in {EntityType.CORP_PUBLIC, EntityType.CORP_PRIVATE}
+        # Government sources may be intentionally categorized by `sector` instead (they are
+        # grouped under "My Government" and split by sector in the browse UI).
+        assert seed.category is not None or seed.sector is not None
+        assert seed.entity_type in {
+            EntityType.CORP_PUBLIC,
+            EntityType.CORP_PRIVATE,
+            EntityType.GOV_FEDERAL,
+            EntityType.GOV_STATE,
+            EntityType.RESEARCH_ACADEMIC,
+        }
 
 
 @pytest.mark.unit
@@ -51,6 +91,7 @@ def test_domain_normalization_drops_www_and_duplicates(monkeypatch):
             company_registry.CompanySeed("Example Dupe", "example.com", FeedCategory.MISCELLANEOUS),
         ),
     )
+    monkeypatch.setattr(company_registry, "CURATED_INSTITUTIONS", ())
     seeds = company_registry.build_entity_seeds()
     assert [seed.canonical_domain for seed in seeds] == ["example.com"]
     assert seeds[0].name == "Example"
@@ -92,6 +133,10 @@ def test_alternate_domain_feeds_record_entity_feed_hosts():
     assert "engineering.fb.com" in by_domain["meta.com"].feed_hosts
     assert "www.kiamedia.com" in by_domain["kia.com"].feed_hosts
     assert "global.nissannews.com" in by_domain["nissan-global.com"].feed_hosts
+    assert "hondanews.com" in by_domain["honda.com"].feed_hosts
+    assert "www.hyundainews.com" in by_domain["hyundai.com"].feed_hosts
+    assert "media.mitsubishicars.com" in by_domain["mitsubishi-motors.com"].feed_hosts
+    assert "www.skoda-storyboard.com" in by_domain["skoda-auto.com"].feed_hosts
     # Feeds on the entity's own domain (or a subdomain) must not pollute feed_hosts.
     assert by_domain["cloudflare.com"].feed_hosts == ()
     assert by_domain["bmwgroup.com"].feed_hosts == ()

@@ -43,6 +43,8 @@ export interface CatalogFeed {
   last_polled_at: string | null;
   next_poll_at: string | null;
   created_at: string;
+  /** Whether the requesting user already has this feed in their library. */
+  is_subscribed?: boolean;
 }
 
 /**
@@ -56,5 +58,7 @@ export interface CatalogSource {
   canonical_domain: string;
   category: FeedCategory | null;
   jurisdiction: string | null;
+  /** Subcategory within a section (government → transit/health/commerce/transportation/...). */
+  sector?: string | null;
   feeds: CatalogFeed[];
 }

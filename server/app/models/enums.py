@@ -12,7 +12,6 @@ class FeedCategory(str, Enum):
     GAMING = "gaming"
     HEALTH_WELLNESS = "health_wellness"
     HOME_HOBBIES = "home_hobbies"
-    IDENTITY_COMMUNITY = "identity_community"
     INDUSTRY_PROFESSIONS = "industry_professions"
     NEWS_CURRENT_EVENTS = "news_current_events"
     REGIONAL_LOCAL = "regional_local"

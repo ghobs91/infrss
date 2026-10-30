@@ -104,7 +104,7 @@ export function FeedsNavigation({
 
                 {/* Header with actions */}
                 <div className="flex items-center justify-between pr-2 group/header h-8 mb-1">
-                    <SidebarGroupLabel className="text-[11px] font-bold tracking-wider uppercase text-muted-foreground/60 select-none">
+                    <SidebarGroupLabel className="text-xs font-bold tracking-wider uppercase text-muted-foreground/60 select-none">
                         Feeds
                     </SidebarGroupLabel>
                     <div className="flex items-center gap-0.5 opacity-60 hover:opacity-100 transition-opacity duration-150">

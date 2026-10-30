@@ -29,6 +29,8 @@ class EntitySeed:
     jurisdiction: str | None = None
     newsroom_url: str | None = None
     category: FeedCategory | None = None
+    # Subcategory within a section (e.g. government sector: transit, health, commerce).
+    sector: str | None = None
     # Known-good feed URLs for this entity. Curated connectors use these to seed catalog feeds
     # directly, because autodiscovery misses feeds served from newsroom subdomains/paths.
     feeds: tuple[str, ...] = ()

@@ -2,6 +2,8 @@ import type { Article } from "@infrss/shared"
 import { format, parseISO } from "date-fns"
 import { useMemo } from "react"
 
+import { useArticlesStore } from "../stores/use-articles-store"
+
 interface UseArticleGroupingProps {
     articles: Article[]
     showUnreadOnly: boolean
@@ -32,12 +34,17 @@ export function useArticleGrouping({
     isReadLaterMode = false,
     isTodayMode,
 }: UseArticleGroupingProps) {
-    // Filter articles based on unread toggle
+    const autoReadIds = useArticlesStore((state) => state.autoReadIds)
+
+    // Filter articles based on unread toggle. Articles auto-marked read while scrolling stay
+    // visible (dimmed) for this session so the list doesn't shift mid-scroll.
     const filteredArticles = useMemo(() => {
         return showUnreadOnly
-            ? articles.filter((article) => !article.is_read)
+            ? articles.filter(
+                  (article) => !article.is_read || autoReadIds[article.id]
+              )
             : articles
-    }, [articles, showUnreadOnly])
+    }, [articles, showUnreadOnly, autoReadIds])
 
     // For virtualization, we need a flat list of all items
     const allRows = useMemo(() => {

@@ -109,7 +109,7 @@ export function ArticleItem({
 
     return (
         <div
-            className={`h-full mx-0 py-2.5 px-3 ${!isLastInGroup ? "border-b border-border" : ""}
+            className={`mx-0 py-2.5 px-3 ${!isLastInGroup ? "border-b border-border" : ""}
             ${!isActive ? "hover:bg-muted/60 hover:border-l-primary/20 hover:shadow-sm" : ""}
             active:bg-secondary/10
             transition-all duration-200 ease-out cursor-pointer
@@ -129,7 +129,7 @@ export function ArticleItem({
                             {/* Priority badge for clipped articles */}
                             {article.article_type === "clipped" && (
                                 <div
-                                    className={`inline-flex items-center gap-1 mr-1 px-1.5 py-0.5 rounded-full text-[9px] font-medium border flex-shrink-0 ${getPriorityColor(priority || "default")}`}
+                                    className={`inline-flex items-center gap-1 mr-1 px-1.5 py-0.5 rounded-full text-[0.75rem] font-medium border flex-shrink-0 ${getPriorityColor(priority || "default")}`}
                                 >
                                     <Paperclip className="h-2.5 w-2.5" />
                                     <span>
@@ -158,14 +158,14 @@ export function ArticleItem({
                             />
 
                             {/* Feed name or domain */}
-                            <span className="text-[10px] text-muted-foreground truncate shrink-0 whitespace-nowrap overflow-hidden max-w-[150px]">
+                            <span className="text-xs text-muted-foreground truncate shrink-0 whitespace-nowrap overflow-hidden max-w-[150px]">
                                 {article.article_type === "clipped"
                                     ? article.source_domain
                                     : article.feed_title || "Unknown Feed"}
                             </span>
 
                             {/* Time display with clock icon */}
-                            <div className="flex items-center gap-1 text-[10px] text-muted-foreground shrink-0">
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">
                                 <Clock className="h-2.5 w-2.5" />
                                 <span className="whitespace-nowrap">
                                     {timeDisplay}

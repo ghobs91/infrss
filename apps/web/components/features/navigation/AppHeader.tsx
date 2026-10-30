@@ -44,7 +44,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 }) => {
     return (
         <header
-            className={`${classAttributes} relative z-30 flex h-12 max-w-full shrink-0 items-center justify-between gap-2 bg-background/100 pr-2 transition-all supports-[backdrop-filter]:bg-background/100`}
+            className={`${classAttributes} relative z-30 flex h-[calc(3rem+env(safe-area-inset-top,0px))] max-w-full shrink-0 items-center justify-between gap-2 bg-background/100 pt-[env(safe-area-inset-top,0px)] pr-2 transition-all supports-[backdrop-filter]:bg-background/100`}
         >
             <div className="flex flex-1 items-center gap-2 min-w-0 pl-4">
                 <SidebarLeftTrigger className="-ml-1" />

@@ -21,7 +21,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <SheetPrimitive.Overlay
         className={cn(
-            "fixed inset-0 z-[1000] bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+            "fixed inset-0 z-[1000] bg-black/45 backdrop-blur-[2px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             className
         )}
         {...props}
@@ -50,17 +50,24 @@ const sheetVariants = cva(
 interface SheetContentProps
     extends
         React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-        VariantProps<typeof sheetVariants> {}
+        VariantProps<typeof sheetVariants> {
+    /** Drop the opaque surface so a caller can supply its own material (e.g. Liquid Glass). */
+    glass?: boolean
+}
 
 const SheetContent = React.forwardRef<
     React.ElementRef<typeof SheetPrimitive.Content>,
     SheetContentProps
->(({ side = "right", className, children, ...props }, ref) => (
+>(({ side = "right", className, glass = false, children, ...props }, ref) => (
     <SheetPortal>
         <SheetOverlay />
         <SheetPrimitive.Content
             ref={ref}
-            className={cn(sheetVariants({ side }), className)}
+            className={cn(
+                sheetVariants({ side }),
+                glass && "border-0 bg-transparent shadow-none",
+                className
+            )}
             {...props}
         >
             {children}

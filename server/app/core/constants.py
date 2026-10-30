@@ -52,18 +52,55 @@ MAX_ERROR_BACKOFF_MINUTES = 12 * 60
 # primary material.
 CATALOG_OUTBOUND_THIRD_PARTY_RATIO = 0.05
 # Newsroom-style pages scanned, in order, for <link rel="alternate"> feed declarations.
-CATALOG_AUTODISCOVERY_PATHS = ("/newsroom", "/press", "/investors", "/media", "/news")
+CATALOG_AUTODISCOVERY_PATHS = (
+    "/newsroom",
+    "/news",
+    "/press",
+    "/press-releases",
+    "/media",
+    "/media-centre",
+    "/media-center",
+    "/news-and-events",
+    "/news-events",
+    "/investors",
+    "/blog",
+    "/stories",
+    "/company/news",
+    "/about/news",
+)
 # Well-known feed endpoints probed when a page advertises no feed of its own.
 CATALOG_PROBE_PATHS = (
     "/feed",
+    "/feed/",
     "/rss",
-    "/atom",
+    "/rss/",
     "/rss.xml",
-    "/atom.xml",
     "/feed.xml",
+    "/atom",
+    "/atom.xml",
+    "/index.xml",
+    "/news/feed",
+    "/news/feed/",
+    "/news/rss",
+    "/news/rss.xml",
     "/newsroom/rss",
+    "/newsroom/feed",
+    "/newsroom/feed/",
+    "/press/feed",
+    "/press-releases/feed",
+    "/press-releases/rss",
     "/press-releases.xml",
+    "/blog/feed",
+    "/blog/rss.xml",
+    "/blog/atom.xml",
+    "/blog/feed/",
+    "/media/feed",
+    "/media/rss",
+    "/media-centre/feed",
 )
+# Newsroom-style subdomains tried when the canonical domain advertises no feed.
+CATALOG_DISCOVERY_SUBDOMAINS = ("newsroom", "press", "news")
+CATALOG_SUBDOMAIN_PROBE_PATHS = ("", "/feed", "/rss", "/rss.xml")
 # Feed-hosting CDNs whose host may serve any entity's own feed without breaking domain
 # alignment. Company-owned alternate newsroom/blog domains belong on the entity itself
 # (primary_entities.feed_hosts), not here.
@@ -93,6 +130,9 @@ WIKIDATA_SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
 
 # Database Pagination
 MAX_PAGE_SIZE = 100  # Maximum items to return in a single page for list endpoints
+# The catalog browse returns every source in one response (the UI has no pagination), so it needs
+# a larger cap than the default list endpoints.
+CATALOG_SOURCES_MAX_LIMIT = 1000
 MAX_FEEDS_BATCH_SIZE = 1000  # Maximum feeds to process in a single batch
 MAX_FOLLOW_CHECK_ITEMS = 20  # Maximum feed URLs / IDs accepted by the follow-status check
 

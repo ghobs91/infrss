@@ -6,6 +6,20 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  /* Slightly larger type scale than Tailwind's default: 12/14/16 -> 14/16/18. */
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.45;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 1.125rem;
+  --text-base--line-height: 1.65;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.45;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.625rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.375rem;
+
   --font-sans: var(--font-sans), ui-sans-serif, system-ui;
   --font-mono: var(--font-mono), ui-monospace, SFMono-Regular;
   --font-serif: var(--font-garamond-serif), ui-serif, Georgia;

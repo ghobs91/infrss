@@ -67,3 +67,16 @@ async def test_create_entity_persists_and_backfills_feed_hosts(db_session):
 
     assert again.id == first.id
     assert again.feed_hosts == ["github.blog"]
+
+    extended = await entities.create_entity(
+        db_session,
+        data=PrimaryEntityCreate(
+            name="GitHub",
+            entity_type=EntityType.CORP_PUBLIC,
+            canonical_domain="github.com",
+            feed_hosts=["github.blog", "github.io"],
+        ),
+    )
+
+    assert extended.id == first.id
+    assert extended.feed_hosts == ["github.blog", "github.io"]

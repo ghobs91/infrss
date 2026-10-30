@@ -1,6 +1,6 @@
 """User/Profile models - pure SQLAlchemy."""
 
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Text
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String, Text
 from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.dialects.postgresql import UUID as SQLUUID
 from sqlalchemy.orm import relationship
@@ -29,6 +29,9 @@ class Profile(Base):
     role = Column(SQLEnum(UserRole, name="userrole"), nullable=False, server_default="BASIC")
     newsletter_token = Column(Text, unique=True, nullable=True, index=True)
     is_onboarded = Column(Boolean, nullable=False, server_default="false")
+    # Optional US ZIP used to curate the government section of the catalog (federal + state +
+    # local sources). Null until the user completes the government setup prompt.
+    government_zipcode = Column(String(10), nullable=True)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
     updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
 

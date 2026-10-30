@@ -31,7 +31,7 @@ export function AiSearchToggle({
             role="radiogroup"
             aria-label="Search mode"
             className={cn(
-                "grid grid-cols-2 items-center gap-0.5 rounded-xl border border-[#D8E5D0]/60 bg-[#E8F0E4]/70 p-0.5 text-[11px] select-none shrink-0 dark:border-white/10 dark:bg-background md:text-xs",
+                "grid grid-cols-2 items-center gap-0.5 rounded-xl border border-[#D8E5D0]/60 bg-[#E8F0E4]/70 p-0.5 text-xs select-none shrink-0 dark:border-white/10 dark:bg-background md:text-xs",
                 className
             )}
         >

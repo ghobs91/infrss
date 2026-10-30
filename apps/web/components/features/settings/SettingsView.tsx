@@ -14,7 +14,7 @@ export function SettingsView() {
                 breadcrumbItems={[{ href: "/settings", label: "Settings" }]}
             />
             <main className="flex-1 overflow-y-auto">
-                <div className="mx-auto max-w-3xl space-y-6 px-4 py-6 md:px-6 md:py-8">
+                <div className="mx-auto max-w-3xl space-y-6 px-4 py-6 pb-[var(--mobile-dock-clearance)] md:px-6 md:py-8 md:pb-8">
                     <header>
                         <h1 className="text-2xl font-bold sm:text-3xl">
                             Settings

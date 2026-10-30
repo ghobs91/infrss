@@ -2,6 +2,7 @@
 CRUD operations for Profile model
 """
 
+from typing import Any
 from uuid import UUID
 
 from sqlalchemy import func, select
@@ -55,13 +56,19 @@ async def get_current_usage(db: AsyncSession, user_id: UUID, resource: str) -> i
     return 0
 
 
-async def update_profile(db: AsyncSession, *, user_id: UUID, is_onboarded: bool | None = None) -> Profile | None:
-    """Update profile fields."""
+async def update_profile(
+    db: AsyncSession, *, user_id: UUID, updates: dict[str, Any]
+) -> Profile | None:
+    """Apply a partial update to a profile.
+
+    ``updates`` should already be limited to the fields the caller explicitly supplied
+    (``model_dump(exclude_unset=True)``), so ``None`` can clear a nullable column.
+    """
     profile = await get_profile_by_id(db, user_id=user_id)
     if not profile:
         return None
-    if is_onboarded is not None:
-        profile.is_onboarded = is_onboarded
+    for field, value in updates.items():
+        setattr(profile, field, value)
     await db.commit()
     await db.refresh(profile)
     return profile

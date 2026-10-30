@@ -54,12 +54,20 @@ async def subscribe_to_catalog_feed(
 
     subscription, created = await add_feed(session_factory, user_id=user_id, url=target_url, folder_id=folder_id)
 
-    # Stamp provenance so the reader can badge the promoted feed as a primary source.
+    # Stamp provenance so the reader can badge the promoted feed as a primary source, and record
+    # which catalog feed it came from so the catalog can mark it as already subscribed.
     async with session_factory() as db:
         global_feed = await feed_crud.get_feed_by_id(db, feed_id=subscription.feed_id)
-        if global_feed is not None and global_feed.primary_entity_id is None:
-            global_feed.primary_entity_id = entity_id
-            await db.flush()
+        if global_feed is not None:
+            changed = False
+            if global_feed.primary_entity_id is None:
+                global_feed.primary_entity_id = entity_id
+                changed = True
+            if global_feed.catalog_feed_id is None:
+                global_feed.catalog_feed_id = catalog_feed_id
+                changed = True
+            if changed:
+                await db.flush()
 
     logger.info(
         "Subscribed to catalog feed",

@@ -79,13 +79,18 @@ interface FeedItemRootProps {
     isOver?: boolean
 }
 
-function FeedItemRoot({ children, isActive, dropRef, isOver }: FeedItemRootProps) {
+function FeedItemRoot({
+    children,
+    isActive,
+    dropRef,
+    isOver,
+}: FeedItemRootProps) {
     return (
         <SidebarMenuItem>
             <div
                 ref={dropRef}
                 className={cn(
-                    "relative flex items-center w-full group/item h-8 rounded-md text-sm transition-colors duration-150 px-1",
+                    "relative flex items-center w-full group/item h-8 max-md:h-10 rounded-md text-sm transition-colors duration-150 px-1",
                     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                     isActive &&
                         "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
@@ -174,7 +179,11 @@ export function CollapsibleFeedItem({
 
     return (
         <Collapsible open={isOpen} onOpenChange={toggle}>
-            <FeedItemRoot isActive={isActive} dropRef={setDropRef} isOver={isOver}>
+            <FeedItemRoot
+                isActive={isActive}
+                dropRef={setDropRef}
+                isOver={isOver}
+            >
                 <FeedItemToggle isOpen={isOpen} title={feed.title} />
                 <FeedItemButton onClick={handleNavigate} title={feed.title}>
                     {feed.icon &&

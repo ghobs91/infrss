@@ -142,7 +142,7 @@ export function BaseFeedCard({
                                     CONTENT_TYPE_DISPLAY_NAMES[
                                         feed.content_type
                                     ] && (
-                                        <span className="inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium bg-[#F3F9EF] text-[#6A994E] dark:bg-primary/10 dark:text-primary">
+                                        <span className="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium bg-[#F3F9EF] text-[#6A994E] dark:bg-primary/10 dark:text-primary">
                                             {
                                                 CONTENT_TYPE_DISPLAY_NAMES[
                                                     feed.content_type

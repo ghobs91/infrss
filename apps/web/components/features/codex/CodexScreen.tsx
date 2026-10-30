@@ -145,14 +145,14 @@ export function CodexScreen() {
         // at the fold with no way to reach the rest of it. `min-h-0` is what lets the scroller
         // actually shrink inside the flex column instead of growing past it.
         <div className="flex h-full min-h-0 flex-col">
-            <div className="relative min-h-0 flex-1 overflow-y-auto">
+            <div className="relative min-h-0 flex-1 overflow-y-auto pt-[env(safe-area-inset-top,0px)] pb-[var(--mobile-dock-clearance)] md:pb-0 md:pt-0">
                 {/* Fixed-size controls anchored to the top-right of the digest; they only overlap
                     the masthead's own right padding, so nothing underneath needs to stay
                     clickable through them. They live inside the scroller (absolute children of a
                     scroll container scroll with its content), so they keep to the masthead
                     instead of floating over the rail once the reader scrolls. Offsets mirror the
                     digest's horizontal gutters. */}
-                <div className="absolute right-4 top-4 z-10 flex items-center gap-1 sm:right-6 lg:right-8">
+                <div className="absolute right-4 top-[calc(1rem+env(safe-area-inset-top,0px))] z-10 flex items-center gap-1 sm:right-6 lg:right-8">
                     {isViewingCompletedDigest && (
                         <RegenerateButton
                             onRegenerate={handleGenerate}

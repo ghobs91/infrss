@@ -51,7 +51,6 @@ const CATEGORY_GROUPS = [
             FeedCategory.FAMILY_RELATIONSHIPS,
             FeedCategory.HOME_HOBBIES,
             FeedCategory.STYLE_SHOPPING,
-            FeedCategory.IDENTITY_COMMUNITY,
         ],
     },
 ]

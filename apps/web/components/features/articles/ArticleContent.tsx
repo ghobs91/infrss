@@ -213,7 +213,7 @@ export function ArticleContent({
                         <TooltipTrigger asChild>
                             <button
                                 type="button"
-                                className="absolute top-4 right-4 md:top-6 md:right-6 z-20 h-9 w-9 p-0 rounded-full flex items-center justify-center bg-background/85 hover:bg-accent hover:text-accent-foreground border border-border/40 shadow-sm backdrop-blur-sm transition-all duration-300 hover:scale-115 active:scale-95 cursor-pointer md:opacity-0 md:group-hover/zen:opacity-100 transition-opacity"
+                                className="absolute top-4 right-4 md:top-6 md:right-6 z-20 h-9 w-9 p-0 rounded-full flex items-center justify-center bg-background/85 hover:bg-accent hover:text-accent-foreground border border-border/40 shadow-sm backdrop-blur-sm max-md:glass-control transition-all duration-300 hover:scale-115 active:scale-95 cursor-pointer md:opacity-0 md:group-hover/zen:opacity-100"
                                 onClick={handleEnterZenMode}
                             >
                                 <Maximize2 className="h-4 w-4 text-muted-foreground hover:text-foreground" />
@@ -221,7 +221,7 @@ export function ArticleContent({
                         </TooltipTrigger>
                         <TooltipContent align="end">
                             Enter Zen Mode{" "}
-                            <kbd className="ml-1.5 px-1 py-0.5 text-[9px] bg-muted border border-border rounded font-mono text-muted-foreground font-semibold">
+                            <kbd className="ml-1.5 px-1 py-0.5 text-[0.75rem] bg-muted border border-border rounded font-mono text-muted-foreground font-semibold">
                                 Z
                             </kbd>
                         </TooltipContent>
@@ -230,7 +230,7 @@ export function ArticleContent({
             )}
             {/* Mobile Toolbar - Fixed at top */}
             {isMobile && (
-                <div className="md:hidden bg-background/95 backdrop-blur-sm border-b px-4 py-3 shrink-0">
+                <div className="md:hidden bg-background/80 backdrop-blur-2xl border-b border-white/40 dark:border-white/10 px-3 py-2 shrink-0 pt-[calc(0.5rem+env(safe-area-inset-top,0px))]">
                     {toolbar}
                 </div>
             )}
@@ -279,7 +279,7 @@ export function ArticleContent({
                             <TooltipTrigger asChild>
                                 <button
                                     type="button"
-                                    className="absolute top-4 right-4 md:top-6 md:right-6 z-50 h-9 w-9 p-0 rounded-full flex items-center justify-center bg-background/85 hover:bg-accent hover:text-accent-foreground border border-border/40 shadow-sm backdrop-blur-sm transition-all duration-300 hover:scale-115 active:scale-95 cursor-pointer"
+                                    className="absolute top-4 right-4 md:top-6 md:right-6 z-50 h-9 w-9 p-0 rounded-full flex items-center justify-center bg-background/85 hover:bg-accent hover:text-accent-foreground border border-border/40 shadow-sm backdrop-blur-sm max-md:glass-control transition-all duration-300 hover:scale-115 active:scale-95 cursor-pointer"
                                     onClick={handleExitZenMode}
                                 >
                                     <Minimize2 className="h-4 w-4 text-muted-foreground hover:text-foreground" />
@@ -287,7 +287,7 @@ export function ArticleContent({
                             </TooltipTrigger>
                             <TooltipContent align="end">
                                 Exit Zen Mode{" "}
-                                <kbd className="ml-1.5 px-1 py-0.5 text-[9px] bg-muted border border-border rounded font-mono text-muted-foreground font-semibold">
+                                <kbd className="ml-1.5 px-1 py-0.5 text-[0.75rem] bg-muted border border-border rounded font-mono text-muted-foreground font-semibold">
                                     Esc
                                 </kbd>
                             </TooltipContent>

@@ -1,7 +1,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useDraggable } from "@dnd-kit/core"
-import { SidebarMenuItem } from "@/components/ui/sidebar"
+import { SidebarMenuItem, useSidebarLeft } from "@/components/ui/sidebar"
 import { FeedDropdownMenu } from "../menus/FeedContextMenu"
 import type { FeedDragData } from "../hooks/use-feed-drag"
 import { Inbox, Star } from "lucide-react"
@@ -48,6 +48,7 @@ export function RegularFeedItem({
     folderId = null,
 }: RegularFeedItemProps) {
     const isAll = feed.id === "all"
+    const { isMobile, toggleSidebar } = useSidebarLeft()
 
     const dragData: FeedDragData = {
         feedId: feed.id,
@@ -65,7 +66,7 @@ export function RegularFeedItem({
             <div
                 ref={setNodeRef}
                 className={cn(
-                    "relative flex items-center w-full group/item h-8 rounded-md text-sm transition-colors duration-150 px-1",
+                    "relative flex items-center w-full group/item h-8 max-md:h-10 rounded-md text-sm transition-colors duration-150 px-1",
                     isAll ? "pl-2" : "pl-[28px]",
                     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                     feed.isActive &&
@@ -77,6 +78,9 @@ export function RegularFeedItem({
             >
                 <Link
                     href={feed.url}
+                    onClick={() => {
+                        if (isMobile) toggleSidebar()
+                    }}
                     aria-label={`Navigate to ${feed.title} feed`}
                     className="flex flex-grow items-center overflow-hidden h-full pr-10 outline-none select-none text-sidebar-foreground"
                 >

@@ -148,7 +148,7 @@ export default function ImportStatusPage() {
     }
 
     return (
-        <div className="container mx-auto p-4 sm:p-6 pt-6 sm:pt-10 max-w-4xl">
+        <div className="container mx-auto p-4 sm:p-6 pt-6 sm:pt-10 max-w-4xl pb-[var(--mobile-dock-clearance)] md:pb-10">
             <div className="mb-8">
                 <div className="flex items-center gap-3 mb-2">
                     <Button

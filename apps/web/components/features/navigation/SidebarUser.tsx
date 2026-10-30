@@ -36,8 +36,12 @@ export function SidebarUser({
     email,
     handleSignOut,
 }: SidebarUserProps) {
-    const { isMobile } = useSidebarLeft()
+    const { isMobile, setOpenMobile } = useSidebarLeft()
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+
+    const closeMobileSidebar = () => {
+        if (isMobile) setOpenMobile(false)
+    }
 
     const loadingUser = !name || !email
 
@@ -115,6 +119,7 @@ export function SidebarUser({
                                     <Link
                                         href="/settings"
                                         className="cursor-pointer"
+                                        onClick={closeMobileSidebar}
                                     >
                                         <Settings className="mr-2 h-4 w-4" />
                                         Settings
@@ -124,6 +129,7 @@ export function SidebarUser({
                                     <Link
                                         href="/import-opml"
                                         className="cursor-pointer"
+                                        onClick={closeMobileSidebar}
                                     >
                                         <Upload className="mr-2 h-4 w-4" />
                                         Import OPML
@@ -133,6 +139,7 @@ export function SidebarUser({
                                     <Link
                                         href="/recently-read"
                                         className="cursor-pointer"
+                                        onClick={closeMobileSidebar}
                                     >
                                         <Clock className="mr-2 h-4 w-4" />
                                         Recently Read

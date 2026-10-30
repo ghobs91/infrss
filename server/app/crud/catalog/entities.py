@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.catalog import CatalogFeed, PrimaryEntity
 from app.models.enums import FeedCategory, VerificationStatus
 from app.typing.catalog import PrimaryEntityCreate
+from app.utils.source_policy import is_blocked_source
 
 logger = structlog.get_logger(__name__)
 
@@ -117,24 +118,36 @@ async def get_entities_without_catalog_feeds(
     return list(result.scalars().all())
 
 
-async def create_entity(db: AsyncSession, *, data: PrimaryEntityCreate) -> PrimaryEntity:
+async def create_entity(db: AsyncSession, *, data: PrimaryEntityCreate) -> PrimaryEntity | None:
     """Create an entity, returning the existing row when the domain is already catalogued.
+
+    Returns ``None`` when the domain is on the editorial blocklist (see
+    :mod:`app.utils.source_policy`), so a blocked source is never ingested.
 
     When the domain already exists but has no category and the incoming seed supplies one, the
     category is backfilled so re-running a connector (now or after editing its seed list) can
     classify entities that were first ingested without one.
     """
     domain = normalize_domain(data.canonical_domain)
+    if is_blocked_source(domain):
+        logger.warning("Blocked source domain skipped", domain=domain)
+        return None
     existing = await get_entity_by_domain(db, canonical_domain=domain)
     if existing:
         changed = False
         if existing.category is None and data.category is not None:
             existing.category = data.category
             changed = True
-        if not existing.feed_hosts and data.feed_hosts:
-            # Column attributes trip mypy's assignment check here, as with `category`.
-            existing.feed_hosts = list(data.feed_hosts)  # type: ignore[assignment]
+        if existing.sector is None and data.sector is not None:
+            existing.sector = data.sector  # type: ignore[assignment]
             changed = True
+        if data.feed_hosts:
+            current_hosts = list(existing.feed_hosts or [])
+            merged_hosts = current_hosts + [host for host in data.feed_hosts if host not in current_hosts]
+            if merged_hosts != current_hosts:
+                # Column attributes trip mypy's assignment check here, as with `category`.
+                existing.feed_hosts = merged_hosts  # type: ignore[assignment]
+                changed = True
         if changed:
             await db.flush()
             await db.refresh(existing)
@@ -148,6 +161,7 @@ async def create_entity(db: AsyncSession, *, data: PrimaryEntityCreate) -> Prima
         cik=data.cik,
         jurisdiction=data.jurisdiction,
         category=data.category,
+        sector=data.sector,
         feed_hosts=list(data.feed_hosts) or None,
     )
     db.add(entity)

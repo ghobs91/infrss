@@ -6,6 +6,7 @@ import {
     SidebarGroup,
     SidebarMenu,
     SidebarMenuItem,
+    useSidebarLeft,
 } from "@/components/ui/sidebar"
 import { useUnreadCounts } from "@infrss/shared"
 import { cn } from "@/lib/utils"
@@ -30,6 +31,7 @@ interface MainNavigationItemsProps {
  */
 export function MainNavigationItems({ items }: MainNavigationItemsProps) {
     const pathname = usePathname()
+    const { isMobile, toggleSidebar } = useSidebarLeft()
 
     // Fetch unread counts for special items
     const { data: unreadCounts } = useUnreadCounts({
@@ -69,7 +71,7 @@ export function MainNavigationItems({ items }: MainNavigationItemsProps) {
                         <SidebarMenuItem key={item.title}>
                             <div
                                 className={cn(
-                                    "relative flex items-center w-full group/item h-8 rounded-md text-sm transition-colors duration-150 px-1 pl-2",
+                                    "relative flex items-center w-full group/item h-8 max-md:h-10 rounded-md text-sm transition-colors duration-150 px-1 pl-2",
                                     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                                     isActive &&
                                         "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
@@ -78,6 +80,9 @@ export function MainNavigationItems({ items }: MainNavigationItemsProps) {
                                 <Link
                                     href={item.url}
                                     aria-label={`Navigate to ${item.title}`}
+                                    onClick={() => {
+                                        if (isMobile) toggleSidebar()
+                                    }}
                                     className="flex flex-grow items-center overflow-hidden h-full pr-10 outline-none select-none text-sidebar-foreground pl-1"
                                 >
                                     <item.icon className="h-4 w-4 shrink-0" />

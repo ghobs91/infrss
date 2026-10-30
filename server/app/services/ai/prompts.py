@@ -205,7 +205,6 @@ fansites under `society_law_history`; those belong in `entertainment`):
 - home_hobbies
 - food_drink
 - family_relationships
-- identity_community
 - style_shopping
 - miscellaneous
 

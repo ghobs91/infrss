@@ -54,12 +54,15 @@ async def update_profile(
     current_user: Annotated[TokenData, Depends(get_current_user)],
 ) -> ProfileResponse:
     """
-    Update the current user's profile (e.g. mark as onboarded).
+    Update the current user's profile (e.g. mark as onboarded, set the government ZIP).
     """
+    updates = payload.model_dump(
+        exclude_unset=True, include={"is_onboarded", "government_zipcode"}
+    )
     profile = await crud_profile.update_profile(
         db,
         user_id=UUID(current_user.sub),
-        is_onboarded=payload.is_onboarded,
+        updates=updates,
     )
     if not profile:
         raise NotFoundError(message="Profile not found")

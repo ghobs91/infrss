@@ -17,6 +17,12 @@ class ProfileUpdate(BaseModel):
 
     email: EmailStr | None = None
     is_onboarded: bool | None = None
+    government_zipcode: str | None = Field(
+        default=None,
+        max_length=10,
+        pattern=r"^\d{5}(?:-\d{4})?$",
+        description="US ZIP code used to curate the government catalog; null clears it.",
+    )
 
 
 class DowngradeResolveRequest(BaseModel):
@@ -37,6 +43,7 @@ class ProfileResponse(BaseModel):
     email: str
     role: UserRole
     is_onboarded: bool
+    government_zipcode: str | None = None
     created_at: datetime
     updated_at: datetime
 

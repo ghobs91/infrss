@@ -42,6 +42,10 @@ class PrimaryEntity(Base):
     canonical_domain = Column(Text, nullable=False, unique=True, index=True)
     cik = Column(String(10), nullable=True)  # Zero-padded 10-digit SEC CIK for filers
     jurisdiction = Column(String(10), nullable=True)  # ISO 3166-1 / 3166-2 code
+    # Subcategory within a section, used to split large groups (e.g. government sectors:
+    # transit, health, commerce, transportation, finance, ...). Null until classified; the
+    # catalog API falls back to a name/domain heuristic for government entities.
+    sector = Column(String(32), nullable=True)
     # Industry/topic bucket used to group sources in the catalog browse view. Reuses the feeds'
     # `feedcategory` enum (create_type=False) so both share one taxonomy; null until classified.
     category = Column(

@@ -13,7 +13,12 @@ from urllib.parse import urljoin, urlparse
 import structlog
 from bs4 import BeautifulSoup, Tag
 
-from app.core.constants import CATALOG_AUTODISCOVERY_PATHS, CATALOG_PROBE_PATHS
+from app.core.constants import (
+    CATALOG_AUTODISCOVERY_PATHS,
+    CATALOG_DISCOVERY_SUBDOMAINS,
+    CATALOG_PROBE_PATHS,
+    CATALOG_SUBDOMAIN_PROBE_PATHS,
+)
 from app.models.enums import CatalogFeedType
 from app.services.feeds import fetching, parsing
 from app.utils.urls import normalize_feed_url
@@ -154,6 +159,26 @@ async def discover_feeds(target: str) -> DiscoveryResult:
             probed = await probe_endpoint(candidate)
             if probed:
                 discovered.append(probed)
+                break
+
+    if not discovered:
+        # Many organisations advertise their newsroom on a subdomain (newsroom.acme.com,
+        # press.acme.com) rather than the canonical marketing site. Scan those pages for feed
+        # declarations, then probe the usual endpoints on each subdomain.
+        host = urlparse(base_url).netloc
+        for subdomain in CATALOG_DISCOVERY_SUBDOMAINS:
+            sub_base = f"https://{subdomain}.{host}"
+            html = await fetching.fetch_page_html(sub_base)
+            if html:
+                discovered.extend(extract_feed_links(html, sub_base))
+            if discovered:
+                break
+            for path in CATALOG_SUBDOMAIN_PROBE_PATHS:
+                probed = await probe_endpoint(f"{sub_base}{path}")
+                if probed:
+                    discovered.append(probed)
+                    break
+            if discovered:
                 break
 
     unique = dedupe_feeds(discovered)

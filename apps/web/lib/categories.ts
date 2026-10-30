@@ -104,13 +104,6 @@ export const CATEGORY_CONFIG: Record<FeedCategory, CategoryConfig> = {
         description: "DIY, gardening, home improvement",
         shortName: "Home",
     },
-    [FeedCategory.IDENTITY_COMMUNITY]: {
-        id: "identity",
-        name: "Identity & Community",
-        icon: Users,
-        description: "Community groups, social identity, forums",
-        shortName: "Community",
-    },
     [FeedCategory.INDUSTRY_PROFESSIONS]: {
         id: "industry",
         name: "Industry & Professions",

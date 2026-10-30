@@ -33,8 +33,8 @@ interface ArticlesSidebarProps {
 
     // Actions
     fetchNextPage: () => void
-    handleDeepRefresh: () => void
-    isDeepRefreshing: boolean
+    handleRefresh: () => void
+    isRefreshing: boolean
     setIsSubscriptionModalOpen: (open: boolean) => void
 }
 
@@ -49,8 +49,8 @@ export function ArticlesSidebar({
     hasNextPage,
     feedData,
     fetchNextPage,
-    handleDeepRefresh,
-    isDeepRefreshing,
+    handleRefresh,
+    isRefreshing,
     setIsSubscriptionModalOpen,
 }: ArticlesSidebarProps) {
     // Store
@@ -145,12 +145,12 @@ export function ArticlesSidebar({
                 isReadLaterMode={isReadLaterMode}
                 feedId={feedId}
                 folderId={folderId}
-                isDeepRefreshing={isDeepRefreshing}
+                isRefreshing={isRefreshing}
                 isMarkingAllRead={
                     markFeedAllRead.isPending || markFolderAllRead.isPending
                 }
                 toggleShowUnreadOnly={toggleUnreadFilter}
-                handleDeepRefresh={handleDeepRefresh}
+                handleRefresh={handleRefresh}
                 handleMarkAllAsRead={handleMarkAllAsRead}
                 isPreviewMode={shouldShowPreviewBanner}
             />
@@ -179,6 +179,7 @@ export function ArticlesSidebar({
                     folderId={folderId}
                     fetchNextPage={fetchNextPage}
                     onArticleSelect={selectArticle}
+                    onRefresh={handleRefresh}
                 />
             </div>
         </div>

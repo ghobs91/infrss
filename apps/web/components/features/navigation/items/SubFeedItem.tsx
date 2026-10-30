@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useDraggable } from "@dnd-kit/core"
 import { FeedIcon } from "@/components/features/feeds/FeedIcon"
 import { motion } from "framer-motion"
-import { SidebarMenuSubItem } from "@/components/ui/sidebar"
+import { SidebarMenuSubItem, useSidebarLeft } from "@/components/ui/sidebar"
 import { FeedDropdownMenu } from "../menus/FeedContextMenu"
 import type { FeedDragData } from "../hooks/use-feed-drag"
 import { Star } from "lucide-react"
@@ -61,6 +61,7 @@ const SubFeedItemComponent = ({
         image: item.image,
         folderId,
     }
+    const { isMobile, toggleSidebar } = useSidebarLeft()
     const { listeners, setNodeRef, isDragging } = useDraggable({
         id: dragId ?? `feed:${item.id}`,
         disabled: !draggable,
@@ -72,7 +73,7 @@ const SubFeedItemComponent = ({
             <div
                 ref={setNodeRef}
                 className={cn(
-                    "relative flex items-center w-full group/item h-8 rounded-md text-sm transition-colors duration-150 px-1 pl-2",
+                    "relative flex items-center w-full group/item h-8 max-md:h-10 rounded-md text-sm transition-colors duration-150 px-1 pl-2",
                     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                     item.isActive &&
                         "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
@@ -83,6 +84,9 @@ const SubFeedItemComponent = ({
             >
                 <Link
                     href={item.url}
+                    onClick={() => {
+                        if (isMobile) toggleSidebar()
+                    }}
                     className="flex flex-grow items-center overflow-hidden h-full pr-10 outline-none select-none text-sidebar-foreground"
                     aria-label={`Navigate to ${item.title} feed`}
                 >

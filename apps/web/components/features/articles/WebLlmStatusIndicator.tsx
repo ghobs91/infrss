@@ -47,7 +47,7 @@ export function WebLlmStatusIndicator({
     return (
         <div
             className={cn(
-                "flex items-center gap-2 text-[11px] text-muted-foreground",
+                "flex items-center gap-2 text-xs text-muted-foreground",
                 className
             )}
             title={`Layman summary backend: ${label}`}

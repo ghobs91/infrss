@@ -19,6 +19,8 @@ class PrimaryEntityCreate(BaseModel):
     cik: str | None = None
     jurisdiction: str | None = None
     category: FeedCategory | None = None
+    # Subcategory within a section (e.g. government sector: transit, health, commerce, ...).
+    sector: str | None = None
     # Extra hosts the gatekeeper treats as this entity's own (company-owned alternate domains).
     feed_hosts: list[str] = Field(default_factory=list)
 
@@ -53,6 +55,8 @@ class CatalogFeedRead(CatalogFeedCreate):
     last_polled_at: datetime | None = None
     next_poll_at: datetime | None = None
     created_at: datetime
+    # Per-user: whether the requesting user already has this catalog feed in their library.
+    is_subscribed: bool = False
 
 
 class CatalogSourceRead(BaseModel):
@@ -70,6 +74,8 @@ class CatalogSourceRead(BaseModel):
     canonical_domain: str
     category: FeedCategory | None = None
     jurisdiction: str | None = None
+    # Subcategory used to split a large section (government → transit/health/commerce/...).
+    sector: str | None = None
     feeds: list[CatalogFeedRead] = []
 
 
