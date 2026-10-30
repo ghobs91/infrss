@@ -200,7 +200,11 @@ services:
     image: supabase/supavisor:2.7.4
     restart: unless-stopped
     ports:
-      - 127.0.0.1:${POSTGRES_PORT}:5432
+      # POSTGRES_PORT is the database's *internal* port; publishing the session pooler on it
+      # meant the whole stack refused to start on any host already running a Postgres on 5432
+      # ("Bind for 0.0.0.0:5432 failed: port is already allocated"). Defaults to the old value,
+      # so existing installs are unaffected — set POOLER_PROXY_PORT_SESSION to relocate it.
+      - 127.0.0.1:${POOLER_PROXY_PORT_SESSION:-5432}:5432
       - 127.0.0.1:${POOLER_PROXY_PORT_TRANSACTION}:6543
     volumes:
       - ./volumes/pooler/pooler.exs:/etc/pooler/pooler.exs:ro,z
