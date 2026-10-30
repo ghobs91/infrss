@@ -1,16 +1,16 @@
 # Use an official Python runtime as a parent image
-FROM python:3.12-slim
+# Pinned to the patch tag that ":3.12-slim" currently resolves to. A floating tag rebuilds the base
+# layer whenever Python/Debian publish, which drops every cached layer below it.
+FROM python:3.12.16-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 
-# Install system dependencies including CA certificates
-RUN apt-get update && apt-get install -y \
-    ca-certificates \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# No apt layer: the slim image already ships ca-certificates (the previous
+# `apt-get update && install ca-certificates` was a pure network round trip), and every pin in
+# requirements.txt resolves to a prebuilt wheel, so no compiler is needed.
 
 # Set working directory
 WORKDIR /app
@@ -23,11 +23,17 @@ COPY requirements.txt .
 # though they're already installed below — an extra network round trip that has
 # caused self-hosted builds to fail on flaky/restricted DNS. Install the build
 # tools first and build it with --no-build-isolation to skip that fetch.
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
-    && pip install --no-cache-dir --no-build-isolation gitignore-parser==0.1.13
+#
+# The pip cache mount replaces --no-cache-dir: wheels downloaded once survive a retried or
+# invalidated build instead of being pulled down again. A mount is not an image layer, so the
+# image size is unchanged.
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --upgrade pip setuptools wheel \
+    && pip install --no-build-isolation gitignore-parser==0.1.13
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements.txt
 
 # Copy the alembic configuration first
 COPY alembic.ini .

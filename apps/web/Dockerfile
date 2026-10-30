@@ -1,5 +1,8 @@
 # 1. Base image
-FROM oven/bun:latest
+# Pinned to the version in package.json's "packageManager" field rather than ":latest". A moving
+# tag invalidates every layer below it whenever upstream republishes, turning a no-op rebuild into
+# a full re-download of the dependency tree.
+FROM oven/bun:1.4.2
 WORKDIR /app
 
 # Copy workspace configuration and package files
@@ -16,12 +19,19 @@ COPY packages/eslint-config/package.json ./packages/eslint-config/
 COPY packages/typescript-config/*.json ./packages/typescript-config/
 COPY packages/eslint-config/*.js ./packages/eslint-config/
 
-# Install dependencies
-
-# For canvas dependency:
-RUN apt-get update && apt-get install -y python3 make g++ pkg-config libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-
-RUN bun install
+# Install dependencies.
+#
+# There is deliberately no apt layer here. The old one installed python3/make/g++/libcairo2-dev/
+# libpango1.0-dev/libjpeg-dev/libgif-dev/librsvg2-dev "for canvas dependency", but canvas is not a
+# dependency of any package in this repo — it appears in bun.lock only as an optional peer of
+# jsdom/linkedom and an optional dependency of pdfjs-dist, so bun never installs it. That one run
+# spent ~1900s (32 min) on network I/O per cold build and bought nothing; the base image already
+# ships ca-certificates.
+#
+# The cache mount persists bun's install cache across builds; it is a mount, not an image layer, so
+# it never inflates the final image.
+RUN --mount=type=cache,target=/root/.bun/install/cache \
+    bun install
 
 # Copy source files for the build (after install, so we don't invalidate cache)
 COPY apps/web ./apps/web
