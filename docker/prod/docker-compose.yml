@@ -414,6 +414,7 @@ services:
       sh -c "alembic upgrade head &&
              python scripts/init_meilisearch.py &&
              python scripts/init_storage.py &&
+             python scripts/seed_catalog.py &&
              opentelemetry-instrument uvicorn app.main:app --host 0.0.0.0 --port 8008"
     depends_on:
       redis:

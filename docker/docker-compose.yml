@@ -121,6 +121,7 @@ services:
       sh -c "alembic upgrade head &&
              python scripts/init_meilisearch.py &&
              python scripts/init_storage.py &&
+             python scripts/seed_catalog.py &&
              uvicorn app.main:app --host 0.0.0.0 --port 8008"
     ports:
       - "18008:8008"

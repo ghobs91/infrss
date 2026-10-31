@@ -42,6 +42,7 @@ lint = "ruff check app --fix"
 format = "ruff format app"
 migrate = "alembic upgrade head"
 trigger = "python scripts/trigger_task.py"
+seed-catalog = "python scripts/seed_catalog.py"
 
 [tool.poetry.dependencies]
 fastapi = {extras = ["all"], version = "^0.115.12"}
