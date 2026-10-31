@@ -197,8 +197,21 @@ else
         echo "   Meilisearch: ${MEILISEARCH_PUBLIC_URL}"
     else
         echo ""
-        read -p "IP address [localhost]: " API_HOST
+        read -p "IP address or hostname [localhost]: " API_HOST
         API_HOST=${API_HOST:-"localhost"}
+
+        # The menu above advertises "http://192.168.1.100:18042", so people paste a full URL here.
+        # The ports are added below, so anything but a bare host produced "http://http://<ip>:18042"
+        # — which is a syntactically valid URL that survives validation and then breaks every
+        # browser request (signup answered "Failed to fetch"). Reduce whatever was entered to a host.
+        API_HOST="${API_HOST#http://}"
+        API_HOST="${API_HOST#https://}"
+        API_HOST="${API_HOST%%/*}"
+        API_HOST="${API_HOST%%:*}"
+        if [ -z "$API_HOST" ]; then
+            echo "❌ Error: could not read a host from that value" >&2
+            exit 1
+        fi
 
         WEB_URL="http://${API_HOST}:18042"
         API_URL="http://${API_HOST}:18008"
