@@ -62,6 +62,7 @@ def infer_government_sector(
         "metro",
         "ferry",
         "tram",
+        "amtrak",
     ) or _BUS_RE.search(text):
         return "transit"
     if has(
@@ -92,6 +93,12 @@ def infer_government_sector(
         "health resources",
         "indian health",
         "aging",
+        "hhs.gov",
+        "nih.gov",
+        "child support",
+        "disability",
+        "food safety",
+        "medicine",
     ):
         return "health"
     if has(
@@ -106,6 +113,13 @@ def infer_government_sector(
         "minority business",
         "standards and technology",
         "nist",
+        "regional commission",
+        "regional authority",
+        "textile",
+        "consumer product",
+        "postal",
+        "industry",
+        "federal acquisition regulation",
     ):
         return "commerce"
     if has(
@@ -121,9 +135,29 @@ def infer_government_sector(
         "revenue",
         "insurance",
         "fiscal",
+        "currency",
+        "commodity futures",
+        "accounting",
+        "engraving",
+        "retirement thrift",
+        "accountability",
     ):
         return "finance"
-    if has("space", "aeronautics", "science", "geological", "oceanic", "atmospheric", "energy", "nuclear", "research"):
+    if has(
+        "space",
+        "aeronautics",
+        "science",
+        "geological",
+        "oceanic",
+        "atmospheric",
+        "energy",
+        "nuclear",
+        "research",
+        "communications",
+        "noaa",
+        "geographic",
+        "artificial intelligence",
+    ):
         return "science"
     if has(
         "environment",
@@ -135,19 +169,104 @@ def infer_government_sector(
         "land management",
         "reclamation",
         "climate",
+        "conservation",
+        "ecosystem",
+        "marine mammal",
+        "caldera",
+        "agricultural marketing",
+        "agricultural library",
+        "agricultural statistics",
+        "advocacy and outreach",
     ):
         return "environment"
-    if has("defense", "military", "army", "navy", "air force", "marine corps", "coast guard", "veterans", "homeland"):
+    if has(
+        "defense",
+        "military",
+        "army",
+        "navy",
+        "air force",
+        "marine corps",
+        "coast guard",
+        "veterans",
+        "homeland",
+        "armed forces",
+        "battle monuments",
+        "intelligence",
+        "national security agency",
+    ):
         return "defense"
-    if has("justice", "court", "law", "legal", "attorney", "investigation", "prison", "corrections", "copyright"):
+    if has(
+        "justice",
+        "court",
+        "law",
+        "legal",
+        "attorney",
+        "investigation",
+        "prison",
+        "corrections",
+        "copyright",
+        "firearms",
+        "civil rights",
+        "emergency management",
+        "first responder",
+        "secret service",
+        "special counsel",
+        "customs and border",
+        "immigration and customs",
+        "victims of crime",
+        "federal register",
+        "records",
+        "archives",
+        "hearings and appeals",
+    ):
         return "justice"
-    if has("labor", "employment", "workforce", "occupational"):
+    if has(
+        "labor",
+        "employment",
+        "workforce",
+        "occupational",
+        "dol.gov",
+        "mediation and conciliation",
+        "merit systems protection",
+        "blind",
+    ):
         return "labor"
-    if has("housing", "urban development", "homeless"):
+    if has(
+        "housing",
+        "urban development",
+        "homeless",
+        "homeowners",
+        "mortgage",
+        "hud.gov",
+    ):
         return "housing"
-    if has("education", "student", "school", "university", "college"):
+    if has(
+        "education",
+        "student",
+        "school",
+        "university",
+        "college",
+        "scholarship",
+        "fellowship",
+        "library",
+        "humanities",
+        "assessment governing",
+        "udall",
+        "institute of american indian",
+    ):
         return "education"
-    if has("international", "foreign", "development agency", "foreign aid", "embassy"):
+    if has(
+        "international",
+        "foreign",
+        "development agency",
+        "foreign aid",
+        "embassy",
+        "broadcasting",
+        "inter american",
+        "friendship commission",
+        "development foundation",
+        "millennium challenge",
+    ):
         return "international"
 
     return "local" if entity_type is EntityType.GOV_STATE else "other"
