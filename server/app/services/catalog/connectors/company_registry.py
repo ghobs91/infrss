@@ -27,7 +27,7 @@ from app.crud.catalog import entities as entity_crud
 from app.crud.catalog import feeds as feed_crud
 from app.models.enums import CatalogFeedType, EntityType, FeedCategory
 from app.services.catalog.connectors.base import EntitySeed
-from app.services.catalog.gatekeeper import domain_from_url, is_domain_aligned
+from app.services.catalog.gatekeeper import domain_from_url, is_domain_aligned, registrable_domain
 from app.typing.catalog import CatalogFeedCreate, PrimaryEntityCreate
 
 logger = structlog.get_logger(__name__)
@@ -2329,16 +2329,20 @@ def infer_feed_type(url: str) -> CatalogFeedType:
 
 
 def _entity_feed_hosts(domain: str, feeds: tuple[str, ...]) -> tuple[str, ...]:
-    """Hosts of ``feeds`` that are not aligned with ``domain`` - company-owned alternate domains.
+    """First-party alternate domains among ``feeds`` - company-owned, outside ``domain``.
 
-    Deriving these from the feed URLs keeps the registry declarative: adding a feed on
-    ``github.blog`` automatically records that host for the entity.
+    Recording the registrable domain (``fb.com`` for ``engineering.fb.com``) keeps the
+    registry declarative and consistent: every feed on that owned domain aligns, so a
+    second newsroom feed cannot be rejected while the first one passes.
     """
     hosts: list[str] = []
     for url in feeds:
         host = domain_from_url(url)
-        if host and not is_domain_aligned(host, domain) and host not in hosts:
-            hosts.append(host)
+        if not host or is_domain_aligned(host, domain):
+            continue
+        alternate = registrable_domain(host)
+        if alternate and alternate not in hosts:
+            hosts.append(alternate)
     return tuple(hosts)
 
 

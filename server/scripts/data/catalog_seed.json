@@ -3166,7 +3166,7 @@
       "sector": null,
       "category": "automotive_transport",
       "feed_hosts": [
-        "www.hyundainews.com"
+        "hyundainews.com"
       ]
     },
     {
@@ -3476,7 +3476,7 @@
       "sector": null,
       "category": "automotive_transport",
       "feed_hosts": [
-        "www.kiamedia.com"
+        "kiamedia.com"
       ]
     },
     {
@@ -3786,7 +3786,7 @@
       "sector": null,
       "category": "consumer_tech_digital",
       "feed_hosts": [
-        "engineering.fb.com"
+        "fb.com"
       ]
     },
     {
@@ -3854,7 +3854,7 @@
       "sector": null,
       "category": "automotive_transport",
       "feed_hosts": [
-        "media.mitsubishicars.com"
+        "mitsubishicars.com"
       ]
     },
     {
@@ -4320,8 +4320,7 @@
       "sector": null,
       "category": "automotive_transport",
       "feed_hosts": [
-        "global.nissannews.com",
-        "europe.nissannews.com"
+        "nissannews.com"
       ]
     },
     {
@@ -4719,7 +4718,7 @@
       "sector": null,
       "category": "business_finance",
       "feed_hosts": [
-        "newsroom.paypal-corp.com"
+        "paypal-corp.com"
       ]
     },
     {
@@ -5207,7 +5206,7 @@
       "sector": null,
       "category": "automotive_transport",
       "feed_hosts": [
-        "www.skoda-storyboard.com"
+        "skoda-storyboard.com"
       ]
     },
     {
@@ -5255,7 +5254,7 @@
       "sector": null,
       "category": "software_engineering",
       "feed_hosts": [
-        "engineering.atspotify.com"
+        "atspotify.com"
       ]
     },
     {
@@ -5455,7 +5454,7 @@
       "sector": null,
       "category": "automotive_transport",
       "feed_hosts": [
-        "newsroom.toyota.eu"
+        "toyota.eu"
       ]
     },
     {
@@ -5842,7 +5841,7 @@
       "sector": null,
       "category": "gaming",
       "feed_hosts": [
-        "store.steampowered.com"
+        "steampowered.com"
       ]
     },
     {
@@ -5899,7 +5898,7 @@
       "sector": null,
       "category": "automotive_transport",
       "feed_hosts": [
-        "www.volkswagen-newsroom.com"
+        "volkswagen-newsroom.com"
       ]
     },
     {
@@ -6073,7 +6072,7 @@
       "feed_url": "https://about.fb.com/comments/feed/",
       "feed_type": "NATIVE_RSS",
       "verification_status": "REJECTED_AGGREGATOR",
-      "rejection_reason": "feed host 'about.fb.com' is not aligned with 'meta.com'",
+      "rejection_reason": "WordPress comments feed, not a news feed",
       "outbound_third_party_ratio": 0
     },
     {
@@ -6081,9 +6080,9 @@
       "entity_domain": "meta.com",
       "feed_url": "https://about.fb.com/feed/",
       "feed_type": "NATIVE_RSS",
-      "verification_status": "REJECTED_AGGREGATOR",
-      "rejection_reason": "feed host 'about.fb.com' is not aligned with 'meta.com'",
-      "outbound_third_party_ratio": 0
+      "verification_status": "VERIFIED_PRIMARY",
+      "rejection_reason": null,
+      "outbound_third_party_ratio": 0.0
     },
     {
       "id": "8e4efe04-b837-465e-a015-d3e3dabee712",
@@ -7215,9 +7214,9 @@
       "entity_domain": "google.com",
       "feed_url": "https://google.com/news/rss",
       "feed_type": "NATIVE_RSS",
-      "verification_status": "VERIFIED_PRIMARY",
-      "rejection_reason": null,
-      "outbound_third_party_ratio": 0
+      "verification_status": "REJECTED_AGGREGATOR",
+      "rejection_reason": "Google News is an aggregator, not the publisher's own feed",
+      "outbound_third_party_ratio": null
     },
     {
       "id": "057554d8-d62b-4020-a6c7-12fe650e1257",

@@ -11,6 +11,7 @@ from pathlib import Path
 import pytest
 
 from app.models.enums import CatalogFeedType, EntityType, FeedCategory, VerificationStatus
+from app.services.catalog.gatekeeper import domain_from_url, is_domain_aligned, registrable_domain
 
 SEED_PATH = Path(__file__).parent.parent.parent / "scripts" / "data" / "catalog_seed.json"
 
@@ -61,3 +62,38 @@ def test_feed_enums_are_valid(seed: dict) -> None:
     for feed in seed["feeds"]:
         assert feed["feed_type"] in allowed_types, feed["feed_url"]
         assert feed["verification_status"] in allowed_statuses, feed["feed_url"]
+
+
+def test_verified_feeds_pass_the_gatekeeper(seed: dict) -> None:
+    """Replay the gatekeeper over the snapshot.
+
+    The snapshot was taken from a converged instance, which hid a drift: one feed on an
+    entity-owned alternate domain was verified while another on the same owned domain was
+    rejected. Re-deriving every verdict here keeps the data and the rules in step.
+    """
+    entities = {e["canonical_domain"]: e for e in seed["entities"]}
+    unexplained = []
+    for feed in seed["feeds"]:
+        if feed["verification_status"] != "VERIFIED_PRIMARY":
+            continue
+        entity = entities[feed["entity_domain"]]
+        hosts = tuple(entity["feed_hosts"] or ())
+        host = domain_from_url(feed["feed_url"])
+        if not is_domain_aligned(host, entity["canonical_domain"], hosts):
+            unexplained.append((entity["canonical_domain"], host, feed["feed_url"]))
+    assert not unexplained, f"verified feeds on unexplained hosts: {unexplained[:5]}"
+
+
+def test_feed_hosts_are_reviewed_registrable_domains(seed: dict) -> None:
+    """Alternate hosts are owned domains, not the one subdomain discovery happened to find."""
+    for entity in seed["entities"]:
+        hosts = entity["feed_hosts"] or []
+        assert len(hosts) == len(set(hosts)), entity["canonical_domain"]
+        for host in hosts:
+            assert host == registrable_domain(host), (entity["canonical_domain"], host)
+            assert not host.startswith("www."), (entity["canonical_domain"], host)
+            # A redundant entry would hide a misalignment instead of documenting one.
+            assert not is_domain_aligned(host, entity["canonical_domain"]), (
+                entity["canonical_domain"],
+                host,
+            )

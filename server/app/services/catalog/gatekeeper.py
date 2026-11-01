@@ -15,6 +15,30 @@ from app.typing.catalog import GatekeeperResult
 
 ALLOWED_FEED_HOSTS = CATALOG_ALLOWED_FEED_HOSTS
 
+#: Multi-label public suffixes where the registrable domain is the last three labels.
+_SECOND_LEVEL_SUFFIXES = frozenset(
+    {
+        "co.uk",
+        "org.uk",
+        "gov.uk",
+        "ac.uk",
+        "co.jp",
+        "co.nz",
+        "com.au",
+        "net.au",
+        "org.au",
+        "co.za",
+        "com.br",
+        "co.in",
+    }
+)
+
+
+def _normalize_host(host: str) -> str:
+    """Lowercase, trim a trailing dot and drop a leading ``www.`` from ``host``."""
+    normalized = (host or "").lower().strip().rstrip(".")
+    return normalized[4:] if normalized.startswith("www.") else normalized
+
 
 def domain_from_url(url: str) -> str:
     """Return the lower-cased hostname of ``url``, or an empty string when unparseable."""
@@ -24,6 +48,21 @@ def domain_from_url(url: str) -> str:
         return (urlparse(url).hostname or "").lower().rstrip(".")
     except ValueError:
         return ""
+
+
+def registrable_domain(host: str) -> str:
+    """Return the registrable part of ``host`` (``engineering.fb.com`` -> ``fb.com``).
+
+    Alternate first-party hosts are recorded as the entity's owned *domain*, not as the
+    one subdomain the discovery pass happened to find. Recording ``fb.com`` aligns both
+    ``about.fb.com`` and ``engineering.fb.com`` under one reviewed decision.
+    """
+    labels = [label for label in _normalize_host(host).split(".") if label]
+    if len(labels) <= 2:
+        return ".".join(labels)
+    if ".".join(labels[-2:]) in _SECOND_LEVEL_SUFFIXES:
+        return ".".join(labels[-3:])
+    return ".".join(labels[-2:])
 
 
 def canonical_domain_from_url(url: str) -> str:
@@ -37,18 +76,23 @@ def is_domain_aligned(
     canonical_domain: str,
     allowed_hosts: Sequence[str] = ALLOWED_FEED_HOSTS,
 ) -> bool:
-    """True when ``host`` is the canonical domain, a subdomain of it, or an allowed feed host.
+    """True when ``host`` is the canonical domain, a subdomain of it, or an allowed feed domain.
 
     Only the feed side may be a subdomain: ``news.microsoft.com`` is aligned with
     ``microsoft.com``, but ``microsoft.com`` is not aligned with ``news.microsoft.com``.
+    Entries in ``allowed_hosts`` are first-party *domains*, so any of their subdomains
+    aligns too (``fb.com`` covers ``about.fb.com`` and ``engineering.fb.com``).
     """
-    host = (host or "").lower().rstrip(".")
-    canonical_domain = (canonical_domain or "").lower().rstrip(".")
+    host = _normalize_host(host)
+    canonical_domain = _normalize_host(canonical_domain)
     if not host or not canonical_domain:
         return False
     if host == canonical_domain or host.endswith(f".{canonical_domain}"):
         return True
-    return any(host == allowed or host.endswith(f".{allowed}") for allowed in allowed_hosts)
+    return any(
+        host == allowed or host.endswith(f".{allowed}")
+        for allowed in (_normalize_host(candidate) for candidate in allowed_hosts)
+    )
 
 
 def outbound_third_party_ratio(

@@ -130,13 +130,13 @@ def test_alternate_domain_feeds_record_entity_feed_hosts():
     by_domain = {seed.canonical_domain: seed for seed in company_registry.build_entity_seeds()}
     assert "github.blog" in by_domain["github.com"].feed_hosts
     assert "shopify.engineering" in by_domain["shopify.com"].feed_hosts
-    assert "engineering.fb.com" in by_domain["meta.com"].feed_hosts
-    assert "www.kiamedia.com" in by_domain["kia.com"].feed_hosts
-    assert "global.nissannews.com" in by_domain["nissan-global.com"].feed_hosts
+    assert "fb.com" in by_domain["meta.com"].feed_hosts
+    assert "kiamedia.com" in by_domain["kia.com"].feed_hosts
+    assert "nissannews.com" in by_domain["nissan-global.com"].feed_hosts
     assert "hondanews.com" in by_domain["honda.com"].feed_hosts
-    assert "www.hyundainews.com" in by_domain["hyundai.com"].feed_hosts
-    assert "media.mitsubishicars.com" in by_domain["mitsubishi-motors.com"].feed_hosts
-    assert "www.skoda-storyboard.com" in by_domain["skoda-auto.com"].feed_hosts
+    assert "hyundainews.com" in by_domain["hyundai.com"].feed_hosts
+    assert "mitsubishicars.com" in by_domain["mitsubishi-motors.com"].feed_hosts
+    assert "skoda-storyboard.com" in by_domain["skoda-auto.com"].feed_hosts
     # Feeds on the entity's own domain (or a subdomain) must not pollute feed_hosts.
     assert by_domain["cloudflare.com"].feed_hosts == ()
     assert by_domain["bmwgroup.com"].feed_hosts == ()

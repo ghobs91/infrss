@@ -10,6 +10,7 @@ from app.services.catalog.gatekeeper import (
     is_domain_aligned,
     outbound_third_party_ratio,
     redirect_chain_is_authorized,
+    registrable_domain,
 )
 
 
@@ -47,6 +48,23 @@ def test_is_domain_aligned_rejects_unrelated_and_reverse():
 @pytest.mark.unit
 def test_is_domain_aligned_allows_configured_feed_cdns():
     assert is_domain_aligned("feeds.feedburner.com", "example.com")
+
+
+@pytest.mark.unit
+def test_registrable_domain_collapses_subdomains():
+    assert registrable_domain("engineering.fb.com") == "fb.com"
+    assert registrable_domain("www.kiamedia.com") == "kiamedia.com"
+    assert registrable_domain("github.blog") == "github.blog"
+    assert registrable_domain("news.example.co.uk") == "example.co.uk"
+    assert registrable_domain("") == ""
+
+
+@pytest.mark.unit
+def test_allowed_alternate_domain_covers_every_subdomain():
+    # One reviewed decision (fb.com is Meta's) must cover both newsroom hosts.
+    assert is_domain_aligned("about.fb.com", "meta.com", ("fb.com",))
+    assert is_domain_aligned("engineering.fb.com", "meta.com", ("fb.com",))
+    assert not is_domain_aligned("about.fb.com", "meta.com")
 
 
 @pytest.mark.unit
