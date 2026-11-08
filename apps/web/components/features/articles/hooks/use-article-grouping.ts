@@ -82,7 +82,14 @@ export function useArticleGrouping({
                 dateLabel = "Yesterday"
             } else {
                 dateGroup = format(date, "yyyy-MM-dd")
-                dateLabel = format(date, "EEEE, MMMM d")
+                // Include the year for other years so a future/placeholder date (or a
+                // genuinely old one) can't be mistaken for a date in the current year.
+                dateLabel = format(
+                    date,
+                    date.getFullYear() === today.getFullYear()
+                        ? "EEEE, MMMM d"
+                        : "EEEE, MMMM d, yyyy"
+                )
             }
 
             if (!groups[dateGroup]) {

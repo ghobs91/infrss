@@ -1,4 +1,5 @@
-from datetime import timezone
+import json
+from datetime import datetime, timezone
 
 import pytest
 
@@ -233,3 +234,65 @@ def test_guid_normalization():
 
     # Non-URL guid should NOT have fragment stripped
     assert parsed.articles[2].guid == "unique-id#123"
+
+
+FUTURE_DATED_RSS = """
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+  <title>Research</title>
+  <link>https://example.com</link>
+  <description>Research</description>
+  <item>
+    <title>Forthcoming paper</title>
+    <link>https://example.com/paper</link>
+    <guid>https://example.com/paper</guid>
+    <pubDate>Thu, 01 Jul 2027 00:00:00 +0000</pubDate>
+  </item>
+</channel>
+</rss>
+"""
+
+
+@pytest.mark.unit
+def test_parse_feed_content_clamps_future_published_date():
+    before = datetime.now(timezone.utc)
+    parsed = parse_feed_content(FUTURE_DATED_RSS, "https://example.com/feed")
+    after = datetime.now(timezone.utc)
+
+    article = parsed.articles[0]
+    assert before <= article.published_at <= after
+
+
+@pytest.mark.unit
+def test_parse_feed_content_keeps_past_published_date():
+    parsed = parse_feed_content(
+        FUTURE_DATED_RSS.replace("Thu, 01 Jul 2027", "Mon, 02 Jan 2023"), "https://example.com/feed"
+    )
+
+    article = parsed.articles[0]
+    assert article.published_at == datetime(2023, 1, 2, tzinfo=timezone.utc)
+
+
+@pytest.mark.unit
+def test_parse_json_feed_clamps_future_published_date():
+    content = json.dumps(
+        {
+            "version": "https://jsonfeed.org/version/1.1",
+            "title": "Research",
+            "items": [
+                {
+                    "id": "1",
+                    "url": "https://example.com/paper",
+                    "title": "Forthcoming paper",
+                    "date_published": "2027-07-01T00:00:00Z",
+                }
+            ],
+        }
+    )
+
+    before = datetime.now(timezone.utc)
+    parsed = parse_feed_content(content, "https://example.com/feed.json")
+    after = datetime.now(timezone.utc)
+
+    assert before <= parsed.articles[0].published_at <= after

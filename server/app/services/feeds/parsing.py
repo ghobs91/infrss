@@ -43,6 +43,20 @@ def _normalize_language(lang_code: str) -> str:
         return "en"
 
 
+def _clamp_published_at(published_at: datetime) -> datetime:
+    """Clamp a feed-supplied publication date to the present.
+
+    Some feeds stamp entries with placeholder dates in the future — e.g. Brave Research
+    uses Jan 1 / Jul 1 of the paper's *venue year* (2027), not the date it was published.
+    Article lists sort by ``published_at DESC``, so a single future date pins that article
+    above every real article indefinitely. Treat future dates as "now" instead. Rows keep
+    this value on re-fetch because ingestion uses ``ON CONFLICT DO NOTHING``.
+    """
+    if published_at.tzinfo is None:
+        published_at = published_at.replace(tzinfo=timezone.utc)
+    return min(published_at, datetime.now(timezone.utc))
+
+
 def find_feed_icon(feed: Any) -> str | None:
     # Atom Icon
     if hasattr(feed, "icon"):
@@ -105,7 +119,7 @@ def _parse_json_feed(content: str, url: str) -> ParsedFeed:
                     dt = date_parser.parse(date_str)
                     if dt.tzinfo is None:
                         dt = dt.replace(tzinfo=timezone.utc)
-                    published_at = dt
+                    published_at = _clamp_published_at(dt)
                 except (ValueError, TypeError):
                     pass
 
@@ -341,13 +355,13 @@ def _extract_published_date(entry: dict) -> datetime:
     # 1. fast path
     if "published_parsed" in entry and entry["published_parsed"]:
         try:
-            return datetime(*entry["published_parsed"][:6], tzinfo=timezone.utc)
+            return _clamp_published_at(datetime(*entry["published_parsed"][:6], tzinfo=timezone.utc))
         except ValueError:
             pass
 
     if "updated_parsed" in entry and entry["updated_parsed"]:
         try:
-            return datetime(*entry["updated_parsed"][:6], tzinfo=timezone.utc)
+            return _clamp_published_at(datetime(*entry["updated_parsed"][:6], tzinfo=timezone.utc))
         except ValueError:
             pass
 
@@ -358,7 +372,7 @@ def _extract_published_date(entry: dict) -> datetime:
             dt = date_parser.parse(date_str)
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=timezone.utc)
-            return dt.astimezone(timezone.utc)
+            return _clamp_published_at(dt.astimezone(timezone.utc))
         except (ValueError, TypeError, ImportError):
             pass
 
