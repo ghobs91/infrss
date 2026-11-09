@@ -143,6 +143,7 @@ export function ArticlesSidebar({
                 unreadCount={unreadCount}
                 showUnreadOnly={showUnreadOnly}
                 isReadLaterMode={isReadLaterMode}
+                isRecentlyReadMode={isRecentlyReadMode}
                 feedId={feedId}
                 folderId={folderId}
                 isRefreshing={isRefreshing}

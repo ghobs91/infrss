@@ -13,6 +13,7 @@ interface ArticlesHeaderProps {
     unreadCount: number
     showUnreadOnly: boolean
     isReadLaterMode: boolean
+    isRecentlyReadMode: boolean
     feedId?: string
     folderId?: string
     isRefreshing: boolean
@@ -28,6 +29,7 @@ export function ArticlesHeader({
     unreadCount,
     showUnreadOnly,
     isReadLaterMode,
+    isRecentlyReadMode,
     feedId,
     folderId,
     isRefreshing,
@@ -55,7 +57,7 @@ export function ArticlesHeader({
             </div>
             {!isPreviewMode && (
                 <div className="flex items-center gap-1.5 flex-shrink-0">
-                    {!isReadLaterMode && (
+                    {!isReadLaterMode && !isRecentlyReadMode && (
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>

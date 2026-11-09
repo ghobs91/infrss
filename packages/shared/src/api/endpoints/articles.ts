@@ -119,6 +119,7 @@ export const articles = {
   getTodaysArticles: (params?: {
     cursor?: string;
     limit?: number;
+    is_read?: boolean;
   }): Promise<{
     items: ArticleSummary[];
     next_cursor: string | null;
@@ -128,6 +129,7 @@ export const articles = {
     const queryParams = new URLSearchParams();
     if (params?.cursor) queryParams.append('cursor', params.cursor);
     if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.is_read !== undefined) queryParams.append('is_read', params.is_read.toString());
 
     const queryString = queryParams.toString();
     return ApiClient.get<{

@@ -39,12 +39,12 @@ export function useArticleGrouping({
     // Filter articles based on unread toggle. Articles auto-marked read while scrolling stay
     // visible (dimmed) for this session so the list doesn't shift mid-scroll.
     const filteredArticles = useMemo(() => {
-        return showUnreadOnly
+        return showUnreadOnly && !isReadLaterMode && !isRecentlyReadMode
             ? articles.filter(
                   (article) => !article.is_read || autoReadIds[article.id]
               )
             : articles
-    }, [articles, showUnreadOnly, autoReadIds])
+    }, [articles, showUnreadOnly, isReadLaterMode, isRecentlyReadMode, autoReadIds])
 
     // For virtualization, we need a flat list of all items
     const allRows = useMemo(() => {

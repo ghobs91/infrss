@@ -38,6 +38,7 @@ async def get_todays_articles(
     current_user: Annotated[TokenData, Depends(get_current_user)],
     cursor: str | None = Query(None, description="Cursor (article ID)"),
     limit: int = Query(50, ge=1, le=200),
+    is_read: bool | None = Query(None, description="Filter by read status"),
 ) -> CursorPaginatedResponse[EntryListItem]:
     """
     Retrieve articles published in the last 24 hours (UTC).
@@ -53,6 +54,7 @@ async def get_todays_articles(
         params=CursorPaginationParams(limit=limit, cursor=cursor),
         published_since=twenty_four_hours_ago,
         published_until=now_utc,
+        is_read=is_read,
     )
 
     return CursorPaginatedResponse(

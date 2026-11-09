@@ -491,7 +491,7 @@ export function useInfiniteReadLaterArticles(
 }
 
 export function useInfiniteTodayArticles(
-  params?: { limit?: number },
+  params?: { limit?: number; isRead?: boolean },
   options?: Omit<
     UseInfiniteQueryOptions<
       {
@@ -515,13 +515,14 @@ export function useInfiniteTodayArticles(
 ) {
   const limit = params?.limit || 25;
   return useInfiniteQuery({
-    queryKey: queryKeys.infiniteToday(),
+    queryKey: queryKeys.infiniteToday({ isRead: params?.isRead }),
     queryFn: ({
       pageParam,
     }: QueryFunctionContext<ReturnType<typeof queryKeys.infiniteToday>, string | null>) =>
       ApiClient.getTodaysArticles({
         cursor: pageParam || undefined,
         limit,
+        is_read: params?.isRead,
       }),
     getNextPageParam: (lastPage: {
       items: ArticleSummary[];

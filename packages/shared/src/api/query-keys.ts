@@ -78,7 +78,8 @@ export const queryKeys = {
 
   infiniteReadLater: () => [RSS_QUERY_KEYS.ARTICLES, 'infinite', 'read_later'] as const,
   infiniteRecentlyRead: () => [RSS_QUERY_KEYS.ARTICLES, 'infinite', 'recently_read'] as const,
-  infiniteToday: () => [RSS_QUERY_KEYS.ARTICLES, 'infinite', 'today'] as const,
+  infiniteToday: (params?: { isRead?: boolean }) =>
+    [RSS_QUERY_KEYS.ARTICLES, 'infinite', 'today', params?.isRead ?? null] as const,
 
   article: (articleId: string) => [RSS_QUERY_KEYS.ARTICLE, articleId] as const,
   checkArticleSaved: (url: string) => [RSS_QUERY_KEYS.ARTICLE, `check-${url}`] as const,

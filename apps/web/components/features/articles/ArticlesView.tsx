@@ -19,7 +19,12 @@ import {
     useArticleGrouping,
 } from "./hooks/use-article-grouping"
 
-import { useFeed, useUpdateArticle, ArticleFilterMode } from "@infrss/shared"
+import {
+    useFeed,
+    useFeeds,
+    useUpdateArticle,
+    ArticleFilterMode,
+} from "@infrss/shared"
 import type { Article } from "@infrss/shared"
 import type { UseInfiniteQueryResult } from "@tanstack/react-query"
 
@@ -104,6 +109,17 @@ export function ArticlesView({
         enabled: !!feedId,
     })
 
+    // Only needed to tell "no unread" apart from "subscriptions not set up yet" when the
+    // server-side unread filter returns nothing. Cached by the sidebar/empty state anyway.
+    const { data: feedsResponse } = useFeeds(
+        {},
+        {
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+            staleTime: 5 * 60 * 1000,
+        }
+    )
+
     // Mutations
     const updateArticle = useUpdateArticle()
     const { refreshFeeds, isRefreshing } = useRefreshFeeds()
@@ -112,13 +128,16 @@ export function ArticlesView({
     const isRecentlyReadMode = mode === ArticleFilterMode.RecentlyRead
     const isReadLaterMode = mode === ArticleFilterMode.ReadLater
     const isTodayMode = mode === ArticleFilterMode.Today
+    const isUnreadFilterActive =
+        showUnreadOnly && !isReadLaterMode && !isRecentlyReadMode
+    const hasFeeds = (feedsResponse?.subscriptions?.length ?? 0) > 0
 
     const filteredArticles = useMemo(() => {
-        if (showUnreadOnly && !isReadLaterMode) {
+        if (isUnreadFilterActive) {
             return articles.filter((a) => !a.is_read || autoReadIds[a.id])
         }
         return articles
-    }, [articles, showUnreadOnly, isReadLaterMode, autoReadIds])
+    }, [articles, isUnreadFilterActive, autoReadIds])
 
     const selectedArticle = useMemo(
         () => articles.find((a) => a.id === selectedArticleId),
@@ -324,6 +343,26 @@ export function ArticlesView({
 
     if (
         !query.isLoading &&
+        isUnreadFilterActive &&
+        filteredArticles.length === 0 &&
+        hasFeeds
+    ) {
+        return (
+            <div className="flex h-full md:h-[calc(100vh-1rem)] w-full bg-background md:rounded-xl md:shadow-sm">
+                <div className="w-full flex flex-col items-center justify-center gap-4">
+                    <p className="text-muted-foreground">
+                        No unread articles found matching your filters.
+                    </p>
+                    <Button variant="outline" onClick={toggleUnreadFilter}>
+                        Show All Articles
+                    </Button>
+                </div>
+            </div>
+        )
+    }
+
+    if (
+        !query.isLoading &&
         !query.isFetching &&
         filteredArticles.length === 0 &&
         articles.length === 0
@@ -341,21 +380,6 @@ export function ArticlesView({
                         handleRefreshWithMessage("Refreshing articles...")
                     }
                 />
-            </div>
-        )
-    }
-
-    if (filteredArticles.length === 0 && articles.length > 0) {
-        return (
-            <div className="flex h-full md:h-[calc(100vh-1rem)] w-full bg-background md:rounded-xl md:shadow-sm">
-                <div className="w-full flex flex-col items-center justify-center gap-4">
-                    <p className="text-muted-foreground">
-                        No unread articles found matching your filters.
-                    </p>
-                    <Button variant="outline" onClick={toggleUnreadFilter}>
-                        Show All Articles
-                    </Button>
-                </div>
             </div>
         )
     }
