@@ -2,10 +2,14 @@ import { useUpdateArticle, type Article } from "@infrss/shared"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 
+import { useArticlesStore } from "../stores/use-articles-store"
+import { useAutoMarkRead } from "./use-auto-mark-read"
+
 interface UseArticleInteractionsProps {
     article: Article
     isRecentlyReadMode: boolean
     isReadLaterMode: boolean
+    isTodayMode?: boolean
     shouldShowPreviewBanner: boolean
     isMobile: boolean
     onMarkAsRead?: () => void
@@ -16,6 +20,7 @@ export function useArticleInteractions({
     article,
     isRecentlyReadMode,
     isReadLaterMode,
+    isTodayMode = false,
     shouldShowPreviewBanner,
     isMobile,
     onMarkAsRead,
@@ -23,6 +28,8 @@ export function useArticleInteractions({
 }: UseArticleInteractionsProps) {
     const [hasMarkedRead, setHasMarkedRead] = useState(false)
     const updateArticle = useUpdateArticle()
+    const markReadQuietly = useAutoMarkRead()
+    const addAutoReadIds = useArticlesStore((state) => state.addAutoReadIds)
 
     // Reset read state when article ID changes
     useEffect(() => {
@@ -79,6 +86,25 @@ export function useArticleInteractions({
         )
     }
 
+    /**
+     * Implicit read-marking: scrolling the article, or clicking into its text.
+     *
+     * Deliberately bypasses `useUpdateArticle`, which cancels in-flight queries on mutate and
+     * refetches every article list on settle. That refetch comes back with the server-side
+     * unread filter applied, so the article being read drops out of the list, the split view
+     * auto-selects a different one, and the reader loses its place mid-scroll. Quiet marking
+     * patches the caches optimistically and PATCHes fire-and-forget instead. The id is also
+     * pinned in `autoReadIds` so the unread-only list keeps the row (dimmed) instead of
+     * shifting the list underneath the reader.
+     */
+    const handleQuietMarkAsRead = () => {
+        if (hasMarkedRead || article.is_read) return
+
+        setHasMarkedRead(true)
+        addAutoReadIds([article.id])
+        markReadQuietly(article, { affectsToday: isTodayMode })
+    }
+
     const handleScrollMarkAsRead = (scrollTop: number) => {
         if (
             isRecentlyReadMode ||
@@ -92,7 +118,7 @@ export function useArticleInteractions({
 
         // Mark as read on minimal scroll (just 50px) to be more responsive
         if (scrollTop > 50) {
-            handleMarkAsRead()
+            handleQuietMarkAsRead()
         }
     }
 
@@ -105,7 +131,7 @@ export function useArticleInteractions({
             !article.is_read &&
             !isMobile
         ) {
-            handleMarkAsRead()
+            handleQuietMarkAsRead()
         }
     }
 

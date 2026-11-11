@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import {
-    type Article,
-    ContentView,
-    estimateReadingTime,
-} from "@infrss/shared"
+import { type Article, ContentView, estimateReadingTime } from "@infrss/shared"
 
 import { useArticleAI } from "./use-article-ai"
 import { useArticleInteractions } from "./use-article-interactions"
@@ -12,6 +8,8 @@ interface UseArticleReaderProps {
     article: Article
     isRecentlyReadMode: boolean
     isReadLaterMode: boolean
+    /** Today view: the header badge counts unread articles, so quiet marking decrements it. */
+    isTodayMode?: boolean
     shouldShowPreviewBanner: boolean
     isMobile: boolean
     onMarkAsRead?: () => void
@@ -31,6 +29,7 @@ export function useArticleReader({
     article,
     isRecentlyReadMode,
     isReadLaterMode,
+    isTodayMode = false,
     shouldShowPreviewBanner,
     isMobile,
     onMarkAsRead,
@@ -70,6 +69,7 @@ export function useArticleReader({
         article,
         isRecentlyReadMode,
         isReadLaterMode,
+        isTodayMode,
         shouldShowPreviewBanner,
         isMobile,
         onMarkAsRead,

@@ -413,6 +413,7 @@ export function ArticlesView({
                         article={selectedArticle}
                         isRecentlyReadMode={isRecentlyReadMode}
                         isReadLaterMode={isReadLaterMode}
+                        isTodayMode={isTodayMode}
                         shouldShowPreviewBanner={shouldShowPreviewBanner}
                         onMarkAsRead={handleMarkAsRead}
                         onBack={handleBackToList}

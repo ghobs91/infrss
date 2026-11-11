@@ -15,13 +15,16 @@ interface CachedArticlesPage {
 }
 
 /**
- * Quiet read-marking for scroll-past events.
+ * Quiet read-marking for implicit reading gestures (scrolling past a row in the list, or
+ * scrolling/clicking into the open reader).
  *
  * Deliberately does not reuse `useUpdateArticle`: its `onMutate` cancels in-flight article
  * queries (including an infinite-scroll page) and `onSettled` refetches every active list after
- * each mutation. That's right for a deliberate click, but during a scroll it would cancel
- * pagination and fire a refetch per row. Here the cache is patched optimistically and the PATCH
- * is fire-and-forget; the next natural refetch reconciles with the server.
+ * each mutation. That's right for a deliberate click on "mark as read", but during a scroll it
+ * would cancel pagination and fire a refetch per row — and in the reader it drops the article
+ * being read out of the server-side unread list, which makes the split view jump to another
+ * article. Here the cache is patched optimistically and the PATCH is fire-and-forget; the next
+ * natural refetch reconciles with the server.
  */
 export function useAutoMarkRead() {
     const queryClient = useQueryClient()

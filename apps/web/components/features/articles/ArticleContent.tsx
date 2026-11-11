@@ -20,6 +20,7 @@ interface ArticleContentProps {
     article: Article
     isRecentlyReadMode: boolean
     isReadLaterMode: boolean
+    isTodayMode?: boolean
     shouldShowPreviewBanner: boolean
     shouldShowFeedBadge: boolean
     onMarkAsRead?: () => void
@@ -32,6 +33,7 @@ export function ArticleContent({
     article,
     isRecentlyReadMode,
     isReadLaterMode,
+    isTodayMode = false,
     shouldShowPreviewBanner,
     shouldShowFeedBadge,
     onMarkAsRead,
@@ -54,6 +56,7 @@ export function ArticleContent({
         article,
         isRecentlyReadMode,
         isReadLaterMode,
+        isTodayMode,
         shouldShowPreviewBanner,
         isMobile: !!isMobile,
         onMarkAsRead,
