@@ -1,6 +1,7 @@
 """Feed schemas - DRY approach using SQLModel as base."""
 
 from datetime import datetime
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator
@@ -267,6 +268,25 @@ class ParsedFeed(BaseModel):
     tags_native: list[str] = Field(default_factory=list)
     articles: list["ArticleCreate"] = Field(default_factory=list)
     is_subscribed: bool = False
+
+
+class FeedDiscoveryStep(BaseModel):
+    """One strategy the feed finder tried for a URL."""
+
+    key: str
+    label: str
+    status: Literal["ok", "failed", "skipped"]
+    found: int = 0
+
+
+class FeedDiscoveryResponse(BaseModel):
+    """Feeds found for a URL entered in Discover, plus the strategies that were attempted."""
+
+    input_url: str
+    base_url: str
+    is_direct_feed: bool = False
+    feeds: list[ParsedFeed] = Field(default_factory=list)
+    steps: list[FeedDiscoveryStep] = Field(default_factory=list)
 
 
 class BulkDeleteResponse(BaseModel):
