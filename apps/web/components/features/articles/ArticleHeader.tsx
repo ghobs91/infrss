@@ -107,11 +107,14 @@ export function ArticleHeader({
 
             {isBusy ? (
                 <div className="space-y-2">
-                    <Skeleton className="h-9 w-full" />
-                    <Skeleton className="h-9 w-2/3" />
+                    <Skeleton className="h-7 w-full sm:h-8 md:h-9" />
+                    <Skeleton className="h-7 w-2/3 sm:h-8 md:h-9" />
                 </div>
             ) : (
-                <h1 className="text-4xl font-bold leading-tight text-foreground leading-tight tracking-tight">
+                /* Scaled down a step per breakpoint: at 2.25rem a typical headline wrapped to
+                   9 lines on a 393px phone. Hyphenation is disabled because the prose rules
+                   would otherwise split headline words ("Circu-lar"). */
+                <h1 className="hyphens-none! text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl md:text-4xl">
                     {article.title}
                 </h1>
             )}
