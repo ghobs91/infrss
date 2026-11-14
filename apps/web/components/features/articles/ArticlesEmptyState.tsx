@@ -111,7 +111,7 @@ export function ArticlesEmptyState({
                             variant="outline"
                             className="transition-all duration-200 hover:scale-105 hover:shadow-md"
                         >
-                            <Link href="/today">
+                            <Link href="/articles">
                                 <BookOpen className="mr-2 h-4 w-4" />
                                 Browse Articles
                             </Link>
@@ -130,20 +130,12 @@ export function ArticlesEmptyState({
                             variant="outline"
                             className="transition-all duration-200 hover:scale-105 hover:shadow-md"
                         >
-                            <Link href="/today">
+                            <Link href="/articles">
                                 <BookOpen className="mr-2 h-4 w-4" />
                                 Browse Articles
                             </Link>
                         </Button>
                     ),
-                }
-            case ArticleFilterMode.Today:
-                return {
-                    title: "No articles published today",
-                    subtitle:
-                        "Check back later as new content arrives throughout the day",
-                    icon: RefreshCw,
-                    action: undefined,
                 }
             default:
                 return null

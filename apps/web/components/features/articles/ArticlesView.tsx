@@ -127,7 +127,6 @@ export function ArticlesView({
     // Derived State
     const isRecentlyReadMode = mode === ArticleFilterMode.RecentlyRead
     const isReadLaterMode = mode === ArticleFilterMode.ReadLater
-    const isTodayMode = mode === ArticleFilterMode.Today
     const isUnreadFilterActive =
         showUnreadOnly && !isReadLaterMode && !isRecentlyReadMode
     const hasFeeds = (feedsResponse?.subscriptions?.length ?? 0) > 0
@@ -149,7 +148,6 @@ export function ArticlesView({
         showUnreadOnly,
         isRecentlyReadMode,
         isReadLaterMode,
-        isTodayMode,
     })
 
     const displayedArticles = useMemo(() => {
@@ -413,7 +411,6 @@ export function ArticlesView({
                         article={selectedArticle}
                         isRecentlyReadMode={isRecentlyReadMode}
                         isReadLaterMode={isReadLaterMode}
-                        isTodayMode={isTodayMode}
                         shouldShowPreviewBanner={shouldShowPreviewBanner}
                         onMarkAsRead={handleMarkAsRead}
                         onBack={handleBackToList}

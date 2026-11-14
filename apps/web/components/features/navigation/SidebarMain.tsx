@@ -11,8 +11,8 @@ import {
 import {
     BookmarkIcon,
     Compass,
-    Diamond,
     FolderPlus,
+    Newspaper,
     Search,
     Settings2,
     Sparkles,
@@ -231,7 +231,7 @@ export function SidebarMain() {
 
     const mainNavItems: MainNavItem[] = [
         { title: "Daily Digest", icon: Sparkles, url: "/codex" },
-        { title: "Today", icon: Diamond, url: "/today" },
+        { title: "All Articles", icon: Newspaper, url: "/articles" },
         { title: "Discover Feeds", icon: Compass, url: "/discover" },
         { title: "Read Later", icon: BookmarkIcon, url: "/read-later" },
     ]

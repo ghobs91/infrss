@@ -9,7 +9,6 @@ interface UseArticleGroupingProps {
     showUnreadOnly: boolean
     isRecentlyReadMode: boolean
     isReadLaterMode?: boolean
-    isTodayMode: boolean
 }
 
 /**
@@ -32,7 +31,6 @@ export function useArticleGrouping({
     showUnreadOnly,
     isRecentlyReadMode,
     isReadLaterMode = false,
-    isTodayMode,
 }: UseArticleGroupingProps) {
     const autoReadIds = useArticlesStore((state) => state.autoReadIds)
 
@@ -44,15 +42,17 @@ export function useArticleGrouping({
                   (article) => !article.is_read || autoReadIds[article.id]
               )
             : articles
-    }, [articles, showUnreadOnly, isReadLaterMode, isRecentlyReadMode, autoReadIds])
+    }, [
+        articles,
+        showUnreadOnly,
+        isReadLaterMode,
+        isRecentlyReadMode,
+        autoReadIds,
+    ])
 
     // For virtualization, we need a flat list of all items
     const allRows = useMemo(() => {
-        if (
-            isRecentlyReadMode ||
-            isTodayMode ||
-            filteredArticles.length === 0
-        ) {
+        if (isRecentlyReadMode || filteredArticles.length === 0) {
             return filteredArticles
         }
 
@@ -124,7 +124,7 @@ export function useArticleGrouping({
             })
 
         return rows
-    }, [filteredArticles, isRecentlyReadMode, isReadLaterMode, isTodayMode])
+    }, [filteredArticles, isRecentlyReadMode, isReadLaterMode])
 
     return {
         filteredArticles,

@@ -9,7 +9,6 @@ interface UseArticleVirtualizerProps {
     isFetchingNextPage: boolean
     fetchNextPage: () => void
     isRecentlyReadMode: boolean
-    isTodayMode: boolean
 }
 
 export function useArticleVirtualizer({
@@ -18,7 +17,6 @@ export function useArticleVirtualizer({
     isFetchingNextPage,
     fetchNextPage,
     isRecentlyReadMode,
-    isTodayMode,
 }: UseArticleVirtualizerProps) {
     const parentRef = useRef<HTMLDivElement>(null)
     const activeStickyIndexRef = useRef(0)
@@ -26,7 +24,7 @@ export function useArticleVirtualizer({
     // Get sticky indexes (header positions)
     // Only enable sticky headers when we actually have date headers (not in recently read or today mode)
     const stickyIndexes = useMemo(() => {
-        if (isRecentlyReadMode || isTodayMode) return []
+        if (isRecentlyReadMode) return []
 
         const indexes: number[] = []
         allRows.forEach((row, index) => {
@@ -35,7 +33,7 @@ export function useArticleVirtualizer({
             }
         })
         return indexes
-    }, [allRows, isRecentlyReadMode, isTodayMode])
+    }, [allRows, isRecentlyReadMode])
 
     // Helper functions for sticky behavior
     const isSticky = useCallback(

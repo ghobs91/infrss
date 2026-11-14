@@ -61,7 +61,7 @@ export function OnboardingEmptyState({ onBack }: OnboardingStateActionProps) {
                         asChild
                         className="w-48 h-12 bg-primary hover:bg-primary/95 text-white font-semibold rounded-xl cursor-pointer select-none transition-all shadow-xs"
                     >
-                        <Link href="/today">Continue Anyway</Link>
+                        <Link href="/articles">Continue Anyway</Link>
                     </Button>
                 </div>
             </div>
@@ -92,7 +92,7 @@ export function OnboardingErrorState({ onBack }: OnboardingStateActionProps) {
                         asChild
                         className="w-48 h-12 bg-primary hover:bg-primary/95 text-white font-semibold rounded-xl cursor-pointer select-none transition-all shadow-xs"
                     >
-                        <Link href="/today">Continue Anyway</Link>
+                        <Link href="/articles">Continue Anyway</Link>
                     </Button>
                 </div>
             </div>

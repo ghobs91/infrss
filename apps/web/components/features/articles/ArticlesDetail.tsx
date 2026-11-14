@@ -5,7 +5,6 @@ interface ArticlesDetailProps {
     article: Article | undefined
     isRecentlyReadMode: boolean
     isReadLaterMode: boolean
-    isTodayMode?: boolean
     shouldShowPreviewBanner: boolean
     onMarkAsRead: () => void
     onBack: () => void
@@ -16,7 +15,6 @@ export function ArticlesDetail({
     article: initialArticle,
     isRecentlyReadMode,
     isReadLaterMode,
-    isTodayMode = false,
     shouldShowPreviewBanner,
     onMarkAsRead,
     onBack,
@@ -59,7 +57,6 @@ export function ArticlesDetail({
             article={article}
             isRecentlyReadMode={isRecentlyReadMode}
             isReadLaterMode={isReadLaterMode}
-            isTodayMode={isTodayMode}
             shouldShowPreviewBanner={shouldShowPreviewBanner}
             shouldShowFeedBadge={true}
             onMarkAsRead={onMarkAsRead}

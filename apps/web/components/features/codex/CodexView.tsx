@@ -145,7 +145,7 @@ export function CodexView({ digest }: CodexViewProps) {
 
 /**
  * The closing note: the pipeline's honest "shown vs. total" line. Its trailing "in your
- * reader" is linked to `/today` — the way back to the raw day, woven into the sentence
+ * reader" is linked to `/articles` — the way back to the raw list, woven into the sentence
  * rather than bolted on as a separate CTA. The Daily Digest is a lens on the reader, not a
  * replacement.
  */
@@ -170,12 +170,12 @@ function CodexFooter({
     )
 }
 
-/** Turn a trailing "…in your reader" / "…in your feed" into a link to /today. Falls back to
+/** Turn a trailing "…in your reader" / "…in your feed" into a link to /articles. Falls back to
  *  appending the link if the phrase isn't there. */
 function linkifyReader(line: string): React.ReactNode {
     const ReaderLink = ({ children }: { children: React.ReactNode }) => (
         <Link
-            href="/today"
+            href="/articles"
             className="group inline-flex items-center gap-0.5 rounded font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring/50"
         >
             {children}

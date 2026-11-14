@@ -1,5 +1,6 @@
 import { useMemo } from "react"
 import { type Subscription, ArticleFilterMode } from "@infrss/shared"
+import { sumFeedUnreadCounts } from "@/lib/unread-counts"
 
 interface UseArticleUnreadCountProps {
     unreadCounts:
@@ -21,7 +22,7 @@ interface UseArticleUnreadCountProps {
  * view (a single feed, a folder, one of the special modes, or "All Articles").
  *
  * The `/api/articles/counts` endpoint only returns per-feed counts plus the
- * `read_later` / `today` totals — there is no server-side aggregate for "all"
+ * `read_later` total — there is no server-side aggregate for "all"
  * or per-folder. Both are derived here by summing `feed_counts`, mirroring the
  * sidebar tree (`use-feed-tree.ts`) so the header and nav always agree.
  */
@@ -41,8 +42,6 @@ export function useArticleUnreadCount({
 
         if (mode === ArticleFilterMode.ReadLater)
             return typedUnreadCounts?.read_later || 0
-        if (mode === ArticleFilterMode.Today)
-            return typedUnreadCounts?.today || 0
 
         if (feedId) return feedCounts[feedId] || 0
 
@@ -60,9 +59,6 @@ export function useArticleUnreadCount({
         }
 
         // "All Articles": sum every per-feed unread count.
-        return Object.values(feedCounts).reduce(
-            (acc, count) => acc + (count || 0),
-            0
-        )
+        return sumFeedUnreadCounts(feedCounts)
     }, [unreadCounts, mode, feedId, folderId, allUserFeeds])
 }

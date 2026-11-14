@@ -102,7 +102,7 @@ export function AppSidebar({
                                 className="data-[slot=sidebar-menu-button]:!p-1.5 pl-2 pr-3 py-2 w-full hover:!bg-transparent active:!bg-transparent"
                             >
                                 <Link
-                                    href="/today"
+                                    href="/articles"
                                     className="flex items-center justify-between w-full"
                                 >
                                     <Logo

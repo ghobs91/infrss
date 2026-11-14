@@ -4,13 +4,14 @@ import { useArticlesStore } from "@/components/features/articles/stores/use-arti
 import { useSidebarLeft } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
 import { useUnreadCounts } from "@infrss/shared"
+import { sumFeedUnreadCounts } from "@/lib/unread-counts"
 import { motion } from "framer-motion"
-import { BookmarkIcon, Compass, Diamond, Rss, Sparkles } from "lucide-react"
+import { BookmarkIcon, Compass, Newspaper, Rss, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 const DOCK_ITEMS = [
-    { label: "Today", href: "/today", icon: Diamond, badge: "today" },
+    { label: "Articles", href: "/articles", icon: Newspaper, badge: null },
     { label: "Digest", href: "/codex", icon: Sparkles, badge: null },
     { label: "Discover", href: "/discover", icon: Compass, badge: null },
     {
@@ -23,7 +24,7 @@ const DOCK_ITEMS = [
 
 /** Routes whose detail view should take over the full screen on mobile. */
 const ARTICLE_ROUTE =
-    /^\/(today|articles|read-later|recently-read|feeds|folders)(\/|$)/
+    /^\/(articles|read-later|recently-read|feeds|folders)(\/|$)/
 
 /**
  * Floating Liquid Glass navigation dock for mobile web.
@@ -39,7 +40,7 @@ export function MobileDock() {
     const viewMode = useArticlesStore((state) => state.viewMode)
     const { data: unreadCounts } = useUnreadCounts()
     const counts = unreadCounts as
-        | { today?: number; read_later?: number }
+        | { read_later?: number; feed_counts?: Record<string, number> }
         | undefined
 
     const isReading =
@@ -60,14 +61,17 @@ export function MobileDock() {
             <div className="glass-surface pointer-events-auto mx-3 flex w-[calc(100%-1.5rem)] max-w-[420px] items-stretch gap-0.5 rounded-[26px] p-1.5">
                 {DOCK_ITEMS.map((item) => {
                     const isArticleView =
-                        item.href === "/today" &&
+                        item.href === "/articles" &&
                         /^\/(articles|recently-read|feeds|folders)(\/|$)/.test(
                             pathname
                         )
                     const isActive = pathname === item.href || isArticleView
+                    // "Articles" is the home view, so it carries the summed unread total.
                     const count = item.badge
                         ? Number(counts?.[item.badge] ?? 0)
-                        : 0
+                        : item.href === "/articles"
+                          ? sumFeedUnreadCounts(counts?.feed_counts)
+                          : 0
 
                     return (
                         <Link

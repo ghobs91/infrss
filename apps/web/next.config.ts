@@ -42,8 +42,14 @@ const nextConfig = {
     async redirects() {
         return [
             {
+                // The reader is the app's home; /today folded into the all-articles list.
+                source: "/today",
+                destination: "/articles",
+                permanent: false,
+            },
+            {
                 source: "/",
-                destination: "/today",
+                destination: "/articles",
                 permanent: true,
             },
         ]

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useUnreadCounts } from "@infrss/shared"
 import { cn } from "@/lib/utils"
+import { sumFeedUnreadCounts } from "@/lib/unread-counts"
 
 interface MainNavItem {
     /** Display title for the navigation item */
@@ -27,7 +28,7 @@ interface MainNavigationItemsProps {
 
 /**
  * Main navigation items component for displaying top-level navigation links.
- * Includes special count handling for Today and Read Later items.
+ * Includes special count handling for the Read Later item.
  */
 export function MainNavigationItems({ items }: MainNavigationItemsProps) {
     const pathname = usePathname()
@@ -43,16 +44,17 @@ export function MainNavigationItems({ items }: MainNavigationItemsProps) {
     const typedUnreadCounts =
         (unreadCounts as {
             read_later?: number
-            today?: number
+            feed_counts?: Record<string, number>
         }) || {}
 
     /**
-     * Get unread count for specific navigation items
+     * Get unread count for specific navigation items. "All Articles" shows the same summed
+     * total as the articles header so the two never disagree.
      */
     const getCountForItem = (title: string): number | null => {
         switch (title) {
-            case "Today":
-                return typedUnreadCounts.today || 0
+            case "All Articles":
+                return sumFeedUnreadCounts(typedUnreadCounts.feed_counts)
             case "Read Later":
                 return typedUnreadCounts.read_later || 0
             default:

@@ -9,7 +9,6 @@ interface UseArticleInteractionsProps {
     article: Article
     isRecentlyReadMode: boolean
     isReadLaterMode: boolean
-    isTodayMode?: boolean
     shouldShowPreviewBanner: boolean
     isMobile: boolean
     onMarkAsRead?: () => void
@@ -20,7 +19,6 @@ export function useArticleInteractions({
     article,
     isRecentlyReadMode,
     isReadLaterMode,
-    isTodayMode = false,
     shouldShowPreviewBanner,
     isMobile,
     onMarkAsRead,
@@ -102,7 +100,7 @@ export function useArticleInteractions({
 
         setHasMarkedRead(true)
         addAutoReadIds([article.id])
-        markReadQuietly(article, { affectsToday: isTodayMode })
+        markReadQuietly(article)
     }
 
     const handleScrollMarkAsRead = (scrollTop: number) => {

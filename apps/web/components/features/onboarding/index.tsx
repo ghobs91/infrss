@@ -15,7 +15,7 @@ const Onboarding: React.FC = () => {
 
     useEffect(() => {
         if (!isLoading && profile?.is_onboarded) {
-            router.replace("/today")
+            router.replace("/articles")
         }
     }, [profile, isLoading, router])
 

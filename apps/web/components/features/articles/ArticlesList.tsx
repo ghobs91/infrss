@@ -22,7 +22,6 @@ interface ArticlesListProps {
     showUnreadOnly: boolean
     isRecentlyReadMode?: boolean
     isReadLaterMode?: boolean
-    isTodayMode?: boolean
     feedId?: string
     folderId?: string
     fetchNextPage: () => void
@@ -44,7 +43,6 @@ export function ArticlesList({
     showUnreadOnly,
     isRecentlyReadMode = false,
     isReadLaterMode = false,
-    isTodayMode = false,
     feedId,
     folderId,
     fetchNextPage,
@@ -77,7 +75,6 @@ export function ArticlesList({
         showUnreadOnly,
         isRecentlyReadMode,
         isReadLaterMode,
-        isTodayMode,
     })
 
     // Virtualization logic
@@ -88,7 +85,6 @@ export function ArticlesList({
             isFetchingNextPage,
             fetchNextPage,
             isRecentlyReadMode,
-            isTodayMode,
         })
 
     /**
@@ -126,7 +122,7 @@ export function ArticlesList({
 
             autoMarkedIdsRef.current.add(row.id)
             addAutoReadIds([row.id])
-            markRead(row, { affectsToday: isTodayMode })
+            markRead(row)
         }
     }
 
@@ -163,9 +159,7 @@ export function ArticlesList({
                         ? ArticleFilterMode.RecentlyRead
                         : isReadLaterMode
                           ? ArticleFilterMode.ReadLater
-                          : isTodayMode
-                            ? ArticleFilterMode.Today
-                            : ArticleFilterMode.AllArticles
+                          : ArticleFilterMode.AllArticles
                 }
                 feedId={feedId}
                 folderId={folderId}

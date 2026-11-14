@@ -13,7 +13,6 @@ export enum ArticleFilterMode {
   AllArticles = 'allArticles',
   RecentlyRead = 'recentlyRead',
   ReadLater = 'readLater',
-  Today = 'today',
 }
 
 export enum ContentView {

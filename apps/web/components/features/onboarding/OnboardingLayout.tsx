@@ -31,7 +31,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
         } catch (e) {
             console.warn("Failed to mark onboarding as skipped:", e)
         }
-        router.push("/today")
+        router.push("/articles")
     }
 
     return (

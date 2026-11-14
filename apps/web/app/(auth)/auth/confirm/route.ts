@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
             redirect(
                 isCloudProd(new URL(request.url).hostname)
                     ? "/onboarding"
-                    : "/today"
+                    : "/articles"
             )
         }
     }

@@ -32,13 +32,7 @@ export function useAutoMarkRead() {
     const activeRef = useRef(0)
 
     return useCallback(
-        (
-            article: Article,
-            options?: {
-                /** Decrement the Today total as well (the Today view's header badge). */
-                affectsToday?: boolean
-            }
-        ) => {
+        (article: Article) => {
             if (article.is_read) return
 
             queryClient.setQueriesData<CachedArticlesPage>(
@@ -81,16 +75,6 @@ export function useAutoMarkRead() {
                             },
                         }
                     }
-                )
-            }
-
-            if (options?.affectsToday) {
-                queryClient.setQueryData<ArticleCountsResponse>(
-                    queryKeys.unreadCounts(),
-                    (old) =>
-                        old && old.today > 0
-                            ? { ...old, today: old.today - 1 }
-                            : old
                 )
             }
 

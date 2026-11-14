@@ -122,7 +122,7 @@ export function ResultsCard({ task }: ResultsCardProps) {
 
                 <div className="flex flex-col sm:flex-row gap-3 pt-4">
                     <Button asChild className="flex-1">
-                        <Link href="/today">View Articles</Link>
+                        <Link href="/articles">View Articles</Link>
                     </Button>
                     <Button asChild variant="outline">
                         <Link href="/import-opml">Import More</Link>

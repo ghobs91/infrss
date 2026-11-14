@@ -49,10 +49,10 @@ export function ArticlesErrorState({
                 action: (
                     <Button
                         variant="outline"
-                        onClick={() => router.push("/today")}
+                        onClick={() => router.push("/articles")}
                         className="transition-all duration-200 hover:scale-105 hover:shadow-md"
                     >
-                        View today&apos;s articles
+                        View all articles
                     </Button>
                 ),
             }

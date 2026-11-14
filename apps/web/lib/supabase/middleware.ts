@@ -76,7 +76,7 @@ export async function updateSession(request: NextRequest) {
             // into it, and bounce away if landed on it directly (stale link, etc).
             if (isOnboardingRoute) {
                 const url = request.nextUrl.clone()
-                url.pathname = "/today"
+                url.pathname = "/articles"
                 return NextResponse.redirect(url)
             }
             return supabaseResponse
@@ -88,7 +88,7 @@ export async function updateSession(request: NextRequest) {
         if (isOnboardedCookie === "true") {
             if (isOnboardingRoute) {
                 const url = request.nextUrl.clone()
-                url.pathname = "/today"
+                url.pathname = "/articles"
                 const redirectResponse = NextResponse.redirect(url)
                 supabaseResponse.cookies.getAll().forEach((cookie) => {
                     redirectResponse.cookies.set(
@@ -124,7 +124,7 @@ export async function updateSession(request: NextRequest) {
                         if (isOnboarded) {
                             if (isOnboardingRoute) {
                                 const url = request.nextUrl.clone()
-                                url.pathname = "/today"
+                                url.pathname = "/articles"
                                 const redirectResponse =
                                     NextResponse.redirect(url)
                                 supabaseResponse.cookies

@@ -40,9 +40,9 @@ export function DeleteConfirmDialog({
 
         // Navigate away if currently viewing the item being deleted
         if (isFolder && pathname.includes(`/folders/${itemId}`)) {
-            router.push("/today")
+            router.push("/articles")
         } else if (!isFolder && pathname.includes(itemId)) {
-            router.push("/today")
+            router.push("/articles")
         }
 
         try {

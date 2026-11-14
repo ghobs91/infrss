@@ -76,7 +76,6 @@ export function ArticlesSidebar({
     // Derived State
     const isRecentlyReadMode = mode === ArticleFilterMode.RecentlyRead
     const isReadLaterMode = mode === ArticleFilterMode.ReadLater
-    const isTodayMode = mode === ArticleFilterMode.Today
 
     const unreadCount = useArticleUnreadCount({
         unreadCounts,
@@ -89,7 +88,6 @@ export function ArticlesSidebar({
     const sidebarTitle = useMemo(() => {
         if (isRecentlyReadMode) return "Recently Read"
         if (isReadLaterMode) return "Read Later"
-        if (isTodayMode) return "Today"
         if (feedId && feedData?.title) return feedData.title
         if (folderId && allFolders) {
             return (
@@ -103,7 +101,6 @@ export function ArticlesSidebar({
     }, [
         isRecentlyReadMode,
         isReadLaterMode,
-        isTodayMode,
         feedId,
         feedData,
         folderId,
@@ -175,7 +172,6 @@ export function ArticlesSidebar({
                     showUnreadOnly={showUnreadOnly}
                     isRecentlyReadMode={isRecentlyReadMode}
                     isReadLaterMode={isReadLaterMode}
-                    isTodayMode={isTodayMode}
                     feedId={feedId}
                     folderId={folderId}
                     fetchNextPage={fetchNextPage}

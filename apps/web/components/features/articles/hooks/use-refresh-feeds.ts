@@ -10,7 +10,7 @@ import { useCallback, useRef, useState } from "react"
  * Mirrors the native app: when a single feed is open, force a fetch from its source first (so
  * a manual refresh can actually find new articles), then revalidate the article lists, unread
  * counts and feed list with `refetchType: 'active'` so the global staleTime doesn't hand back
- * cache. Other scopes (Today/All/folders) just revalidate — the background worker owns
+ * cache. Other scopes (All/folders) just revalidate — the background worker owns
  * refreshing every subscription, and firing per-feed requests for a whole folder is far too
  * many round trips for one gesture.
  */

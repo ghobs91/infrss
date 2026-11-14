@@ -52,7 +52,7 @@ export function useFeedSelection() {
             console.warn("Failed to mark user as onboarded:", e)
         }
         try {
-            router.push("/today")
+            router.push("/articles")
         } catch (error) {
             console.error("Failed to complete onboarding:", error)
         }
