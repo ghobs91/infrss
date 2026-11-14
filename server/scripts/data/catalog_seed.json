@@ -2020,7 +2020,7 @@
     },
     {
       "id": "012ca847-fa07-47d0-82aa-669f620a954b",
-      "name": "Commercial Space Transportation Office",
+      "name": "Federal Aviation Administration",
       "entity_type": "GOV_FEDERAL",
       "canonical_domain": "faa.gov",
       "cik": null,
@@ -7039,9 +7039,9 @@
       "outbound_third_party_ratio": 0
     },
     {
-      "id": "afda7f0b-20f9-4b72-8dfc-419722a409c7",
+      "id": "8f6af75c-1ec2-4e95-ade8-b8e7ef896a10",
       "entity_domain": "faa.gov",
-      "feed_url": "https://faa.gov/rss.xml",
+      "feed_url": "https://www.faa.gov/newsroom/press_releases/rss",
       "feed_type": "NATIVE_RSS",
       "verification_status": "VERIFIED_PRIMARY",
       "rejection_reason": null,
@@ -9058,15 +9058,6 @@
       "id": "978879d3-e956-4b9c-9386-3ed2893d86fe",
       "entity_domain": "esa.int",
       "feed_url": "https://www.esa.int/rssfeed/Our_Activities/Space_News",
-      "feed_type": "NATIVE_RSS",
-      "verification_status": "VERIFIED_PRIMARY",
-      "rejection_reason": null,
-      "outbound_third_party_ratio": 0
-    },
-    {
-      "id": "57b82e88-9e93-439e-a893-0fb8eadead4a",
-      "entity_domain": "faa.gov",
-      "feed_url": "https://www.faa.gov/blog/cleared_for_takeoff/rss.xml",
       "feed_type": "NATIVE_RSS",
       "verification_status": "VERIFIED_PRIMARY",
       "rejection_reason": null,
