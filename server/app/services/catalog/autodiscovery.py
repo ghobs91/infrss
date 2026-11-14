@@ -3,15 +3,15 @@
 For a target domain this inspects newsroom-style pages for ``<link rel="alternate">`` feed
 declarations, then falls back to probing well-known feed endpoints. All outbound requests go
 through the SSRF-safe helpers in :mod:`app.services.feeds.fetching`.
+
+Feed document classification and link-tag parsing live in :mod:`app.services.feeds.feed_detection`;
+this module only maps them onto catalog-specific vocabularies.
 """
 
-import re
 from dataclasses import dataclass, field
-from typing import Any
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urlparse
 
 import structlog
-from bs4 import BeautifulSoup, Tag
 
 from app.core.constants import (
     CATALOG_AUTODISCOVERY_PATHS,
@@ -21,18 +21,19 @@ from app.core.constants import (
 )
 from app.models.enums import CatalogFeedType
 from app.services.feeds import fetching, parsing
+from app.services.feeds.feed_detection import (
+    FeedFormat,
+    detect_feed_format,
+    extract_feed_link_tags,
+)
 from app.utils.urls import normalize_feed_url
 
 logger = structlog.get_logger(__name__)
 
-FEED_LINK_TYPES: dict[str, CatalogFeedType] = {
-    "application/rss+xml": CatalogFeedType.NATIVE_RSS,
-    "application/atom+xml": CatalogFeedType.NATIVE_ATOM,
+FEED_FORMAT_TYPES: dict[FeedFormat, CatalogFeedType] = {
+    FeedFormat.RSS: CatalogFeedType.NATIVE_RSS,
+    FeedFormat.ATOM: CatalogFeedType.NATIVE_ATOM,
 }
-
-_RSS_MARKER = re.compile(r"<\s*(rss|rdf:RDF)\b", re.IGNORECASE)
-_ATOM_MARKER = re.compile(r"<\s*feed\b", re.IGNORECASE)
-_ATOM_NAMESPACE = "http://www.w3.org/2005/Atom"
 
 
 @dataclass(frozen=True)
@@ -56,44 +57,18 @@ class DiscoveryResult:
 
 def detect_feed_type(content: str) -> CatalogFeedType | None:
     """Classify raw XML as RSS/RDF or Atom; ``None`` when it is neither."""
-    if not content:
-        return None
-    head = content[:4096]
-    if _ATOM_NAMESPACE in head:
-        return CatalogFeedType.NATIVE_ATOM
-    if _RSS_MARKER.search(head):
-        return CatalogFeedType.NATIVE_RSS
-    if _ATOM_MARKER.search(head):
-        return CatalogFeedType.NATIVE_ATOM
-    return None
+    feed_format = detect_feed_format(content)
+    return FEED_FORMAT_TYPES.get(feed_format) if feed_format else None
 
 
 def extract_feed_links(html: str, base_url: str) -> list[DiscoveredFeed]:
     """Extract RSS/Atom ``<link rel="alternate">`` declarations from an HTML page."""
-    soup = BeautifulSoup(html, "html.parser")
     discovered: list[DiscoveredFeed] = []
-    for tag in soup.find_all("link"):
-        if not isinstance(tag, Tag):
+    for link in extract_feed_link_tags(html, base_url):
+        feed_type = FEED_FORMAT_TYPES.get(link.format)
+        if feed_type is None:
             continue
-        rel_value: Any = tag.get("rel") or []
-        rel_list: list[str] = (
-            [rel_value] if isinstance(rel_value, str) else [v for v in rel_value if isinstance(v, str)]
-        )
-        if "alternate" not in [value.lower() for value in rel_list]:
-            continue
-        feed_type = FEED_LINK_TYPES.get(str(tag.get("type", "")).lower().strip())
-        href = tag.get("href")
-        if not feed_type or not isinstance(href, str) or not href:
-            continue
-        title = tag.get("title")
-        discovered.append(
-            DiscoveredFeed(
-                url=urljoin(base_url, href),
-                feed_type=feed_type,
-                title=title if isinstance(title, str) else None,
-                source="link-tag",
-            )
-        )
+        discovered.append(DiscoveredFeed(url=link.url, feed_type=feed_type, title=link.title, source="link-tag"))
     return discovered
 
 
