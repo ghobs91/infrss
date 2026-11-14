@@ -237,6 +237,23 @@ export interface ParsedFeed {
 
 export type FeedDiscoveryResult = ParsedFeed;
 
+/** One strategy the backend feed finder tried for a URL. */
+export interface FeedDiscoveryStep {
+  key: string;
+  label: string;
+  status: 'ok' | 'failed' | 'skipped';
+  found: number;
+}
+
+/** Result of a feed discovery run for a URL entered in search. */
+export interface FeedDiscoveryReport {
+  input_url: string;
+  base_url: string;
+  is_direct_feed: boolean;
+  feeds: ParsedFeed[];
+  steps: FeedDiscoveryStep[];
+}
+
 export interface FeedsResponse {
   subscriptions: SubscriptionResponse[] | SubscriptionResponseExtended[];
   folders: FolderResponse[];

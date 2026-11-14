@@ -9,6 +9,7 @@ import { CustomSearchBox } from "./CustomSearchBox"
 import { DiscoverLayout } from "./DiscoverLayout"
 import { LanguageMenu } from "./LanguageMenu"
 import { SearchResults } from "./SearchResults"
+import { UrlDiscoveryResults } from "./UrlDiscoveryResults"
 import { useDiscoverController } from "@/components/features/discover/hooks/use-discover-controller"
 import { PrimarySourcesCatalog } from "@/components/features/catalog/PrimarySourcesCatalog"
 import { CATEGORY_CONFIG } from "@/lib/categories"
@@ -36,15 +37,17 @@ export function DiscoverContent({
         activeCategory,
         hasActiveSearch,
         isUrlQuery,
-        previewFeed,
-        isPreviewLoading,
-        previewError,
-        isPreviewError,
+        discoveredFeeds,
+        discoverySteps,
+        isDirectFeed,
+        isDiscoveryLoading,
+        discoveryError,
+        isDiscoveryError,
+        hasNoFeeds,
         displayLanguage,
         setDisplayLanguage,
         isLanguageInitialized,
         languageFilter,
-        clearSearch,
         resetFilters,
     } = useDiscoverController()
 
@@ -125,15 +128,16 @@ export function DiscoverContent({
 
                     {/* Content Section */}
                     {isUrlQuery ? (
-                        /* Show preview when URL is detected */
-                        <SearchResults
+                        /* Pasted URL: find the feeds this site publishes */
+                        <UrlDiscoveryResults
                             onClearSearch={resetFilters}
-                            isInstantTyping={isInstantTyping}
-                            onSearchDone={() => setIsInstantTyping(false)}
-                            previewFeed={previewFeed}
-                            isPreviewLoading={isPreviewLoading}
-                            previewError={previewError}
-                            isPreviewError={isPreviewError}
+                            feeds={discoveredFeeds}
+                            steps={discoverySteps}
+                            isDirectFeed={isDirectFeed}
+                            isLoading={isDiscoveryLoading}
+                            error={discoveryError}
+                            isError={isDiscoveryError}
+                            hasNoFeeds={hasNoFeeds}
                         />
                     ) : hasActiveSearch ? (
                         /* Show search results for regular queries */

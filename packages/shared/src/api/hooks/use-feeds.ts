@@ -11,6 +11,7 @@ import type {
   FeedDetail,
   Subscription,
   FeedDiscoveryResult,
+  FeedDiscoveryReport,
   FeedsResponse,
   AdminFeedUpdate,
 } from '../types';
@@ -68,6 +69,24 @@ export function usePreviewFeedUrl(
       const response = await ApiClient.previewFeed(trimmedQuery);
       return response;
     },
+    enabled: trimmedQuery.length > 0,
+    retry: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    ...options,
+  });
+}
+
+export function useFindFeeds(
+  url: string,
+  options?: Omit<
+    UseQueryOptions<FeedDiscoveryReport, Error, FeedDiscoveryReport, ['feedDiscovery', string]>,
+    'queryKey' | 'queryFn'
+  >
+) {
+  const trimmedQuery = url.trim();
+  return useQuery({
+    queryKey: ['feedDiscovery', trimmedQuery],
+    queryFn: () => ApiClient.findFeeds(trimmedQuery),
     enabled: trimmedQuery.length > 0,
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes

@@ -8,10 +8,8 @@ import {
 
 import { FeedCard } from "@/components/features/feeds/FeedCard"
 import { FeedCardSkeleton } from "@/components/features/feeds/FeedCardSkeleton"
-import { FeedPreviewCard } from "@/components/features/feeds/FeedPreviewCard"
 import { Button } from "@/components/ui/button"
 import {
-    type FeedDiscoveryResult,
     type FeedSummary,
     type MeilisearchFeedDocument,
     FeedCategory,
@@ -21,38 +19,10 @@ import {
 interface SearchResultsProps {
     /** Callback to clear all search filters and query */
     onClearSearch: () => void
-    /** Preview feed data when URL is detected */
-    previewFeed?: FeedDiscoveryResult | null
-    /** Whether preview is loading */
-    isPreviewLoading?: boolean
-    /** Preview error message */
-    previewError?: string | null
-    /** Whether preview fetch failed */
-    isPreviewError?: boolean
     /** Whether user is actively typing in instant search mode */
     isInstantTyping?: boolean
     /** Callback when an instant search request finishes */
     onSearchDone?: () => void
-}
-
-function createPreviewFeedData(
-    previewFeed: FeedDiscoveryResult
-): FeedSummary & { is_preview: true } {
-    return {
-        id: previewFeed.id ?? "",
-        url: previewFeed.url ?? "",
-        title: previewFeed.title,
-        link: previewFeed.link ?? null,
-        image_url: previewFeed.image_url ?? null,
-        is_preview: true,
-        is_subscribed: previewFeed.is_subscribed,
-        language: previewFeed.language ?? "en",
-        author: previewFeed.author ?? null,
-        content_type: (previewFeed.content_type as ContentType) ?? null,
-        tags: previewFeed.tags ?? [],
-        tags_native: previewFeed.tags_native ?? [],
-        description: previewFeed.description,
-    }
 }
 
 /**
@@ -60,15 +30,10 @@ function createPreviewFeedData(
  *
  * Shows a "no results" state when search completes with no matches,
  * but waits for loading to complete to avoid flashing empty state.
- *
- * When a preview feed is provided (URL detected), displays the preview card instead.
  */
 
 export function SearchResults({
     onClearSearch,
-    previewFeed,
-    isPreviewLoading,
-    previewError,
     isInstantTyping = false,
     onSearchDone,
 }: SearchResultsProps) {
@@ -77,9 +42,8 @@ export function SearchResults({
     const { refine: refineQuery } = useSearchBox()
     const { status, error } = useInstantSearch()
 
-    // Don't show "no results" while the search is still loading OR while preview is loading
-    const isLoading =
-        status === "loading" || status === "stalled" || isPreviewLoading
+    // Don't show "no results" while the search is still loading
+    const isLoading = status === "loading" || status === "stalled"
     const isError = status === "error"
 
     const [isPaginating, setIsPaginating] = useState(false)
@@ -103,74 +67,36 @@ export function SearchResults({
     const shouldShowSkeletons =
         isSearchLoading && !(isInstantTyping && items.length > 0)
 
-    // Prepare preview feed data if available
-    let previewFeedData:
-        | (FeedSummary & {
-              is_preview: true
-          })
-        | null = null
-    if (previewFeed && !isPreviewLoading && !previewError) {
-        previewFeedData = createPreviewFeedData(previewFeed)
-    }
-
-    // Show skeleton while preview is loading
-    if (isPreviewLoading) {
-        return (
-            <div className="mb-8">
-                <div className="flex items-center justify-between mb-2 pl-5 pr-2">
-                    <h3 className="text-sm font-medium text-muted-foreground">
-                        Feed Preview
-                    </h3>
-                </div>
-                <FeedCardSkeleton />
-            </div>
-        )
-    }
-
     return (
         <>
-            {/* Show preview feed at the top if available */}
-            {previewFeedData && (
-                <div className="mb-8">
-                    <div className="flex items-center justify-between mb-2 pl-5 pr-2">
-                        <h3 className="text-sm font-medium text-muted-foreground">
-                            Feed Preview
-                        </h3>
+            {/* Results Header - Show for both results and empty state (if not loading) */}
+            <div className="flex items-center justify-between mb-3 px-0.5 min-h-[28px]">
+                {shouldShowSkeletons ? (
+                    <div className="h-4 w-24 bg-muted/60 dark:bg-muted/40 animate-pulse rounded" />
+                ) : (
+                    <div className="text-xs md:text-sm font-medium text-muted-foreground">
+                        {nbHits.toLocaleString()}{" "}
+                        {nbHits === 1 ? "feed" : "feeds"} found
                     </div>
-                    <FeedPreviewCard feed={previewFeedData} />
-                </div>
-            )}
+                )}
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onClearSearch}
+                    className="h-7 px-2.5 text-xs text-muted-foreground hover:text-[#6A994E] hover:bg-[#F3F9EF] dark:hover:text-primary dark:hover:bg-accent rounded-md cursor-pointer transition-colors"
+                >
+                    Reset filters
+                </Button>
+            </div>
 
-            {/* Results Header - Show for both results and empty state (if not loading), but hide if showing preview */}
-            {!previewFeedData && (
-                <div className="flex items-center justify-between mb-3 px-0.5 min-h-[28px]">
-                    {shouldShowSkeletons ? (
-                        <div className="h-4 w-24 bg-muted/60 dark:bg-muted/40 animate-pulse rounded" />
-                    ) : (
-                        <div className="text-xs md:text-sm font-medium text-muted-foreground">
-                            {nbHits.toLocaleString()}{" "}
-                            {nbHits === 1 ? "feed" : "feeds"} found
-                        </div>
-                    )}
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={onClearSearch}
-                        className="h-7 px-2.5 text-xs text-muted-foreground hover:text-[#6A994E] hover:bg-[#F3F9EF] dark:hover:text-primary dark:hover:bg-accent rounded-md cursor-pointer transition-colors"
-                    >
-                        Reset filters
-                    </Button>
-                </div>
-            )}
-
-            {!previewFeedData && shouldShowSkeletons ? (
+            {shouldShowSkeletons ? (
                 /* Skeleton rows while a search/category/filter request is in flight. */
                 <div className="flex flex-col divide-y divide-border/40">
                     {Array.from({ length: 8 }).map((_, i) => (
                         <FeedCardSkeleton key={i} />
                     ))}
                 </div>
-            ) : !previewFeedData && isError ? (
+            ) : isError ? (
                 <div className="flex flex-col items-center justify-center py-16">
                     <h3 className="text-xl font-medium mb-3 text-foreground dark:text-foreground">
                         Something went wrong
@@ -183,10 +109,7 @@ export function SearchResults({
                         Try again
                     </Button>
                 </div>
-            ) : items.length === 0 &&
-              !isLoading &&
-              !isError &&
-              !previewFeedData ? (
+            ) : items.length === 0 && !isLoading && !isError ? (
                 <div className="flex flex-col items-center justify-center py-16">
                     <div className="mb-6">
                         <NextImage

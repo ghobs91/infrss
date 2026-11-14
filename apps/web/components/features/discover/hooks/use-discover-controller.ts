@@ -5,7 +5,7 @@ import {
     useMenu,
     useSearchBox,
 } from "react-instantsearch"
-import { useFeedPreview } from "@/components/features/discover/hooks/use-feed-preview"
+import { useFeedDiscovery } from "@/components/features/discover/hooks/use-feed-discovery"
 import { usePersistentState } from "@/hooks/use-persistent-state"
 
 /** Languages selectable in Discover search — kept intentionally small. */
@@ -32,14 +32,17 @@ function getInitialLanguageState(): DiscoverLanguage {
 export function useDiscoverController() {
     const { query, refine: refineQuery } = useSearchBox()
 
-    // Feed preview hook for URL detection
+    // Feed discovery for URL input: finds the feeds a pasted site publishes
     const {
-        previewFeed,
-        isLoading: isPreviewLoading,
-        error: previewError,
+        feeds: discoveredFeeds,
+        steps: discoverySteps,
+        isDirectFeed,
+        isLoading: isDiscoveryLoading,
+        error: discoveryError,
         isUrlQuery,
-        isError: isPreviewError,
-    } = useFeedPreview(query)
+        isError: isDiscoveryError,
+        hasNoFeeds,
+    } = useFeedDiscovery(query)
 
     // Use InstantSearch's menu widget for category filtering
     const { refine: refineCategory } = useMenu({
@@ -147,10 +150,15 @@ export function useDiscoverController() {
         } else {
             clearSearch()
         }
-    }, [currentRefinements.length, isPopularSelected, clearAllRefinements, clearSearch])
+    }, [
+        currentRefinements.length,
+        isPopularSelected,
+        clearAllRefinements,
+        clearSearch,
+    ])
 
     // Determine if we should show search results or categories
-    // Show search results if there's a query OR active category OR popular is selected, but NOT if it's a URL query (show preview instead)
+    // Show search results if there's a query OR active category OR popular is selected, but NOT if it's a URL query (show discovery results instead)
     const hasActiveSearch = Boolean(
         (query && !isUrlQuery) || activeCategory || isPopularSelected
     )
@@ -168,11 +176,14 @@ export function useDiscoverController() {
         hasActiveSearch,
         isUrlQuery,
 
-        // Preview State
-        previewFeed,
-        isPreviewLoading,
-        previewError,
-        isPreviewError,
+        // URL discovery State
+        discoveredFeeds,
+        discoverySteps,
+        isDirectFeed,
+        isDiscoveryLoading,
+        discoveryError,
+        isDiscoveryError,
+        hasNoFeeds,
 
         // Settings State
         displayLanguage,
