@@ -57,6 +57,38 @@ def _clamp_published_at(published_at: datetime) -> datetime:
     return min(published_at, datetime.now(timezone.utc))
 
 
+def extract_feed_title(content: str) -> str | None:
+    """
+    Read a feed document's title without the full entry extraction/sanitisation pass.
+
+    Feed discovery checks many candidate URLs, so it only needs the identity of a document,
+    not its articles.
+    """
+    try:
+        parsed = feedparser.parse(content)
+    except Exception as e:  # noqa: BLE001 - a malformed document simply has no title
+        logger.warning(f"Feed title extraction failed: {e}")
+        return None
+    title = parsed.feed.get("title") if parsed.feed else None
+    return html.unescape(title).strip() if title else None
+
+
+def extract_feed_site_link(content: str) -> str | None:
+    """
+    Read the website a feed document declares it belongs to.
+
+    Used by discovery to tell a site's own feed from an unrelated one served by a third-party
+    feed host at a guessed URL.
+    """
+    try:
+        parsed = feedparser.parse(content)
+    except Exception as e:  # noqa: BLE001 - a malformed document simply has no site link
+        logger.warning(f"Feed site link extraction failed: {e}")
+        return None
+    link = parsed.feed.get("link") if parsed.feed else None
+    return link.strip() if isinstance(link, str) and link.strip() else None
+
+
 def find_feed_icon(feed: Any) -> str | None:
     # Atom Icon
     if hasattr(feed, "icon"):

@@ -282,7 +282,9 @@ def decode_resource(resource: DownloadedResource) -> str:
         return resource["body"].decode("utf-8", errors="replace")
 
 
-async def fetch_page_html(url: str, timeout: int = DEFAULT_RSS_TIMEOUT) -> str | None:
+async def fetch_page_html(
+    url: str, timeout: int = DEFAULT_RSS_TIMEOUT, max_bytes: int = MAX_FEED_SIZE_BYTES
+) -> str | None:
     """Download the complete article page for extraction with a bounded, SSRF-safe request."""
-    resource = await fetch_public_resource(url, timeout=timeout)
+    resource = await fetch_public_resource(url, timeout=timeout, max_bytes=max_bytes)
     return decode_resource(resource) if resource is not None else None

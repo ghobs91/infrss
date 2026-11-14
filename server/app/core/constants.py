@@ -106,6 +106,54 @@ CATALOG_SUBDOMAIN_PROBE_PATHS = ("", "/feed", "/rss", "/rss.xml")
 # (primary_entities.feed_hosts), not here.
 CATALOG_ALLOWED_FEED_HOSTS = ("feedburner.com", "feedpress.me")
 
+# User-facing feed discovery (app/services/feeds/discovery.py)
+# Runs the ladder a web feed finder uses for a URL pasted into Discover: treat it as a feed, then
+# read the page and its parents for feed declarations, scan links/sitemap, probe well-known
+# suffixes, follow blog-platform hints, and finally try third-party feed hosts.
+# Paths appended to a site or section URL, in probe order.
+FEED_DISCOVERY_SUFFIXES = (
+    "/feed",
+    "/feed/",
+    "/rss",
+    "/rss/",
+    "/rss.xml",
+    "/feed.xml",
+    "/atom.xml",
+    "/index.xml",
+    "/feed/atom/",
+    "/feeds/posts/default",
+)
+# Feed endpoints that live on a query parameter rather than a path.
+FEED_DISCOVERY_QUERY_SUFFIXES = ("?feed=rss2", "?feed=atom", "?format=rss")
+# Sections that usually host a site's feed.
+FEED_DISCOVERY_BLOG_PATHS = ("/blog", "/news", "/articles", "/posts", "/writing", "/journal")
+# Suffixes probed against a discovered blog/news section, which are usually CMS feed paths.
+FEED_DISCOVERY_BLOG_SUFFIXES = ("/feed", "/feed/", "/rss", "/rss.xml", "/feed.xml", "/atom.xml")
+# Feed paths published by a CMS, keyed by the platform detected from the page.
+FEED_DISCOVERY_PLATFORM_SUFFIXES: dict[str, tuple[str, ...]] = {
+    "wordpress": ("/feed/", "?feed=rss2"),
+    "ghost": ("/rss/", "/rss"),
+    "blogger": ("/feeds/posts/default",),
+    "substack": ("/feed",),
+    "medium": ("/feed",),
+    "squarespace": ("/blog?format=rss",),
+}
+# Third-party feed hosts that publish a site's feed under the site's own slug.
+FEED_DISCOVERY_THIRD_PARTY_URLS = (
+    "https://feeds.feedburner.com/{host}",
+    "https://feedpress.me/{host}",
+)
+# Upper bounds that keep one lookup from turning into a crawl.
+FEED_DISCOVERY_MAX_PARENT_PAGES = 3
+FEED_DISCOVERY_MAX_LINK_CANDIDATES = 10
+FEED_DISCOVERY_MAX_SITEMAP_CANDIDATES = 5
+FEED_DISCOVERY_MAX_BLOG_SECTIONS = 3
+FEED_DISCOVERY_MAX_RESULTS = 5
+FEED_DISCOVERY_CONCURRENCY = 8
+FEED_DISCOVERY_PROBE_TIMEOUT_SECONDS = 6
+FEED_DISCOVERY_BUDGET_SECONDS = 12.0
+FEED_DISCOVERY_MAX_PAGE_BYTES = 3 * 1024 * 1024  # Bounded HTML download per page
+
 # Catalog verification polling + circuit breakers
 CATALOG_VERIFY_INTERVAL_MINUTES = 120  # Healthy candidate re-check cadence
 CATALOG_VERIFY_BACKOFF_MINUTES = 30  # Base for exponential backoff after a fetch error
