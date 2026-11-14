@@ -213,7 +213,7 @@ export function ArticleContent({
                         <TooltipTrigger asChild>
                             <button
                                 type="button"
-                                className="absolute top-4 right-4 md:top-6 md:right-6 z-20 h-9 w-9 p-0 rounded-full flex items-center justify-center bg-background/85 hover:bg-accent hover:text-accent-foreground border border-border/40 shadow-sm backdrop-blur-sm max-md:glass-control transition-all duration-300 hover:scale-115 active:scale-95 cursor-pointer md:opacity-0 md:group-hover/zen:opacity-100"
+                                className="absolute top-4 right-4 md:top-6 md:right-6 z-20 hidden md:flex h-9 w-9 p-0 rounded-full items-center justify-center bg-background/85 hover:bg-accent hover:text-accent-foreground border border-border/40 shadow-sm backdrop-blur-sm transition-all duration-300 hover:scale-115 active:scale-95 cursor-pointer md:opacity-0 md:group-hover/zen:opacity-100"
                                 onClick={handleEnterZenMode}
                             >
                                 <Maximize2 className="h-4 w-4 text-muted-foreground hover:text-foreground" />

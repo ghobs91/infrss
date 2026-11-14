@@ -128,14 +128,14 @@ export function ArticleToolbar({
         >
             {/* Mobile back button - shown when onBack is provided */}
             {isMobile && onBack && (
-                <div className="flex items-center">
+                <div className="flex shrink-0 items-center">
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="glass-control h-9 w-9 rounded-full p-0"
+                                    className="glass-control h-9 w-9 shrink-0 rounded-full p-0"
                                     onClick={onBack}
                                     title="Back to articles"
                                 >
@@ -219,7 +219,7 @@ export function ArticleToolbar({
                             <TooltipTrigger asChild>
                                 <button
                                     type="button"
-                                    className={`${isMobile ? "h-9 w-9 glass-control rounded-full" : "h-8 w-8"} flex items-center justify-center p-0 transition-transform duration-200 hover:scale-110 focus:outline-none`}
+                                    className={`${isMobile ? "h-9 w-9 shrink-0 glass-control rounded-full" : "h-8 w-8"} flex items-center justify-center p-0 transition-transform duration-200 hover:scale-110 focus:outline-none`}
                                     onClick={
                                         isReadLaterMode
                                             ? handleMarkAsRead
@@ -418,7 +418,7 @@ export function ArticleToolbar({
                                 variant="ghost"
                                 size="icon"
                                 aria-label="More article actions"
-                                className="glass-control h-9 w-9 rounded-full p-0"
+                                className="glass-control h-9 w-9 shrink-0 rounded-full p-0"
                             >
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
